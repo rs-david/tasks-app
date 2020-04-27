@@ -21,7 +21,7 @@
 
     <!-- Navegación -->
     <nav class="navegacion">
-        <div class="contenedor p-1">
+        <div class="contenedor px-1 py-3">
             <!-- Logo -->
             <a href="" class="logo">
                 <i class="fas fa-address-book text-primary"></i><strong> Tasks </strong>App
@@ -46,7 +46,7 @@
     </nav>
 
     <!-- Formulario & Lista Tareas -->
-    <main class="main">
+    <main class="main px-1 py-2">
         <!-- Formulario & Contador -->
         <div class="formulario p-4">
             <!-- Formulario -->
