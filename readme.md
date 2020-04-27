@@ -1,5 +1,4 @@
 "Tasks App" By David 2020
-Versión 26/04/2020
 
 *Lenguajes*
 PHP 7.2.10
