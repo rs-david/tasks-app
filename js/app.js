@@ -1,6 +1,8 @@
 const xhr = new XMLHttpRequest();
-let lastid, orden;
+let lastid;
+let orden = 'ASC';
 let limite = 50;
+let columna = 'id';
 listarTareas();
 
 /*** EVENTOS ***/
@@ -135,7 +137,8 @@ function eliminarTareas(id) {
     xhr.send(JSON.stringify({id}));
     xhr.onload = () => {
         console.log(xhr.response);
-        listarTareas();
+        orden = orden == 'ASC' ? 'DESC' : 'ASC';
+        ordenarTareas();
     }
 }
 
@@ -186,12 +189,13 @@ function mostrarMasTareas() {
     listarTareas();
 }
 
-function ordenarTareas(column) {
+function ordenarTareas(col) {
     const id = document.querySelector('#search-id').value;
     const title = document.querySelector('#search-title').value;
     const description = document.querySelector('#search-description').value;
     const limit = limite ? limite : 50;
     const order = orden ? orden : 'ASC';
+    const column = col ? col : columna;
     const data = JSON.stringify({ id, title, description, limit, column, order });
 
     xhr.open('POST', 'task-list.php', true);
@@ -199,6 +203,7 @@ function ordenarTareas(column) {
     xhr.onload = () => {
         crearListaTareas(xhr.response);
         orden = order == 'ASC' ? 'DESC' : 'ASC';
+        columna = column;
     };
 }
 
