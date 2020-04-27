@@ -13,7 +13,8 @@ body {
 }
 
 .navegacion .contenedor {
-    width: 80%;
+    width: 85%;
+    max-width: 1280px;
     height: fit-content;
     margin: auto;
     display: flex;
@@ -33,7 +34,8 @@ body {
 
 /***** Main *****/
 .main {
-    width: 80%;
+    width: 85%;
+    max-width: 1280px;
     height: fit-content;
     margin: auto;
     margin-top: 15px;
@@ -118,8 +120,8 @@ body {
 /* Tareas */
 .main .lista .tareas {
     height: 100%;
-    min-height: 500px;
-    max-height: 500px;
+    min-height: 425px;
+    max-height: 425px;
     word-wrap: break-word;
     overflow: auto;
 }
