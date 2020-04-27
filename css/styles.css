@@ -1,0 +1,210 @@
+/***** CUSTOM STYLES *****/
+
+/***** Text *****/
+.text-bold {
+    font-weight: bold;
+}
+
+.text-capital {
+    text-transform: capitalize;
+}
+
+.text-upper {
+    text-transform: uppercase;
+}
+
+.text-lower {
+    text-transform: lowercase;
+}
+
+.font-small {
+    font-size: small;
+}
+
+.font-medium {
+    font-size: medium;
+}
+
+.font-large {
+    font-size: large;
+}
+
+.font-x-large {
+    font-size: x-large;
+}
+
+/***** Text Color *****/
+.text-transparent {
+    color: transparent;
+}
+
+.text-grey {
+    color: grey;
+}
+
+.text-red {
+    color: red;
+}
+
+.text-gold {
+    color: gold;
+}
+
+.text-smoke {
+    color: whitesmoke;
+}
+
+.text-clare {
+    color: #fafafa;
+}
+
+/***** Margin *****/
+.m-none {
+    margin: 0;
+}
+
+/***** Width *****/
+.w-content {
+    width: fit-content;
+}
+
+.w-auto {
+    width: auto;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.w-fifty {
+    width: 50%;
+}
+
+/***** Height *****/
+.h-content {
+    height: fit-content;
+}
+
+.h-auto {
+    height: auto;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.h-fifty {
+    height: 50%;
+}
+
+/***** Background *****/
+.bg-white {
+    background-color: white;
+}
+
+.bg-light {
+    background-color: #f0f0f0;
+}
+
+.bg-grey {
+    background-color: #f5f5f5;
+}
+
+.bg-clare {
+    background-color: #fafafa00;
+}
+
+.bg-mark {
+    background-color: blanchedalmond;
+}
+
+.bg-aqua {
+    background-color: aquamarine;
+}
+
+.bg-happycup {
+    background: url('../img/happy-cup.webp');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 40%;
+}
+
+/***** Border *****/
+.bd-light {
+    border: thin solid #dddddd;
+}
+
+.bd-black {
+    border: thin solid black;
+}
+
+.bd-green {
+    border: thin solid green;
+}
+
+.bd-gold {
+    border: thin solid gold;
+}
+
+.bd-violet {
+    border: thin solid blueviolet;
+}
+
+.bd-dashed {
+    border-style: dashed;
+}
+
+.bd-medium {
+    border-width: medium;
+}
+
+.bd-radius {
+    border-radius: .25rem;
+}
+
+.bd-circle {
+    border-radius: 100%;
+}
+
+/***** Transform *****/
+.scale-mid{
+    transform: scale(.5);
+}
+
+.scale-one-five {
+    transform: scale(1.5);
+}
+
+.scale-double {
+    transform: scale(2);
+}
+
+/***** Display *****/
+.d-none {
+    display: none;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.d-inline {
+    display: inline;
+}
+
+.d-block {
+    display: block;
+}
+
+/***** Fix *****/
+.fix-float {
+    overflow: hidden;
+}
+
+.fix-clear {
+    clear: both;
+}

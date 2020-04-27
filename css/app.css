@@ -1,0 +1,168 @@
+/***** APLICACIÓN *****/
+
+/***** Body *****/
+body {
+    background-image: url('../img/greyzz.png');
+}
+
+/***** Navegación *****/
+.navegacion {
+    width: 100%;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+.navegacion .contenedor {
+    width: 80%;
+    height: fit-content;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.navegacion .logo {
+    font-size: x-large;
+    color: black;
+}
+
+.navegacion .logo:hover {
+    font-size: x-large;
+    color: grey;
+    text-decoration: none;
+}
+
+/***** Main *****/
+.main {
+    width: 80%;
+    height: fit-content;
+    margin: auto;
+    margin-top: 15px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.main .formulario {
+    height: fit-content;
+    width: 27%;
+    background-color: white;
+    border: 1px solid #dddddd;
+    border-radius: .25rem;
+}
+
+.main .formulario textarea {
+    height: 250px;
+    min-height: 100px;
+    max-height: 300px;
+}
+
+.main .contador {
+    text-align: center;
+    border: 1px solid green;
+    border-radius: .25em;
+}
+
+.main .lista {
+    width: 70%;
+    height: fit-content;
+    background-color: white;
+    border: 1px solid #dddddd;
+    border-radius: .25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Encabezados & Tarjetas */
+.main .lista .id {
+    width: 10%;
+    padding: 3px;
+}
+
+.main .lista .name {
+    width: 20%;
+    padding: 3px;
+}
+
+.main .lista .description {
+    width: 30%;
+    padding: 3px;
+}
+
+.main .lista .date {
+    width: 25%;
+    padding: 3px;
+}
+
+.main .lista .actions {
+    width: 15%;
+    padding: 3px;
+}
+
+/* Encabezados */
+.main .lista .encabezados {
+    font-size: medium;
+    font-weight: bold;
+    text-align: center;
+    background-color: #f5f5f5;
+    border: 1px solid #dddddd;
+    border-radius: .25rem;
+    word-wrap: break-word;
+    display: flex;
+}
+
+.main .lista .encabezados a:hover {
+    text-decoration: none;
+    color: grey;
+}
+
+/* Tareas */
+.main .lista .tareas {
+    height: 100%;
+    min-height: 500px;
+    max-height: 500px;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+/* Scrollbar */
+.main .lista .tareas::-webkit-scrollbar {
+    width: 5px;
+}
+
+.main .lista .tareas::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.main .lista .tareas::-webkit-scrollbar-thumb {
+    background-color: #aaaaaa;
+    border-radius: 3px;
+}
+
+/* Tarjetas */
+.main .tareas .tarjeta {
+    display: flex;
+    align-items: center;
+}
+
+.main .tareas .tarjeta:last-child {
+    margin-bottom: 0;
+}
+
+.main .tareas .tarjeta .actions {
+    font-size: 12.5px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.main .tareas .tarjeta .actions .btn-edit,
+.main .tareas .tarjeta .actions .btn-delete {
+    transition: all .25s ease;
+}
+
+.main .tareas .tarjeta .actions .btn-edit:hover {
+    color: #ffc107;
+}
+
+.main .tareas .tarjeta .actions .btn-delete:hover {
+    color: #dc3545;
+}
