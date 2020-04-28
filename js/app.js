@@ -1,7 +1,7 @@
 const xhr = new XMLHttpRequest();
 let lastid;
-let orden = 'ASC';
 let limite = 50;
+let orden = 'ASC';
 let columna = 'id';
 listarTareas();
 
@@ -111,7 +111,12 @@ function guardarTareas(e) {
     const description = document.querySelector('#input-description').value;
     const url = savebutton.name == 'update' ? 'task-update.php' : 'task-add.php';
     const data = JSON.stringify({ id, title, description });
+    
+    document.querySelector('#search-form').reset();
     limite = 50;
+    orden = 'ASC';
+    columna = 'id';
+
     
     savebutton.setAttribute('disabled', 'true');
     saveicon.classList.remove('fa-save');
@@ -303,6 +308,8 @@ function reiniciarLista(e) {
     document.querySelector('#search-form').reset();
     document.querySelector('#search-title').focus();
     limite = 50;
+    orden = 'ASC';
+    columna = 'id';
 
     // Enlistar Tareas.
     e.preventDefault();

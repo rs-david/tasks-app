@@ -11,6 +11,7 @@ body {
     background-color: #f0f0f0;
 }
 
+/* Contenedor & Logo */
 .navegacion .contenedor {
     width: 85%;
     max-width: 1280px;
@@ -42,6 +43,7 @@ body {
     justify-content: space-between;
 }
 
+/* Formulario */
 .main .formulario {
     height: fit-content;
     width: 27%;
@@ -56,6 +58,7 @@ body {
     max-height: 300px;
 }
 
+/* Contador & Lista */
 .main .contador {
     text-align: center;
     border: 1px solid green;
@@ -72,7 +75,7 @@ body {
     flex-direction: column;
 }
 
-/* Encabezados & Tarjetas */
+/* Contenido: Encabezados & Tarjetas */
 .main .lista .id {
     width: 10%;
     padding: 3px;
@@ -148,21 +151,22 @@ body {
     margin-bottom: 0;
 }
 
+/* Botones: Editar & Eliminar */
 .main .tareas .tarjeta .actions {
     font-size: 12.5px;
     display: flex;
     justify-content: space-around;
 }
 
-.main .tareas .tarjeta .actions .btn-edit,
-.main .tareas .tarjeta .actions .btn-delete {
+.main .tarjeta .actions .btn-edit,
+.main .tarjeta .actions .btn-delete {
     transition: all .25s ease;
 }
 
-.main .tareas .tarjeta .actions .btn-edit:hover {
-    color: #ffc107;
+.main .tarjeta .actions .btn-edit:hover {
+    color: var(--warning);
 }
 
-.main .tareas .tarjeta .actions .btn-delete:hover {
-    color: #dc3545;
+.main .tarjeta .actions .btn-delete:hover {
+    color: var(--danger);
 }
