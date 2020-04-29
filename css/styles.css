@@ -5,10 +5,6 @@
     font-weight: bold;
 }
 
-.text-capital {
-    text-transform: capitalize;
-}
-
 .text-upper {
     text-transform: uppercase;
 }
@@ -154,16 +150,8 @@
     border-style: dashed;
 }
 
-.bd-medium {
-    border-width: medium;
-}
-
 .bd-radius {
     border-radius: .25rem;
-}
-
-.bd-circle {
-    border-radius: 100%;
 }
 
 /***** Transform *****/
@@ -182,22 +170,6 @@
 /***** Display *****/
 .d-none {
     display: none;
-}
-
-.d-flex {
-    display: flex;
-}
-
-.d-inline-block {
-    display: inline-block;
-}
-
-.d-inline {
-    display: inline;
-}
-
-.d-block {
-    display: block;
 }
 
 /***** Fix *****/

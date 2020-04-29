@@ -1,20 +1,20 @@
 const xhr = new XMLHttpRequest();
 let lastid;
-let limite = 50;
-let orden = 'ASC';
-let columna = 'id';
+let limiteactual = 100;
+let actualorder = 'DESC';
+let actualcolumn = 'created';
 listarTareas();
 
 /*** EVENTOS ***/
 /* Filtrar Tareas. */
-document.querySelector('#search-id').addEventListener('keyup', filtrarTareas);
-document.querySelector('#search-title').addEventListener('keyup', filtrarTareas);
-document.querySelector('#search-description').addEventListener('keyup', filtrarTareas);
+document.querySelector('#search-id').addEventListener('keyup', () => filtrarTareas());
+document.querySelector('#search-title').addEventListener('keyup', () => filtrarTareas());
+document.querySelector('#search-description').addEventListener('keyup', () => filtrarTareas());
 
 /* Buscar Tareas*/
-document.querySelector('#search-id').addEventListener('search', filtrarTareas);
-document.querySelector('#search-title').addEventListener('search', filtrarTareas);
-document.querySelector('#search-description').addEventListener('search', filtrarTareas);
+document.querySelector('#search-id').addEventListener('search', () => filtrarTareas());
+document.querySelector('#search-title').addEventListener('search', () => filtrarTareas());
+document.querySelector('#search-description').addEventListener('search', () => filtrarTareas());
 
 /* Ordenar Tareas. */
 document.querySelector('#column-id').addEventListener('click', () => ordenarTareas('id'));
@@ -23,29 +23,24 @@ document.querySelector('#column-description').addEventListener('click', () => or
 document.querySelector('#column-date').addEventListener('click', () => ordenarTareas('created'));
 
 /* Guardar Tareas */
-document.querySelector('#task-form').addEventListener('submit', guardarTareas);
+document.querySelector('#tasks-form').addEventListener('submit', guardarTareas);
 
 /* Reiniciar Filtros & Lista */
-document.querySelector('#btn-reload').addEventListener('click', reiniciarLista);
+document.querySelector('#btn-reload').addEventListener('click', reiniciarFiltros);
 
 /*** FUNCIONES ***/
 /* Tareas */
-function listarTareas () {
-    const id = document.querySelector('#search-id').value;
-    const title = document.querySelector('#search-title').value;
-    const description = document.querySelector('#search-description').value;
-    const limit = limite ? limite : 50;
-    const data = JSON.stringify({ id, title, description, limit });
-
-    xhr.open('POST', 'task-list.php', true);
-    xhr.send(data);
+function listarTareas() {
+    xhr.open('post', 'task-list.php', true);
+    xhr.send();
     xhr.onload = () => crearListaTareas(xhr.response);
 }
 
 function crearListaTareas(list) {
     vaciarFormulario();
+    reiniciarBotonGuardar();
     const taskscontainer = document.querySelector('#tasks');
-    
+
     if (list == 'No Tasks') {
         taskscontainer.innerHTML = '';
         taskscontainer.classList.add('bg-happycup');
@@ -53,7 +48,7 @@ function crearListaTareas(list) {
     } else {
         taskscontainer.classList.remove('bg-happycup');
         const tasks = JSON.parse(list);
-        
+
         // Crear Template.
         let template = '';
         tasks.forEach(task => {
@@ -77,7 +72,7 @@ function crearListaTareas(list) {
 
         // Llenar Lista Tareas.
         taskscontainer.innerHTML = template;
-        
+
         // Agregar Botón Mostrar Más Tareas o Tarjeta Final en La Lista.
         const message = tasks[0].mensaje;
         const totaltasks = tasks[0].totaltasks;
@@ -106,50 +101,47 @@ function crearListaTareas(list) {
 function guardarTareas(e) {
     const savebutton = document.querySelector('#btn-save');
     const saveicon = document.querySelector('#icon-save');
-    const id = document.querySelector('#input-id').value;
-    const title = document.querySelector('#input-title').value;
-    const description = document.querySelector('#input-description').value;
-    const url = savebutton.name == 'update' ? 'task-update.php' : 'task-add.php';
-    const data = JSON.stringify({ id, title, description });
-    
-    document.querySelector('#search-form').reset();
-    limite = 50;
-    orden = 'ASC';
-    columna = 'id';
 
+    const id = document.querySelector('#field-id').value;
+    const title = document.querySelector('#field-title').value;
+    const description = document.querySelector('#field-description').value;
+    const data = JSON.stringify({id, title, description});
+    const url = savebutton.name == 'update' ? 'task-update.php' : 'task-add.php';
     
     savebutton.setAttribute('disabled', 'true');
     saveicon.classList.remove('fa-save');
     saveicon.classList.add('fa-cog', 'fa-spin');
 
-    xhr.open('POST', url, true);
+    actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
+    
+    xhr.open('post', url, true);
     xhr.send(data);
     xhr.onload = () => {
         console.log(xhr.response);
-        listarTareas();
+        ordenarTareas();
         savebutton.removeAttribute('disabled', 'true');
         document.querySelector('#icon-save').classList.remove('fa-cog', 'fa-spin');
         document.querySelector('#icon-save').classList.add('fa-save');
-        vaciarFormulario();
-        document.querySelector('#input-title').focus();
+        document.querySelector('#field-title').focus();
     }
-
+    
     e.preventDefault();
 }
 
 function eliminarTareas(id) {
-    xhr.open('POST', 'task-delete.php', true);
+    actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
+
+    xhr.open('post', 'task-delete.php', true);
     xhr.send(JSON.stringify({id}));
     xhr.onload = () => {
         console.log(xhr.response);
-        orden = orden == 'ASC' ? 'DESC' : 'ASC';
         ordenarTareas();
     }
 }
 
 function editarTareas(id) {
     const savebutton = document.querySelector('#btn-save');
-    const titlefield = document.querySelector('#input-title');
+    const titlefield = document.querySelector('#field-title');
     const mode = savebutton.name;
 
     /* En Caso que se Presione un Botón "Editar" por Primera Vez o se Presione uno Diferente. */
@@ -178,38 +170,46 @@ function editarTareas(id) {
             savebutton.name = 'update';
             /* Cuando Esta Lleno El Formulario */
         } else {
-            vaciarFormulario(id);
+            vaciarFormulario();
+            reiniciarBotonGuardar();
         }
     }
 }
 
 /* Interfaz */
 function filtrarTareas() {
-    limite = 50;
-    listarTareas();
+    actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
+    ordenarTareas();
 }
 
 function mostrarMasTareas() {
-    limite = limite ? limite + 50 : 100;
-    listarTareas();
+    const showbutton = document.querySelector('#btn-show');
+    const showicon = document.querySelector('#icon-show');
+    showbutton.setAttribute('disabled', 'true');
+    showicon.classList.remove('fa-plus');
+    showicon.classList.add('fa-cog', 'fa-spin');
+    
+    limiteactual = limiteactual ? limiteactual + 100 : 200;
+    actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
+    ordenarTareas();
 }
 
-function ordenarTareas(col) {
+function ordenarTareas(columna) {
     const id = document.querySelector('#search-id').value;
     const title = document.querySelector('#search-title').value;
     const description = document.querySelector('#search-description').value;
-    const limit = limite ? limite : 50;
-    const order = orden ? orden : 'ASC';
-    const column = col ? col : columna;
-    const data = JSON.stringify({ id, title, description, limit, column, order });
+    const limit = limiteactual ? limiteactual : 100;
+    const column = columna ? columna : actualcolumn;
+    const order = actualorder == 'ASC' ? 'DESC' : 'ASC';
+    const data = JSON.stringify({id, title, description, limit, column, order});
 
-    xhr.open('POST', 'task-list.php', true);
+    xhr.open('post', 'task-list.php', true);
     xhr.send(data);
-    xhr.onload = () => {
-        crearListaTareas(xhr.response);
-        orden = order == 'ASC' ? 'DESC' : 'ASC';
-        columna = column;
-    };
+    xhr.onload = () => crearListaTareas(xhr.response);
+
+    actualorder = order;
+    actualcolumn = column;
+    console.log(column, order);
 }
 
 function mostrarCantidadTareas(cantidad) {
@@ -263,55 +263,53 @@ function agregarHoverEffect(tarjetas) {
 
 function agregarTarjetaFinal(message, totaltasks) {
     if (message == 'All Tasks' && totaltasks > 6) {
-        const finalcard = `
-            <div id="final-list" class="bd-light bd-radius p-3 text-grey text-bold text-center">
+        const endcard = `
+            <div id="end-card" class="bd-light bd-radius p-3 text-grey text-bold text-center">
                 End
             </div>
         `;
-        document.querySelector('#tasks').innerHTML += finalcard;
+        document.querySelector('#tasks').innerHTML += endcard;
     } else if (message == 'Not All Tasks') {
         const showbutton = `
-            <button id="btn-show-down" class="btn btn-light btn-lg btn-block text-grey" title="Mostrar Más Tareas">
-                <i class="fas fa-plus fa-lg"></i>
+            <button id="btn-show" class="btn btn-light btn-lg btn-block text-grey" title="Mostrar Más Tareas">
+                <i id="icon-show" class="fas fa-plus fa-lg"></i>
             </button>
         `;
         document.querySelector('#tasks').innerHTML += showbutton;
 
         // Agregar Función Mostrar Más Tareas.
-        document.querySelector('#btn-show-down').addEventListener('click', () => mostrarMasTareas());
+        document.querySelector('#btn-show').addEventListener('click', () => mostrarMasTareas());
     }
 }
 
 function llenarFormulario(id) {
     const title = document.querySelector(`#name-${id}`).textContent;
     const description = document.querySelector(`#description-${id}`).textContent;
-    document.querySelector('#input-id').value = id;
-    document.querySelector('#input-title').value = title;
-    document.querySelector('#input-description').value = description;
+    document.querySelector('#field-id').value = id;
+    document.querySelector('#field-title').value = title;
+    document.querySelector('#field-description').value = description;
 }
 
 function vaciarFormulario() {
+    const tasksform = document.querySelector('#tasks-form');
+    tasksform.reset();
+}
+
+function reiniciarBotonGuardar() {
     const savebutton = document.querySelector('#btn-save');
-    const taskform = document.querySelector('#task-form');
+
     if (savebutton.name == 'update') {
-        taskform.reset();
         savebutton.name = 'save';
         savebutton.classList.remove('btn-warning');
         savebutton.classList.add('btn-success');
-    } else {
-        taskform.reset();
     }
 }
 
-function reiniciarLista(e) {
-    // Vaciar Formulario & Focus a Campo "Title".
+function reiniciarFiltros(e) {
     document.querySelector('#search-form').reset();
+    limiteactual = 100;
+    actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
+    ordenarTareas();
     document.querySelector('#search-title').focus();
-    limite = 50;
-    orden = 'ASC';
-    columna = 'id';
-
-    // Enlistar Tareas.
     e.preventDefault();
-    listarTareas();
 }

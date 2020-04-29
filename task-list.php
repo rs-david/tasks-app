@@ -9,9 +9,9 @@ $_POST = json_decode($data, true);
 $id = $_POST['id'] ?? '';
 $title = $_POST['title'] ?? '';
 $description = $_POST['description'] ?? '';
-$column = $_POST['column'] ?? 'id';
+$column = $_POST['column'] ?? 'created';
 $order = $_POST['order'] ?? 'DESC';
-$limit = $_POST['limit'] ?? 50;
+$limit = $_POST['limit'] ?? 100;
 
 $query_count = "SELECT COUNT(*) AS totaltasks FROM tasks WHERE id LIKE '$id%' AND title LIKE '$title%' AND description LIKE '$description%' ORDER BY $column $order LIMIT $limit";
 $results_count = mysqli_query($conn, $query_count);

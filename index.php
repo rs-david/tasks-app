@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasks App</title>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="lib/css/bootstrap.css">
     
     <!-- Fontawesome -->
     <script src="lib/js/all.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="lib/css/bootstrap.css">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/app.css">
@@ -37,7 +37,7 @@
                     <!-- Filtro: Descripción -->
                     <input type="search" id="search-description" class="form-control mr-2" placeholder="Buscar: Descripción">
                     <!-- Botón: Reiniciar -->
-                    <button type="button" id='btn-reload' class="btn btn-primary" title="Reiniciar Búsqueda">
+                    <button type="button" id='btn-reload' class="btn btn-primary" title="Reiniciar Filtros">
                         <i id="icon-reload" class="fas fa-redo-alt"></i>
                     </button>
                 </form>
@@ -50,18 +50,18 @@
         <!-- Formulario & Contador -->
         <div class="formulario p-4">
             <!-- Formulario -->
-            <form id="task-form">
+            <form id="tasks-form">
                 <!-- Campo: ID -->
                 <div hidden class="form-group">
-                    <input id="input-id" class="form-control" type="number" placeholder="ID" disabled>
+                    <input id="field-id" class="form-control" type="number" placeholder="ID" disabled>
                 </div>
                 <!-- Campo: Title -->
                 <div class="form-group">
-                    <input id="input-title" class="form-control" type="text" placeholder="Nombre" autofocus required>
+                    <input id="field-title" class="form-control" type="text" placeholder="Nombre" autofocus required>
                 </div>
                 <!-- Campo: Description -->
                 <div class="form-group">
-                    <textarea id="input-description" class="form-control" placeholder="Descripción" required></textarea>
+                    <textarea id="field-description" class="form-control" placeholder="Descripción" required></textarea>
                 </div>
                 <!-- Botón: Guardar -->
                 <button id="btn-save" type="submit" class="btn btn-success btn-lg btn-block text-center" title="Guardar" name="save">

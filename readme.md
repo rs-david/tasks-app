@@ -13,3 +13,7 @@ MAMP PRO 4.1.0
 *Frameworks, Icons, etc.*
 Bootstrap 4.3.1 (Modificado: "!important" Eliminados)
 Font Awesome 5.12.1
+
+*Links*
+www.subtlepatterns.com
+https://www.json-generator.com/
