@@ -92,8 +92,8 @@
                         Descripción
                     </a>
                 </div>
-                <div class="date">
-                    <a id="column-date" href="#" class="" title="Ordenar * Fecha">
+                <div class="date descendente">
+                    <a id="column-date" href="#" class="text-green" title="Ordenar * Fecha">
                         Fecha
                     </a>
                 </div>

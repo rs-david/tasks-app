@@ -5,7 +5,7 @@ PHP 7.2.10
 MySQL 5.7.24
 
 *Navegadores*
-Google Chrome 81.0.4044.122
+Google Chrome 81.0.4044.129
 
 *Local Servers*
 MAMP PRO 4.1.0
@@ -16,4 +16,4 @@ Font Awesome 5.12.1
 
 *Links*
 www.subtlepatterns.com
-https://www.json-generator.com/
+www.json-generator.com

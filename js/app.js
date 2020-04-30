@@ -22,6 +22,12 @@ document.querySelector('#column-name').addEventListener('click', () => ordenarTa
 document.querySelector('#column-description').addEventListener('click', () => ordenarTareas('description'));
 document.querySelector('#column-date').addEventListener('click', () => ordenarTareas('created'));
 
+//* Agregar Indicador de Orden *//
+document.querySelector('#column-id').addEventListener('click', agregarIndicadorDeOrden);
+document.querySelector('#column-name').addEventListener('click', agregarIndicadorDeOrden);
+document.querySelector('#column-description').addEventListener('click', agregarIndicadorDeOrden);
+document.querySelector('#column-date').addEventListener('click', agregarIndicadorDeOrden);
+
 /* Guardar Tareas */
 document.querySelector('#tasks-form').addEventListener('submit', guardarTareas);
 
@@ -53,7 +59,7 @@ function crearListaTareas(list) {
         let template = '';
         tasks.forEach(task => {
             template += `
-            <div id="tarjeta-${task.id}" class="tarjeta p-3 mb-2 bd-light bd-radius text-center">
+            <div id="tarjeta-${task.id}" class="tarjeta p-3 mb-2 bd-grey bd-radius text-center">
                 <div id="id-${task.id}" class="id text-bold text-grey">${task.id}</div>
                 <div id="name-${task.id}" class="name">${task.title}</div>
                 <div id="description-${task.id}" class="description">${task.description}</div>
@@ -244,7 +250,7 @@ function agregarHoverEffect(tarjetas) {
         const deletebutton = tarjeta.childNodes[9].childNodes[3];
         // Mouse Over.
         tarjeta.addEventListener('mouseover', () => {
-            tarjeta.classList.add('bg-clare');
+            tarjeta.classList.add('bg-transparent');
             editbutton.classList.remove('text-transparent');
             deletebutton.classList.remove('text-transparent');
             editbutton.classList.add('text-warning', 'scale-one-five');
@@ -252,7 +258,7 @@ function agregarHoverEffect(tarjetas) {
         });
         // Mouse Out.
         tarjeta.addEventListener('mouseout', () => {
-            tarjeta.classList.remove('bg-clare');
+            tarjeta.classList.remove('bg-transparent');
             editbutton.classList.remove('text-warning', 'scale-one-five');
             deletebutton.classList.remove('text-danger', 'scale-one-five');
             editbutton.classList.add('text-transparent');
@@ -264,7 +270,7 @@ function agregarHoverEffect(tarjetas) {
 function agregarTarjetaFinal(message, totaltasks) {
     if (message == 'All Tasks' && totaltasks > 6) {
         const endcard = `
-            <div id="end-card" class="bd-light bd-radius p-3 text-grey text-bold text-center">
+            <div id="end-card" class="bd-grey bd-radius p-3 text-grey text-bold text-center">
                 End
             </div>
         `;
@@ -280,6 +286,23 @@ function agregarTarjetaFinal(message, totaltasks) {
         // Agregar Función Mostrar Más Tareas.
         document.querySelector('#btn-show').addEventListener('click', () => mostrarMasTareas());
     }
+}
+
+function agregarIndicadorDeOrden() {
+    document.querySelector('#column-id').classList.remove('text-green');
+    document.querySelector('#column-name').classList.remove('text-green');
+    document.querySelector('#column-description').classList.remove('text-green');
+    document.querySelector('#column-date').classList.remove('text-green');
+
+    this.classList.add('text-green');
+    
+    document.querySelector('.encabezados .id').classList.remove('ascendente', 'descendente');
+    document.querySelector('.encabezados .name').classList.remove('ascendente', 'descendente');
+    document.querySelector('.encabezados .description').classList.remove('ascendente', 'descendente');
+    document.querySelector('.encabezados .date').classList.remove('ascendente', 'descendente');
+
+    const indicador = actualorder == 'ASC' ? 'ascendente' : 'descendente';
+    this.parentNode.classList.add(`${indicador}`);
 }
 
 function llenarFormulario(id) {
@@ -313,3 +336,4 @@ function reiniciarFiltros(e) {
     document.querySelector('#search-title').focus();
     e.preventDefault();
 }
+

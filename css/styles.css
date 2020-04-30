@@ -13,6 +13,7 @@
     text-transform: lowercase;
 }
 
+/* Font */
 .font-small {
     font-size: small;
 }
@@ -25,17 +26,13 @@
     font-size: large;
 }
 
-.font-x-large {
-    font-size: x-large;
-}
-
 /***** Text Color *****/
 .text-transparent {
     color: transparent;
 }
 
-.text-grey {
-    color: grey;
+.text-smoke {
+    color: whitesmoke;
 }
 
 .text-red {
@@ -46,17 +43,22 @@
     color: gold;
 }
 
-.text-smoke {
-    color: whitesmoke;
+.text-green {
+    color: var(--success);
 }
 
-.text-clare {
-    color: #fafafa;
+.text-grey {
+    color: grey;
 }
 
 /***** Margin *****/
 .m-none {
     margin: 0;
+}
+
+/***** Padding *****/
+.p-none {
+    padding: 0;
 }
 
 /***** Width *****/
@@ -94,28 +96,20 @@
 }
 
 /***** Background *****/
-.bg-white {
-    background-color: white;
-}
-
-.bg-light {
-    background-color: #f0f0f0;
-}
-
-.bg-grey {
-    background-color: #f5f5f5;
-}
-
-.bg-clare {
-    background-color: #fafafa00;
-}
-
 .bg-mark {
     background-color: blanchedalmond;
 }
 
 .bg-aqua {
     background-color: aquamarine;
+}
+
+.bg-transparent {
+    background-color: transparent;
+}
+
+.bg-white {
+    background-color: white;
 }
 
 .bg-happycup {
@@ -125,13 +119,13 @@
     background-size: 40%;
 }
 
-/***** Border *****/
-.bd-light {
-    border: thin solid #dddddd;
-}
-
+/***** Border Color *****/
 .bd-black {
     border: thin solid black;
+}
+
+.bd-grey {
+    border: thin solid #dddddd;
 }
 
 .bd-green {
@@ -146,6 +140,7 @@
     border: thin solid blueviolet;
 }
 
+/* Border */
 .bd-dashed {
     border-style: dashed;
 }
@@ -155,15 +150,11 @@
 }
 
 /***** Transform *****/
-.scale-mid{
-    transform: scale(.5);
-}
-
 .scale-one-five {
     transform: scale(1.5);
 }
 
-.scale-double {
+.scale-two {
     transform: scale(2);
 }
 
