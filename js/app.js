@@ -6,6 +6,9 @@ let actualcolumn = 'created';
 listarTareas();
 
 /*** EVENTOS ***/
+/* Cancelar Edición. */
+window.addEventListener('keydown', (e) => cancelarEdicion(e));
+
 /* Filtrar Tareas. */
 document.querySelector('#search-id').addEventListener('keyup', () => filtrarTareas());
 document.querySelector('#search-title').addEventListener('keyup', () => filtrarTareas());
@@ -16,23 +19,17 @@ document.querySelector('#search-id').addEventListener('search', () => filtrarTar
 document.querySelector('#search-title').addEventListener('search', () => filtrarTareas());
 document.querySelector('#search-description').addEventListener('search', () => filtrarTareas());
 
-/* Ordenar Tareas. */
-document.querySelector('#column-id').addEventListener('click', () => ordenarTareas('id'));
-document.querySelector('#column-name').addEventListener('click', () => ordenarTareas('title'));
-document.querySelector('#column-description').addEventListener('click', () => ordenarTareas('description'));
-document.querySelector('#column-date').addEventListener('click', () => ordenarTareas('created'));
-
-//* Agregar Indicador de Orden *//
-document.querySelector('#column-id').addEventListener('click', agregarIndicadorDeOrden);
-document.querySelector('#column-name').addEventListener('click', agregarIndicadorDeOrden);
-document.querySelector('#column-description').addEventListener('click', agregarIndicadorDeOrden);
-document.querySelector('#column-date').addEventListener('click', agregarIndicadorDeOrden);
+/* Ordenar Tareas & Agregar Indicador de Orden. */
+document.querySelector('#column-id').addEventListener('click', (e) => ordenarTareas(e, 'id'));
+document.querySelector('#column-name').addEventListener('click', (e) => ordenarTareas(e, 'title'));
+document.querySelector('#column-description').addEventListener('click', (e) => ordenarTareas(e, 'description'));
+document.querySelector('#column-date').addEventListener('click', (e) => ordenarTareas(e, 'created'));
 
 /* Guardar Tareas */
 document.querySelector('#tasks-form').addEventListener('submit', guardarTareas);
 
 /* Reiniciar Filtros & Lista */
-document.querySelector('#btn-reload').addEventListener('click', reiniciarFiltros);
+document.querySelector('#button-reload').addEventListener('click', reiniciarFiltros);
 
 /*** FUNCIONES ***/
 /* Tareas */
@@ -79,7 +76,7 @@ function crearListaTareas(list) {
         // Llenar Lista Tareas.
         taskscontainer.innerHTML = template;
 
-        // Agregar Botón Mostrar Más Tareas o Tarjeta Final en La Lista.
+        // Agregar Botón Mostrar Más Tareas o Tarjeta Final.
         const message = tasks[0].mensaje;
         const totaltasks = tasks[0].totaltasks;
         agregarTarjetaFinal(message, totaltasks);
@@ -105,7 +102,7 @@ function crearListaTareas(list) {
 }
 
 function guardarTareas(e) {
-    const savebutton = document.querySelector('#btn-save');
+    const savebutton = document.querySelector('#button-save');
     const saveicon = document.querySelector('#icon-save');
 
     const id = document.querySelector('#field-id').value;
@@ -125,7 +122,7 @@ function guardarTareas(e) {
     xhr.onload = () => {
         console.log(xhr.response);
         ordenarTareas();
-        savebutton.removeAttribute('disabled', 'true');
+        document.querySelector('#button-save').removeAttribute('disabled', 'true');
         document.querySelector('#icon-save').classList.remove('fa-cog', 'fa-spin');
         document.querySelector('#icon-save').classList.add('fa-save');
         document.querySelector('#field-title').focus();
@@ -146,7 +143,7 @@ function eliminarTareas(id) {
 }
 
 function editarTareas(id) {
-    const savebutton = document.querySelector('#btn-save');
+    const savebutton = document.querySelector('#button-save');
     const titlefield = document.querySelector('#field-title');
     const mode = savebutton.name;
 
@@ -200,7 +197,7 @@ function mostrarMasTareas() {
     ordenarTareas();
 }
 
-function ordenarTareas(columna) {
+function ordenarTareas(e, columna) {
     const id = document.querySelector('#search-id').value;
     const title = document.querySelector('#search-title').value;
     const description = document.querySelector('#search-description').value;
@@ -211,11 +208,16 @@ function ordenarTareas(columna) {
 
     xhr.open('post', 'task-list.php', true);
     xhr.send(data);
-    xhr.onload = () => crearListaTareas(xhr.response);
+    xhr.onload = () => {
+        crearListaTareas(xhr.response);
+        if (e) agregarIndicadorDeOrden(e);
+        ;
+    }
 
     actualorder = order;
     actualcolumn = column;
     console.log(column, order);
+    if (e) e.preventDefault();
 }
 
 function mostrarCantidadTareas(cantidad) {
@@ -270,8 +272,8 @@ function agregarHoverEffect(tarjetas) {
 function agregarTarjetaFinal(message, totaltasks) {
     if (message == 'All Tasks' && totaltasks > 6) {
         const endcard = `
-            <div id="end-card" class="bd-grey bd-radius p-3 text-grey text-bold text-center">
-                End
+            <div id="end-card" class="tarjeta-final bd-grey bd-radius p-3 mb-1 text-bold text-center text-grey bg-transparent">
+                <i class="icono fas fa-star fa-lg"></i>
             </div>
         `;
         document.querySelector('#tasks').innerHTML += endcard;
@@ -288,21 +290,24 @@ function agregarTarjetaFinal(message, totaltasks) {
     }
 }
 
-function agregarIndicadorDeOrden() {
+function agregarIndicadorDeOrden(e) {
+    const link = e.target;
+    const linkcontainer = e.target.parentNode;
+    
     document.querySelector('#column-id').classList.remove('text-green');
     document.querySelector('#column-name').classList.remove('text-green');
     document.querySelector('#column-description').classList.remove('text-green');
     document.querySelector('#column-date').classList.remove('text-green');
-
-    this.classList.add('text-green');
+    
+    link.classList.add('text-green');
     
     document.querySelector('.encabezados .id').classList.remove('ascendente', 'descendente');
     document.querySelector('.encabezados .name').classList.remove('ascendente', 'descendente');
     document.querySelector('.encabezados .description').classList.remove('ascendente', 'descendente');
     document.querySelector('.encabezados .date').classList.remove('ascendente', 'descendente');
-
+    
     const indicador = actualorder == 'ASC' ? 'ascendente' : 'descendente';
-    this.parentNode.classList.add(`${indicador}`);
+    linkcontainer.classList.add(`${indicador}`);
 }
 
 function llenarFormulario(id) {
@@ -319,7 +324,7 @@ function vaciarFormulario() {
 }
 
 function reiniciarBotonGuardar() {
-    const savebutton = document.querySelector('#btn-save');
+    const savebutton = document.querySelector('#button-save');
 
     if (savebutton.name == 'update') {
         savebutton.name = 'save';
@@ -337,3 +342,10 @@ function reiniciarFiltros(e) {
     e.preventDefault();
 }
 
+function cancelarEdicion(e) {
+    const savebutton = document.querySelector('#button-save');
+    if (e.code == 'Escape' && savebutton.name == 'update') {
+        vaciarFormulario();
+        reiniciarBotonGuardar();
+    }
+}

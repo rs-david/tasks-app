@@ -78,7 +78,7 @@ body {
 /* Contenido: Encabezados & Tarjetas */
 .main .lista .id {
     width: 10%;
-    padding: 3px;
+    padding: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,7 +87,7 @@ body {
 
 .main .lista .name {
     width: 20%;
-    padding: 3px;
+    padding: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -96,7 +96,7 @@ body {
 
 .main .lista .description {
     width: 30%;
-    padding: 3px;
+    padding: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,7 +105,7 @@ body {
 
 .main .lista .date {
     width: 25%;
-    padding: 3px;
+    padding: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -114,7 +114,7 @@ body {
 
 .main .lista .actions {
     width: 15%;
-    padding: 3px;
+    padding: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,6 +137,15 @@ body {
     text-decoration: none;
     color: grey;
 }
+
+.main .lista .encabezados .id,
+.main .lista .encabezados .name,
+.main .lista .encabezados .description,
+.main .lista .encabezados .date,
+.main .lista .encabezados .actions {
+    padding: 0;
+}
+
 
 .main .lista .encabezados .id.ascendente::before,
 .main .lista .encabezados .name.ascendente::before,
@@ -170,6 +179,10 @@ body {
     top: 100%;
 }
 
+.main .lista .encabezados .id {
+    font-size: 20px;
+}
+
 /* Tareas */
 .main .lista .tareas {
     height: 100%;
@@ -181,6 +194,7 @@ body {
 
 /* Scrollbar */
 .main .lista .tareas::-webkit-scrollbar {
+    /* display: none; */
     width: 5px;
 }
 

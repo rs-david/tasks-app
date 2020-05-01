@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasks App</title>
-    
+
     <!-- Fontawesome -->
-    <script src="lib/js/all.min.js"></script>
+    <script src="lib/js/all.js"></script>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="lib/css/bootstrap.css">
@@ -23,7 +23,7 @@
     <nav class="navegacion">
         <div class="contenedor px-1 py-3">
             <!-- Logo -->
-            <a href="" class="logo">
+            <a href="" class="logo" title="Home">
                 <i class="fas fa-address-book text-primary"></i><strong> Tasks </strong>App
             </a>
 
@@ -37,7 +37,7 @@
                     <!-- Filtro: Descripción -->
                     <input type="search" id="search-description" class="form-control mr-2" placeholder="Buscar: Descripción">
                     <!-- Botón: Reiniciar -->
-                    <button type="button" id='btn-reload' class="btn btn-primary" title="Reiniciar Filtros">
+                    <button type="button" id='button-reload' class="btn btn-primary" title="Reiniciar Filtros">
                         <i id="icon-reload" class="fas fa-redo-alt"></i>
                     </button>
                 </form>
@@ -64,7 +64,7 @@
                     <textarea id="field-description" class="form-control" placeholder="Descripción" required></textarea>
                 </div>
                 <!-- Botón: Guardar -->
-                <button id="btn-save" type="submit" class="btn btn-success btn-lg btn-block text-center" title="Guardar" name="save">
+                <button id="button-save" type="submit" class="btn btn-success btn-lg btn-block text-center" title="Guardar" name="save">
                     <i id="icon-save" class="fas fa-save"></i>
                 </button>
             </form>
@@ -78,22 +78,22 @@
             <!-- Encabezados -->
             <div class="encabezados p-3">
                 <div class="id">
-                    <a id="column-id" href="#" class="" title="Ordenar * Clave">
-                        <i class="fas fa-hashtag"></i>
+                    <a id="column-id" href="" class="" title="Ordenar * Clave">
+                        #
                     </a>
                 </div>
                 <div class="name">
-                    <a id="column-name" href="#" class="" title="Ordenar * Nombre">
+                    <a id="column-name" href="" class="" title="Ordenar * Nombre">
                         Nombre
                     </a>
                 </div>
                 <div class="description">
-                    <a id="column-description" href="#" class="" title="Ordenar * Descripción">
+                    <a id="column-description" href="" class="" title="Ordenar * Descripción">
                         Descripción
                     </a>
                 </div>
                 <div class="date descendente">
-                    <a id="column-date" href="#" class="text-green" title="Ordenar * Fecha">
+                    <a id="column-date" href="" class="text-green" title="Ordenar * Fecha">
                         Fecha
                     </a>
                 </div>
