@@ -5,6 +5,10 @@
     font-weight: bold;
 }
 
+.text-light {
+    font-weight: lighter;
+}
+
 .text-upper {
     text-transform: uppercase;
 }
@@ -36,7 +40,11 @@
 }
 
 .text-red {
-    color: red;
+    color: var(--danger);
+}
+
+.text-yellow {
+    color: var(--warning);
 }
 
 .text-gold {

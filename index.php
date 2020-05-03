@@ -69,8 +69,13 @@
                 </button>
             </form>
 
-            <!-- Contador -->
-            <div id="contador" class="contador p-2 mt-3 text-success"></div>
+            <!-- Contadores -->
+            <div id="" class="resultados-busqueda p-2 mt-3">
+                <div class=""><span class="text-grey">Tareas</span> Encontradas</div><div id="search-results" class="cantidad text-bold"></div>
+            </div>
+            <div id="" class="tareas-totales p-2 mt-3">
+                <div class=""><span class="text-grey">Tareas</span> Totales</div><div id="total-tasks" class="cantidad text-bold"></div>
+            </div>
         </div>
 
         <!-- Lista Tareas -->
