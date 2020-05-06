@@ -1,5 +1,4 @@
 <?php
-
 include('conexion.php');
 include('functions/functions.php');
 
@@ -13,14 +12,13 @@ $column = $_POST['column'] ?? 'created';
 $order = $_POST['order'] ?? 'DESC';
 $limit = $_POST['limit'] ?? 100;
 
-$query = "SELECT * FROM 
-            (SELECT COUNT(*) AS tareas_totales FROM tasks) AS total,
+$all_tasks = "SELECT COUNT(*) AS tareas_totales FROM tasks";
+$all_tasks = mysqli_fetch_assoc(mysqli_query($conn, $all_tasks))["tareas_totales"];
+
+$query = "SELECT * FROM
             (SELECT COUNT(*) AS tareas_encontradas FROM tasks WHERE id LIKE '$id%' AND title LIKE '$title%' AND description LIKE '$description%') AS results,
             (SELECT * FROM tasks WHERE id LIKE '$id%' AND title LIKE '$title%' AND description LIKE '$description%' ORDER BY $column $order LIMIT $limit) AS tasks";
 $results = mysqli_query($conn, $query);
-
-$all = "SELECT COUNT(*) AS tareas_totales FROM tasks";
-$all = mysqli_fetch_assoc(mysqli_query($conn, $all))["tareas_totales"];
 
 while ($row = mysqli_fetch_array($results)) {
     $created = $row['created'];
@@ -29,7 +27,7 @@ while ($row = mysqli_fetch_array($results)) {
     $year = date('Y', strtotime($created));
     $date = "$day/$month/$year";
     $message = $limit >= (int)$row['tareas_encontradas'] ? 'All Results' : 'Not All Results';
-    $meta = ['total' => $row['tareas_totales'], 'results' => $row['tareas_encontradas'], 'message' => $message];
+    $meta = ['total' => $all_tasks, 'results' => $row['tareas_encontradas'], 'message' => $message];
 
     $tasks[] = [
         'id' => $row['id'],
@@ -41,5 +39,5 @@ while ($row = mysqli_fetch_array($results)) {
 }
 
 $tasks_string = json_encode($tasks);
-$all_string = json_encode(['message' => 'No Tasks', 'all' => $all]);
-echo $tasks_string == 'null' ? $all_string : $tasks_string;
+$all_tasks_string = json_encode(['message' => 'No Results', 'all' => $all_tasks]);
+echo $tasks_string == 'null' ? $all_tasks_string : $tasks_string;

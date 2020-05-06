@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.svg" type="image/svg">
     <title>Tasks App</title>
 
     <!-- Fontawesome -->
     <script src="lib/js/all.js"></script>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="lib/css/bootstrap.css">
+    <link rel="stylesheet" href="lib/css/bootstrap.min.css">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/app.css">
@@ -47,7 +48,7 @@
 
     <!-- Formulario & Lista Tareas -->
     <main class="main px-1 py-2">
-        <!-- Formulario & Contador -->
+        <!-- Formulario & Contadores -->
         <div class="formulario p-4">
             <!-- Formulario -->
             <form id="tasks-form">
@@ -64,17 +65,19 @@
                     <textarea id="field-description" class="form-control" placeholder="Descripción" required></textarea>
                 </div>
                 <!-- Botón: Guardar -->
-                <button id="button-save" type="submit" class="btn btn-success btn-lg btn-block text-center" title="Guardar" name="save">
+                <button id="button-save" type="submit" class="boton-guardar btn btn-success btn-lg btn-block text-center" title="Guardar" name="save">
                     <i id="icon-save" class="fas fa-save"></i>
                 </button>
             </form>
 
             <!-- Contadores -->
             <div id="" class="resultados-busqueda p-2 mt-3">
-                <div class=""><span class="text-grey">Tareas</span> Encontradas</div><div id="search-results" class="cantidad text-bold"></div>
+                <div class=""><span class="text-grey">Tareas</span> Encontradas</div>
+                <div id="search-results" class="cantidad text-bold"></div>
             </div>
             <div id="" class="tareas-totales p-2 mt-3">
-                <div class=""><span class="text-grey">Tareas</span> Totales</div><div id="total-tasks" class="cantidad text-bold"></div>
+                <div class=""><span class="text-grey">Tareas</span> Totales</div>
+                <div id="total-tasks" class="cantidad text-bold"></div>
             </div>
         </div>
 
@@ -111,8 +114,35 @@
 
             <!-- Tareas-->
             <div id="tasks" class="tareas mt-2"></div>
+
+            <!-- Botón Subir -->
+            <a id="button-up" href="#inicio-lista" class="boton-subir" title="Subir">
+                <i class="fas fa-chevron-up fa-lg"></i>
+            </a>
         </div>
     </main>
+
+    <!-- Popup Eliminar Tarea -->
+    <div id="overlay" class="overlay">
+        <div id="popup-delete" class="popup-eliminar">
+            <div id="head-popup" class="cabecera-popup">
+                <a id="close-popup" href="" class="cerrar-popup">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+            <div id="body-popup" class="cuerpo-popup">
+                <span>¿Eliminar Tarea?</span>
+            </div>
+            <div id="footer-popup" class="pie-popup">
+                <button id="delete-task" class="btn btn-outline-danger mr-2" name="">
+                    <i id="delete-task-icon" class="fas fa-trash fa-sm mr-1"></i><span>Eliminar</span>
+                </button>
+                <button id="cancel-delete-task" class="btn btn-success" name="">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="js/app.js"></script>

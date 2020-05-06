@@ -1,23 +1,20 @@
 const xhr = new XMLHttpRequest();
-let actualid;
-let limiteactual = 100;
-let actualorder = 'DESC';
-let actualcolumn = 'created';
+let actualid, actuallimit = 100, actualorder = 'DESC', actualcolumn = 'created';
 listarTareas();
 
 /*** EVENTOS ***/
-/* Cancelar Edición. */
-window.addEventListener('keydown', (e) => cancelarEdicionTecla(e));
+/* Cancelar Eventos. */
+window.addEventListener('keydown', (e) => cancelarEventos(e));
 
 /* Filtrar Tareas. */
-document.querySelector('#search-id').addEventListener('keyup', () => filtrarTareas());
-document.querySelector('#search-title').addEventListener('keyup', () => filtrarTareas());
-document.querySelector('#search-description').addEventListener('keyup', () => filtrarTareas());
+document.querySelector('#search-id').addEventListener('keyup', filtrarTareas);
+document.querySelector('#search-title').addEventListener('keyup', filtrarTareas);
+document.querySelector('#search-description').addEventListener('keyup', filtrarTareas);
 
 /* Buscar Tareas*/
-document.querySelector('#search-id').addEventListener('search', () => filtrarTareas());
-document.querySelector('#search-title').addEventListener('search', () => filtrarTareas());
-document.querySelector('#search-description').addEventListener('search', () => filtrarTareas());
+document.querySelector('#search-id').addEventListener('search', filtrarTareas);
+document.querySelector('#search-title').addEventListener('search', filtrarTareas);
+document.querySelector('#search-description').addEventListener('search', filtrarTareas);
 
 /* Ordenar Tareas & Agregar Indicador de Orden. */
 document.querySelector('#column-id').addEventListener('click', (e) => ordenarTareas(e, 'id'));
@@ -31,6 +28,13 @@ document.querySelector('#tasks-form').addEventListener('submit', guardarTareas);
 /* Reiniciar Filtros & Lista */
 document.querySelector('#button-reload').addEventListener('click', reiniciarFiltros);
 
+/* Eliminar Tareas. */
+document.querySelector('#delete-task').addEventListener('click', eliminarTareas);
+
+/* Cancelar: Eliminar Tarea. */
+document.querySelector('#close-popup').addEventListener('click', (e) => { cerrarPopupEliminar(); e.preventDefault() });
+document.querySelector('#cancel-delete-task').addEventListener('click', (e) => { cerrarPopupEliminar(); e.preventDefault() });
+
 /*** FUNCIONES ***/
 /* Tareas */
 function listarTareas() {
@@ -43,34 +47,17 @@ function crearListaTareas(list) {
     const tasks = JSON.parse(list);
     const taskscontainer = document.querySelector('#tasks');
 
-    if (tasks.message == 'No Tasks') {
+    if (tasks.message == 'No Results') {
+        const background = tasks.all == 0 ? 'bg-green-tea' : 'bg-happy-cup';
         taskscontainer.innerHTML = '';
-        taskscontainer.classList.add('bg-happycup');
+        taskscontainer.classList.add(`${background}`);
         actualizarContador(tasks.all, 0);
     }
     else {
-        taskscontainer.classList.remove('bg-happycup');
+        taskscontainer.classList.remove('bg-green-tea', 'bg-happy-cup');
 
         // Crear Template.
-        let template = '';
-        tasks.forEach(task => {
-            template += `
-            <div id="tarjeta-${task.id}" class="tarjeta p-3 mb-2 bd-grey bd-radius text-center">
-                <div id="id-${task.id}" class="id text-bold text-grey">${task.id}</div>
-                <div id="name-${task.id}" class="name">${task.title}</div>
-                <div id="description-${task.id}" class="description">${task.description}</div>
-                <div id="date-${task.id}" class="date">${task.date}</div>
-                <div id="actions-${task.id}" class="actions">
-                    <a id="${task.id}" href="#" class="btn-edit text-transparent" title="Editar">
-                        <i class="fas fa-pen"></i>
-                    </a>
-                    <a id="${task.id}" href="#" class="btn-delete text-transparent" title="Eliminar">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </div>
-            </div>
-            `;
-        });
+        const template = crearTemplate(tasks);
 
         // Llenar Lista Tareas con el Template.
         taskscontainer.innerHTML = template;
@@ -80,38 +67,61 @@ function crearListaTareas(list) {
         const results = tasks[0].meta.results;
         agregarTarjetaFinal(message, results);
 
+        // Agregar Función: Editar Tareas.
+        const editbuttons = document.querySelectorAll('.button-edit');
+        agregarFuncionEditar(editbuttons);
+
+        // Agregar Función: Eliminar Tareas.
+        const deletebuttons = document.querySelectorAll('.button-delete');
+        agregarFuncionAbrirPopupEliminar(deletebuttons);
+        
+        // Agregar Borde a Tarjeta en Edición.
+        const savebutton = document.querySelector('#button-save');
+        const card = document.querySelector(`#tarjeta-${actualid}`);
+        if (savebutton.name == 'update' && card != null) agregarEstadoEdicionTarjeta(actualid);
+
+        // Agregar Hover: Tarjetas.
+        const cards = document.querySelectorAll('.tarjeta');
+        agregarHoverEffect(cards);
+
         //Actualizar Datos del Contador.
         const total = tasks[0].meta.total;
         actualizarContador(total, results);
-
-        // Agregar Función: Editar Tareas.
-        const editbuttons = document.querySelectorAll('.btn-edit');
-        agregarFuncionEditar(editbuttons);
-
-        // Agregar Borde a Tarjeta en Edición.
-        const savebutton = document.querySelector('#button-save');
-        const editcard = document.querySelector(`#tarjeta-${actualid}`);
-        if (savebutton.name == 'update' && editcard != null)
-            editcard.classList.add('bd-gold');
-
-        // Agregar Función: Eliminar Tareas.
-        const deletebuttons = document.querySelectorAll('.btn-delete');
-        agregarFuncionEliminar(deletebuttons);
-
-        // Agregar Hover: Tarjetas.
-        const tarjetas = document.querySelectorAll('.tarjeta');
-        agregarHoverEffect(tarjetas);
     }
 
     //Mensajes de Consola.
     console.log('Tareas Listadas');
 }
 
+function crearTemplate(tasks) {
+    let template = '<div id="inicio-lista"></div>';
+    tasks.forEach(task => {
+        template += `
+        <div id="tarjeta-${task.id}" class="tarjeta p-3 mb-2 bd-grey bd-radius text-center">
+            <div id="id-${task.id}" class="id text-bold text-grey">${task.id}</div>
+            <div id="name-${task.id}" class="name">${task.title}</div>
+            <div id="description-${task.id}" class="description">${task.description}</div>
+            <div id="date-${task.id}" class="date">${task.date}</div>
+            <div id="actions-${task.id}" class="actions">
+                <a id="${task.id}" href="#" class="button-edit text-transparent" title="Editar">
+                    <i class="fas fa-pen"></i>
+                </a>
+                <a id="${task.id}" href="#" class="button-delete text-transparent" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+        </div>
+        `;
+    });
+
+    return template;
+}
+
 function ordenarTareas(e, columna) {
     const id = document.querySelector('#search-id').value;
     const title = document.querySelector('#search-title').value;
     const description = document.querySelector('#search-description').value;
-    const limit = limiteactual ? limiteactual : 100;
+    const limit = actuallimit ? actuallimit : 100;
     const column = columna ? columna : actualcolumn;
     const order = actualorder == 'ASC' ? 'DESC' : 'ASC';
     const data = JSON.stringify({ id, title, description, limit, column, order });
@@ -120,33 +130,24 @@ function ordenarTareas(e, columna) {
     xhr.send(data);
     xhr.onload = () => {
         crearListaTareas(xhr.response);
-        if (e)
-            agregarIndicadorDeOrden(e);
-        ;
+        if (e) agregarIndicadorDeOrden(e);
     };
 
     actualorder = order;
     actualcolumn = column;
-    if (e)
-        e.preventDefault();
+    if (e) e.preventDefault();
 }
 
 function guardarTareas(e) {
     const savebutton = document.querySelector('#button-save');
-    const saveicon = document.querySelector('#icon-save');
-
     const id = document.querySelector('#field-id').value;
     const title = document.querySelector('#field-title').value;
     const description = document.querySelector('#field-description').value;
-    const data = JSON.stringify({ id, title, description });
+    const data = JSON.stringify({id, title, description});
     const url = savebutton.name == 'update' ? 'task-update.php' : 'task-add.php';
-
-    savebutton.setAttribute('disabled', 'true');
-    saveicon.classList.remove('fa-save');
-    saveicon.classList.add('fa-cog', 'fa-spin');
-    if (savebutton.name == 'update')
-        cancelarEdicion();
-
+    
+    agregarEstadoGuardando();
+    
     actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
 
     xhr.open('post', url, true);
@@ -154,17 +155,20 @@ function guardarTareas(e) {
     xhr.onload = () => {
         console.log(xhr.response);
         ordenarTareas();
-        document.querySelector('#button-save').removeAttribute('disabled', 'true');
-        document.querySelector('#icon-save').classList.remove('fa-cog', 'fa-spin');
-        document.querySelector('#icon-save').classList.add('fa-save');
-        document.querySelector('#tasks-form').reset();
+        quitarEstadoGuardando();
+        savebutton.name == 'update' ? cancelarEdicion() : vaciarFormulario();
         document.querySelector('#field-title').focus();
     };
 
     e.preventDefault();
 }
 
-function eliminarTareas(id) {
+function eliminarTareas() {
+    const buttondelete = document.querySelector('#delete-task');
+    const id = buttondelete.name;
+
+    agregarEstadoEliminando();
+
     actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
 
     xhr.open('post', 'task-delete.php', true);
@@ -172,35 +176,35 @@ function eliminarTareas(id) {
     xhr.onload = () => {
         console.log(xhr.response);
         ordenarTareas();
+        quitarEstadoEliminando();
+        cerrarPopupEliminar();
     };
 }
 
 function editarTareas(id) {
     const savebutton = document.querySelector('#button-save');
     const titlefield = document.querySelector('#field-title');
-    const card = document.querySelector(`#tarjeta-${id}`);
-    const actualcard = document.querySelector(`#tarjeta-${actualid}`);
 
     if (id !== actualid) {
-        actualid = id;
         if (savebutton.name == 'save') {
             llenarFormulario(id);
-            cambiarEstadoBotonGuardar();
-            card.classList.add('bd-gold');
+            agregarEstadoEdicionBotonGuardar();
+            agregarEstadoEdicionTarjeta(id);
             titlefield.focus();
         }
         else {
             llenarFormulario(id);
-            actualcard.classList.remove('bd-gold');
-            card.classList.add('bd-gold');
+            quitarEstadoEdicionTarjeta(actualid);
+            agregarEstadoEdicionTarjeta(id);
             titlefield.focus();
         }
+        actualid = id;
     }
     else {
         if (savebutton.name == 'save') {
             llenarFormulario(id);
-            cambiarEstadoBotonGuardar();
-            card.classList.add('bd-gold');
+            agregarEstadoEdicionBotonGuardar();
+            agregarEstadoEdicionTarjeta(id);
             titlefield.focus();
         }
         else {
@@ -209,29 +213,32 @@ function editarTareas(id) {
     }
 }
 
-/* Interfaz */
 function filtrarTareas() {
     actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
     ordenarTareas();
 }
 
 function mostrarMasTareas() {
+    cambiarEstadoBotonMostrar();
+    
+    actuallimit = actuallimit ? actuallimit + 100 : actuallimit * 2;
+    actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
+    ordenarTareas();
+}
+
+function cambiarEstadoBotonMostrar() {
     const showbutton = document.querySelector('#btn-show');
     const showicon = document.querySelector('#icon-show');
     showbutton.setAttribute('disabled', 'true');
     showicon.classList.remove('fa-plus');
     showicon.classList.add('fa-cog', 'fa-spin');
-    
-    limiteactual = limiteactual ? limiteactual + 100 : 200;
-    actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
-    ordenarTareas();
 }
 
 function ordenarTareas(e, columna) {
     const id = document.querySelector('#search-id').value;
     const title = document.querySelector('#search-title').value;
     const description = document.querySelector('#search-description').value;
-    const limit = limiteactual ? limiteactual : 100;
+    const limit = actuallimit ? actuallimit : 100;
     const column = columna ? columna : actualcolumn;
     const order = actualorder == 'ASC' ? 'DESC' : 'ASC';
     const data = JSON.stringify({id, title, description, limit, column, order});
@@ -249,6 +256,7 @@ function ordenarTareas(e, columna) {
     if (e) e.preventDefault();
 }
 
+/* Interfaz */
 function actualizarContador(totaltasks, results) {
     document.querySelector('#total-tasks').innerHTML = totaltasks;
     document.querySelector('#search-results').innerHTML = results;
@@ -262,11 +270,11 @@ function agregarFuncionEditar(buttons) {
     }
 }
 
-function agregarFuncionEliminar(buttons) {
+function agregarFuncionAbrirPopupEliminar(buttons) {
     for (let i = 0; i < buttons.length; i++) {
         const button = buttons[i];
         const id = button.id;
-        button.addEventListener('click', () => eliminarTareas(id));
+        button.addEventListener('click', () => abrirPopupEliminar(id));
     }
 }
 
@@ -277,7 +285,6 @@ function agregarHoverEffect(tarjetas) {
         const deletebutton = tarjeta.childNodes[9].childNodes[3];
         // Mouse Over.
         tarjeta.addEventListener('mouseover', () => {
-            tarjeta.classList.add('bg-transparent');
             editbutton.classList.remove('text-transparent');
             deletebutton.classList.remove('text-transparent');
             editbutton.classList.add('text-yellow', 'scale-one-five');
@@ -285,7 +292,6 @@ function agregarHoverEffect(tarjetas) {
         });
         // Mouse Out.
         tarjeta.addEventListener('mouseout', () => {
-            tarjeta.classList.remove('bg-transparent');
             editbutton.classList.remove('text-yellow', 'scale-one-five');
             deletebutton.classList.remove('text-red', 'scale-one-five');
             editbutton.classList.add('text-transparent');
@@ -295,11 +301,11 @@ function agregarHoverEffect(tarjetas) {
 }
 
 function agregarTarjetaFinal(message, results) {
-    if (message == 'All Results' && results > 6) {
+    if (message == 'All Results' && results > 7) {
         const endcard = `
             <div id="end-card" class="tarjeta-final bd-grey bd-radius p-3 text-bold text-center text-grey bg-transparent">
                 <i class="icono fas fa-flag fa-sm"></i>
-                <i class="icono fas fa-flag fa-lg"></i>
+                <i class="icono fas fa-flag fa-lg" title="Final"></i>
                 <i class="icono fas fa-flag fa-sm"></i>
             </div>
         `;
@@ -311,8 +317,6 @@ function agregarTarjetaFinal(message, results) {
             </button>
         `;
         document.querySelector('#tasks').innerHTML += showbutton;
-
-        // Agregar Función Mostrar Más Tareas.
         document.querySelector('#btn-show').addEventListener('click', () => mostrarMasTareas());
     }
 }
@@ -350,24 +354,70 @@ function vaciarFormulario() {
     tasksform.reset();
 }
 
-function restablecerBotonGuardar() {
+function agregarEstadoGuardando() {
     const savebutton = document.querySelector('#button-save');
-    savebutton.name = 'save';
-    savebutton.classList.remove('btn-warning');
-    savebutton.classList.add('btn-success');
+    const saveicon = document.querySelector('#icon-save');
+
+    savebutton.setAttribute('disabled', 'true');
+    saveicon.classList.remove('fa-save');
+    saveicon.classList.add('fa-cog', 'fa-spin');
 }
 
-function cambiarEstadoBotonGuardar() {
+function quitarEstadoGuardando() {
+    const savebutton = document.querySelector('#button-save');
+    const saveicon = document.querySelector('#icon-save');
+
+    savebutton.removeAttribute('disabled', 'true');
+    saveicon.classList.remove('fa-cog', 'fa-spin');
+    saveicon.classList.add('fa-save');
+}
+
+function agregarEstadoEliminando() {
+    const deletebutton = document.querySelector('#delete-task');
+    const deleteicon = document.querySelector('#delete-task-icon');
+
+    deletebutton.setAttribute('disabled', 'true');
+    deleteicon.classList.remove('fa-trash');
+    deleteicon.classList.add('fa-cog', 'fa-spin'); 
+}
+
+function quitarEstadoEliminando() {
+    const deletebutton = document.querySelector('#delete-task');
+    const deleteicon = document.querySelector('#delete-task-icon');
+
+    deletebutton.removeAttribute('disabled', 'true');
+    deleteicon.classList.add('fa-trash');
+    deleteicon.classList.remove('fa-cog', 'fa-spin'); 
+}
+
+function agregarEstadoEdicionTarjeta(id) {
+    document.querySelector(`#tarjeta-${id}`).classList.add('bd-edit', 'bg-edit');
+}
+
+function quitarEstadoEdicionTarjeta(id) {
+    document.querySelector(`#tarjeta-${id}`).classList.remove('bd-edit', 'bg-edit');
+}
+
+function agregarEstadoEdicionBotonGuardar() {
     const savebutton = document.querySelector('#button-save');
     savebutton.name = 'update';
+    savebutton.title = 'Actualizar';
     savebutton.classList.remove('btn-success');
     savebutton.classList.add('btn-warning');
+}
+
+function quitarEstadoEdicionBotonGuardar() {
+    const savebutton = document.querySelector('#button-save');
+    savebutton.name = 'save';
+    savebutton.title = 'Guardar';
+    savebutton.classList.remove('btn-warning');
+    savebutton.classList.add('btn-success');
 }
 
 function reiniciarFiltros(e) {
     document.querySelector('#search-form').reset();
 
-    limiteactual = 100;
+    actuallimit = 100;
     actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
     ordenarTareas();
 
@@ -375,18 +425,32 @@ function reiniciarFiltros(e) {
     e.preventDefault();
 }
 
-function cancelarEdicionTecla(e) {
-    if (e.code == 'Escape') {
-        cancelarEdicion();
-    }
+function cancelarEventos(e) {
+    const savebutton = document.querySelector('#button-save');
+    const overlay = document.querySelector('#overlay');
+    const response = overlay.classList.contains('active');
+
+    if (e.code == 'Escape' && response == true) { cerrarPopupEliminar(); return };
+    if (e.code == 'Escape' && savebutton.name == 'update') { cancelarEdicion(); return };
 }
 
 function cancelarEdicion() {
     const savebutton = document.querySelector('#button-save');
-
     if (savebutton.name == 'update') {
         vaciarFormulario();
-        restablecerBotonGuardar();
-        document.querySelector(`#tarjeta-${actualid}`).classList.remove('bd-gold');
+        quitarEstadoEdicionBotonGuardar();
+        quitarEstadoEdicionTarjeta(actualid);
     }
+}
+
+function abrirPopupEliminar(id) {
+    document.querySelector('#overlay').classList.add('active');
+    document.querySelector('#popup-delete').classList.add('active');
+    document.querySelector('#delete-task').name = id;
+}
+
+function cerrarPopupEliminar() {
+    document.querySelector('#overlay').classList.remove('active');
+    document.querySelector('#popup-delete').classList.remove('active');
+    document.querySelector('#delete-task').name = '';
 }

@@ -6,14 +6,17 @@ MySQL 5.7.24
 
 *Navegadores*
 Google Chrome 81.0.4044.129
+Google Chrome 81.0.4044.138
 
 *Local Servers*
 MAMP PRO 4.1.0
 
 *Frameworks, Icons, etc.*
-Bootstrap 4.3.1 (Modificado: "!important" Eliminados)
+Bootstrap 4.4.1 (Modificado: "!important" Eliminados)
 Font Awesome 5.13
 
 *Links*
 www.subtlepatterns.com
 www.json-generator.com
+https://unsplash.com/
+https://tinypng.com/
