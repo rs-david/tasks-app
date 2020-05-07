@@ -2,7 +2,7 @@
 [
     '{{repeat(1000)}}',
     {
-        title: '{{firstName()}}',
+        name: '{{firstName()}}',
         created: '{{date(new Date(2014, 0, 1), new Date(), "YYYY-MM-dd hh:mm:ss")}}',
         description: function (tags) {
             var fruits = ['apple', 'banana', 'strawberry', 'melon', 'grapes', 'watermelon', 'orange'];

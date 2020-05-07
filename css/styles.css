@@ -35,20 +35,12 @@
     color: transparent;
 }
 
-.text-smoke {
-    color: whitesmoke;
-}
-
 .text-red {
     color: var(--danger);
 }
 
 .text-yellow {
     color: var(--warning);
-}
-
-.text-gold {
-    color: gold;
 }
 
 .text-green {
@@ -61,16 +53,6 @@
 
 .text-white {
     color: white;
-}
-
-/***** Margin *****/
-.m-none {
-    margin: 0;
-}
-
-/***** Padding *****/
-.p-none {
-    padding: 0;
 }
 
 /***** Width *****/

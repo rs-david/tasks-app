@@ -7,6 +7,7 @@ MySQL 5.7.24
 *Navegadores*
 Google Chrome 81.0.4044.129
 Google Chrome 81.0.4044.138
+Opera 68.0.3618.63
 
 *Local Servers*
 MAMP PRO 4.1.0

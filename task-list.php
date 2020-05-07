@@ -6,7 +6,7 @@ $data = file_get_contents('php://input');
 $_POST = json_decode($data, true);
 
 $id = $_POST['id'] ?? '';
-$title = $_POST['title'] ?? '';
+$name = $_POST['name'] ?? '';
 $description = $_POST['description'] ?? '';
 $column = $_POST['column'] ?? 'created';
 $order = $_POST['order'] ?? 'DESC';
@@ -16,8 +16,8 @@ $all_tasks = "SELECT COUNT(*) AS tareas_totales FROM tasks";
 $all_tasks = mysqli_fetch_assoc(mysqli_query($conn, $all_tasks))["tareas_totales"];
 
 $query = "SELECT * FROM
-            (SELECT COUNT(*) AS tareas_encontradas FROM tasks WHERE id LIKE '$id%' AND title LIKE '$title%' AND description LIKE '$description%') AS results,
-            (SELECT * FROM tasks WHERE id LIKE '$id%' AND title LIKE '$title%' AND description LIKE '$description%' ORDER BY $column $order LIMIT $limit) AS tasks";
+            (SELECT COUNT(*) AS tareas_encontradas FROM tasks WHERE id LIKE '$id%' AND name LIKE '$name%' AND description LIKE '$description%') AS results,
+            (SELECT * FROM tasks WHERE id LIKE '$id%' AND name LIKE '$name%' AND description LIKE '$description%' ORDER BY $column $order LIMIT $limit) AS tasks";
 $results = mysqli_query($conn, $query);
 
 while ($row = mysqli_fetch_array($results)) {
@@ -31,7 +31,7 @@ while ($row = mysqli_fetch_array($results)) {
 
     $tasks[] = [
         'id' => $row['id'],
-        'title' => $row['title'],
+        'name' => $row['name'],
         'description' => $row['description'],
         'date' => $date,
         'meta' => $meta

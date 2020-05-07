@@ -8,25 +8,25 @@ window.addEventListener('keydown', (e) => cancelarEventos(e));
 
 /* Filtrar Tareas. */
 document.querySelector('#search-id').addEventListener('keyup', filtrarTareas);
-document.querySelector('#search-title').addEventListener('keyup', filtrarTareas);
+document.querySelector('#search-name').addEventListener('keyup', filtrarTareas);
 document.querySelector('#search-description').addEventListener('keyup', filtrarTareas);
 
 /* Buscar Tareas*/
 document.querySelector('#search-id').addEventListener('search', filtrarTareas);
-document.querySelector('#search-title').addEventListener('search', filtrarTareas);
+document.querySelector('#search-name').addEventListener('search', filtrarTareas);
 document.querySelector('#search-description').addEventListener('search', filtrarTareas);
 
 /* Ordenar Tareas & Agregar Indicador de Orden. */
-document.querySelector('#column-id').addEventListener('click', (e) => ordenarTareas(e, 'id'));
-document.querySelector('#column-name').addEventListener('click', (e) => ordenarTareas(e, 'title'));
-document.querySelector('#column-description').addEventListener('click', (e) => ordenarTareas(e, 'description'));
-document.querySelector('#column-date').addEventListener('click', (e) => ordenarTareas(e, 'created'));
+document.querySelector('#column-id').addEventListener('click', (e) => { ordenarTareas(e); e.preventDefault() });
+document.querySelector('#column-name').addEventListener('click', (e) => { ordenarTareas(e); e.preventDefault() });
+document.querySelector('#column-description').addEventListener('click', (e) => { ordenarTareas(e); e.preventDefault() });
+document.querySelector('#column-date').addEventListener('click', (e) => { ordenarTareas(e); e.preventDefault() });
 
 /* Guardar Tareas */
 document.querySelector('#tasks-form').addEventListener('submit', guardarTareas);
 
 /* Reiniciar Filtros & Lista */
-document.querySelector('#button-reload').addEventListener('click', reiniciarFiltros);
+document.querySelector('#button-clean').addEventListener('click', (e) => { limpiarFiltros(); e.preventDefault() });
 
 /* Eliminar Tareas. */
 document.querySelector('#delete-task').addEventListener('click', eliminarTareas);
@@ -40,7 +40,10 @@ document.querySelector('#cancel-delete-task').addEventListener('click', (e) => {
 function listarTareas() {
     xhr.open('post', 'task-list.php', true);
     xhr.send();
-    xhr.onload = () => crearListaTareas(xhr.response);
+    xhr.onload = () => {
+        crearListaTareas(xhr.response);
+        document.querySelector('#field-name').focus();
+    }
 }
 
 function crearListaTareas(list) {
@@ -99,7 +102,7 @@ function crearTemplate(tasks) {
         template += `
         <div id="tarjeta-${task.id}" class="tarjeta p-3 mb-2 bd-grey bd-radius text-center">
             <div id="id-${task.id}" class="id text-bold text-grey">${task.id}</div>
-            <div id="name-${task.id}" class="name">${task.title}</div>
+            <div id="name-${task.id}" class="name">${task.name}</div>
             <div id="description-${task.id}" class="description">${task.description}</div>
             <div id="date-${task.id}" class="date">${task.date}</div>
             <div id="actions-${task.id}" class="actions">
@@ -113,37 +116,35 @@ function crearTemplate(tasks) {
         </div>
         `;
     });
-
     return template;
 }
 
-function ordenarTareas(e, columna) {
+function ordenarTareas(e) {
     const id = document.querySelector('#search-id').value;
-    const title = document.querySelector('#search-title').value;
+    const name = document.querySelector('#search-name').value;
     const description = document.querySelector('#search-description').value;
     const limit = actuallimit ? actuallimit : 100;
-    const column = columna ? columna : actualcolumn;
+    const column = e ? e.target.name : actualcolumn;
     const order = actualorder == 'ASC' ? 'DESC' : 'ASC';
-    const data = JSON.stringify({ id, title, description, limit, column, order });
+    const data = JSON.stringify({ id, name, description, limit, column, order });
 
     xhr.open('post', 'task-list.php', true);
     xhr.send(data);
     xhr.onload = () => {
         crearListaTareas(xhr.response);
         if (e) agregarIndicadorDeOrden(e);
-    };
+    }
 
     actualorder = order;
     actualcolumn = column;
-    if (e) e.preventDefault();
 }
 
 function guardarTareas(e) {
     const savebutton = document.querySelector('#button-save');
     const id = document.querySelector('#field-id').value;
-    const title = document.querySelector('#field-title').value;
+    const name = document.querySelector('#field-name').value;
     const description = document.querySelector('#field-description').value;
-    const data = JSON.stringify({id, title, description});
+    const data = JSON.stringify({id, name, description});
     const url = savebutton.name == 'update' ? 'task-update.php' : 'task-add.php';
     
     agregarEstadoGuardando();
@@ -157,7 +158,7 @@ function guardarTareas(e) {
         ordenarTareas();
         quitarEstadoGuardando();
         savebutton.name == 'update' ? cancelarEdicion() : vaciarFormulario();
-        document.querySelector('#field-title').focus();
+        document.querySelector('#field-name').focus();
     };
 
     e.preventDefault();
@@ -168,6 +169,7 @@ function eliminarTareas() {
     const id = buttondelete.name;
 
     agregarEstadoEliminando();
+    if (actualid == id) cancelarEdicion();
 
     actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
 
@@ -183,20 +185,20 @@ function eliminarTareas() {
 
 function editarTareas(id) {
     const savebutton = document.querySelector('#button-save');
-    const titlefield = document.querySelector('#field-title');
+    const namefield = document.querySelector('#field-name');
 
     if (id !== actualid) {
         if (savebutton.name == 'save') {
             llenarFormulario(id);
             agregarEstadoEdicionBotonGuardar();
             agregarEstadoEdicionTarjeta(id);
-            titlefield.focus();
+            namefield.focus();
         }
         else {
             llenarFormulario(id);
             quitarEstadoEdicionTarjeta(actualid);
             agregarEstadoEdicionTarjeta(id);
-            titlefield.focus();
+            namefield.focus();
         }
         actualid = id;
     }
@@ -205,7 +207,7 @@ function editarTareas(id) {
             llenarFormulario(id);
             agregarEstadoEdicionBotonGuardar();
             agregarEstadoEdicionTarjeta(id);
-            titlefield.focus();
+            namefield.focus();
         }
         else {
             cancelarEdicion();
@@ -234,29 +236,17 @@ function cambiarEstadoBotonMostrar() {
     showicon.classList.add('fa-cog', 'fa-spin');
 }
 
-function ordenarTareas(e, columna) {
-    const id = document.querySelector('#search-id').value;
-    const title = document.querySelector('#search-title').value;
-    const description = document.querySelector('#search-description').value;
-    const limit = actuallimit ? actuallimit : 100;
-    const column = columna ? columna : actualcolumn;
-    const order = actualorder == 'ASC' ? 'DESC' : 'ASC';
-    const data = JSON.stringify({id, title, description, limit, column, order});
+/* Interfaz */
+function limpiarFiltros(e) {
+    document.querySelector('#search-form').reset();
 
-    xhr.open('post', 'task-list.php', true);
-    xhr.send(data);
-    xhr.onload = () => {
-        crearListaTareas(xhr.response);
-        if (e) agregarIndicadorDeOrden(e);
-        ;
-    }
+    actuallimit = 100;
+    actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
+    ordenarTareas();
 
-    actualorder = order;
-    actualcolumn = column;
-    if (e) e.preventDefault();
+    document.querySelector('#search-name').focus();
 }
 
-/* Interfaz */
 function actualizarContador(totaltasks, results) {
     document.querySelector('#total-tasks').innerHTML = totaltasks;
     document.querySelector('#search-results').innerHTML = results;
@@ -323,29 +313,26 @@ function agregarTarjetaFinal(message, results) {
 
 function agregarIndicadorDeOrden(e) {
     const link = e.target;
-    const linkcontainer = e.target.parentNode;
-    
-    document.querySelector('#column-id').classList.remove('text-green');
-    document.querySelector('#column-name').classList.remove('text-green');
-    document.querySelector('#column-description').classList.remove('text-green');
-    document.querySelector('#column-date').classList.remove('text-green');
-    
-    link.classList.add('text-green');
-    
-    document.querySelector('.encabezados .id').classList.remove('ascendente', 'descendente');
-    document.querySelector('.encabezados .name').classList.remove('ascendente', 'descendente');
-    document.querySelector('.encabezados .description').classList.remove('ascendente', 'descendente');
-    document.querySelector('.encabezados .date').classList.remove('ascendente', 'descendente');
-    
+    const header = e.target.parentElement;
     const indicador = actualorder == 'ASC' ? 'ascendente' : 'descendente';
-    linkcontainer.classList.add(`${indicador}`);
+    
+    const links = document.querySelectorAll('.encabezado a');
+    for (let i = 0; i < links.length; i++) {
+        const link = links[i];
+        const header = links[i].parentElement;
+        link.classList.remove('text-green');
+        header.classList.remove('ascendente', 'descendente');
+    }
+
+    link.classList.add('text-green');
+    header.classList.add(`${indicador}`);
 }
 
 function llenarFormulario(id) {
-    const title = document.querySelector(`#name-${id}`).textContent;
+    const name = document.querySelector(`#name-${id}`).textContent;
     const description = document.querySelector(`#description-${id}`).textContent;
     document.querySelector('#field-id').value = id;
-    document.querySelector('#field-title').value = title;
+    document.querySelector('#field-name').value = name;
     document.querySelector('#field-description').value = description;
 }
 
@@ -414,26 +401,6 @@ function quitarEstadoEdicionBotonGuardar() {
     savebutton.classList.add('btn-success');
 }
 
-function reiniciarFiltros(e) {
-    document.querySelector('#search-form').reset();
-
-    actuallimit = 100;
-    actualorder = actualorder == 'ASC' ? 'DESC' : 'ASC';
-    ordenarTareas();
-
-    document.querySelector('#search-title').focus();
-    e.preventDefault();
-}
-
-function cancelarEventos(e) {
-    const savebutton = document.querySelector('#button-save');
-    const overlay = document.querySelector('#overlay');
-    const response = overlay.classList.contains('active');
-
-    if (e.code == 'Escape' && response == true) { cerrarPopupEliminar(); return };
-    if (e.code == 'Escape' && savebutton.name == 'update') { cancelarEdicion(); return };
-}
-
 function cancelarEdicion() {
     const savebutton = document.querySelector('#button-save');
     if (savebutton.name == 'update') {
@@ -453,4 +420,13 @@ function cerrarPopupEliminar() {
     document.querySelector('#overlay').classList.remove('active');
     document.querySelector('#popup-delete').classList.remove('active');
     document.querySelector('#delete-task').name = '';
+}
+
+function cancelarEventos(e) {
+    const savebutton = document.querySelector('#button-save');
+    const overlay = document.querySelector('#overlay');
+    const response = overlay.classList.contains('active');
+
+    if (e.code == 'Escape' && response == true) { cerrarPopupEliminar(); return };
+    if (e.code == 'Escape' && savebutton.name == 'update') { cancelarEdicion(); return };
 }

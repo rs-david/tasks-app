@@ -33,13 +33,13 @@
                 <form id="search-form" action="" class="form-inline">
                     <!-- Filtro: ID -->
                     <input type="number" id="search-id" class="form-control mr-2" placeholder="Buscar: Clave">
-                    <!-- Filtro: Tarea -->
-                    <input type="search" id="search-title" class="form-control mr-2" placeholder="Buscar: Nombre">
+                    <!-- Filtro: Nombre -->
+                    <input type="search" id="search-name" class="form-control mr-2" placeholder="Buscar: Nombre">
                     <!-- Filtro: Descripción -->
                     <input type="search" id="search-description" class="form-control mr-2" placeholder="Buscar: Descripción">
                     <!-- Botón: Reiniciar -->
-                    <button type="button" id='button-reload' class="btn btn-primary" title="Reiniciar Filtros">
-                        <i id="icon-reload" class="fas fa-redo-alt"></i>
+                    <button type="button" id='button-clean' class="btn btn-primary" title="Limpiar Filtros">
+                        <i id="icon-clean" class="fas fa-hands-wash" data-fa-transform="grow-3"></i>
                     </button>
                 </form>
             </div>
@@ -48,7 +48,7 @@
 
     <!-- Formulario & Lista Tareas -->
     <main class="main px-1 py-2">
-        <!-- Formulario & Contadores -->
+        <!-- Formulario -->
         <div class="formulario p-4">
             <!-- Formulario -->
             <form id="tasks-form">
@@ -56,11 +56,11 @@
                 <div hidden class="form-group">
                     <input id="field-id" class="form-control" type="number" placeholder="ID" disabled>
                 </div>
-                <!-- Campo: Title -->
+                <!-- Campo: Nombre -->
                 <div class="form-group">
-                    <input id="field-title" class="form-control" type="text" placeholder="Nombre" autofocus required>
+                    <input id="field-name" class="form-control" type="text" placeholder="Nombre" required>
                 </div>
-                <!-- Campo: Description -->
+                <!-- Campo: Descripción -->
                 <div class="form-group">
                     <textarea id="field-description" class="form-control" placeholder="Descripción" required></textarea>
                 </div>
@@ -71,13 +71,19 @@
             </form>
 
             <!-- Contadores -->
-            <div id="" class="resultados-busqueda p-2 mt-3">
-                <div class=""><span class="text-grey">Tareas</span> Encontradas</div>
-                <div id="search-results" class="cantidad text-bold"></div>
-            </div>
-            <div id="" class="tareas-totales p-2 mt-3">
-                <div class=""><span class="text-grey">Tareas</span> Totales</div>
-                <div id="total-tasks" class="cantidad text-bold"></div>
+            <div class="contadores">
+                <div id="" class="contador-busqueda p-2 mt-3">
+                    <span>
+                        <span class="text-grey">Tareas</span> Encontradas
+                    </span>
+                    <span id="search-results" class="resultados-busqueda text-bold"></span>
+                </div>
+                <div id="" class="contador-totales p-2 mt-3">
+                    <span>
+                        <span class="text-grey">Tareas</span> Totales
+                    </span>
+                    <span id="total-tasks" class="total-tareas text-bold"></span>
+                </div>
             </div>
         </div>
 
@@ -85,27 +91,27 @@
         <div class="lista p-4">
             <!-- Encabezados -->
             <div class="encabezados p-3">
-                <div class="id">
-                    <a id="column-id" href="" class="" title="Ordenar * Clave">
+                <div class="encabezado id">
+                    <a id="column-id" href="" class="" name="id" title="Ordenar * Clave">
                         #
                     </a>
                 </div>
-                <div class="name">
-                    <a id="column-name" href="" class="" title="Ordenar * Nombre">
+                <div class="encabezado name">
+                    <a id="column-name" href="" class="" name="name" title="Ordenar * Nombre">
                         Nombre
                     </a>
                 </div>
-                <div class="description">
-                    <a id="column-description" href="" class="" title="Ordenar * Descripción">
+                <div class="encabezado description">
+                    <a id="column-description" href="" class="" name="description" title="Ordenar * Descripción">
                         Descripción
                     </a>
                 </div>
-                <div class="date descendente">
-                    <a id="column-date" href="" class="text-green" title="Ordenar * Fecha">
+                <div class="encabezado date descendente">
+                    <a id="column-date" href="" class="text-green" name="created" title="Ordenar * Fecha">
                         Fecha
                     </a>
                 </div>
-                <div class="actions">
+                <div class="encabezado actions">
                     <span id="column-actions" class="">
                         Acciones
                     </span>
@@ -116,26 +122,29 @@
             <div id="tasks" class="tareas mt-2"></div>
 
             <!-- Botón Subir -->
-            <a id="button-up" href="#inicio-lista" class="boton-subir" title="Subir">
+            <a id="button-up" href="#inicio-lista" class="boton-subir" title="Principio">
                 <i class="fas fa-chevron-up fa-lg"></i>
             </a>
         </div>
     </main>
 
-    <!-- Popup Eliminar Tarea -->
+    <!-- Popup: Eliminar Tarea -->
     <div id="overlay" class="overlay">
         <div id="popup-delete" class="popup-eliminar">
+            <!-- Head -->
             <div id="head-popup" class="cabecera-popup">
                 <a id="close-popup" href="" class="cerrar-popup">
                     <i class="fas fa-times"></i>
                 </a>
             </div>
+            <!-- Body -->
             <div id="body-popup" class="cuerpo-popup">
                 <span>¿Eliminar Tarea?</span>
             </div>
+            <!-- Footer -->
             <div id="footer-popup" class="pie-popup">
                 <button id="delete-task" class="btn btn-outline-danger mr-2" name="">
-                    <i id="delete-task-icon" class="fas fa-trash fa-sm mr-1"></i><span>Eliminar</span>
+                    <i id="delete-task-icon" class="fas fa-trash fa-sm mr-1"></i>Eliminar
                 </button>
                 <button id="cancel-delete-task" class="btn btn-success" name="">
                     Cancelar
