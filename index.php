@@ -48,7 +48,7 @@
 
     <!-- Formulario & Lista Tareas -->
     <main class="main px-1 py-2">
-        <!-- Formulario -->
+        <!-- Formulario & Contadores -->
         <div class="formulario p-4">
             <!-- Formulario -->
             <form id="tasks-form">
@@ -107,7 +107,7 @@
                     </a>
                 </div>
                 <div class="encabezado date descendente">
-                    <a id="column-date" href="" class="text-green" name="created" title="Ordenar * Fecha">
+                    <a id="column-date" href="" class="active" name="created" title="Ordenar * Fecha">
                         Fecha
                     </a>
                 </div>

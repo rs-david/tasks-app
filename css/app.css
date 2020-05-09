@@ -163,11 +163,6 @@ body {
     display: flex;
 }
 
-.lista .encabezados a:hover {
-    text-decoration: none;
-    color: grey;
-}
-
 .lista .encabezados .encabezado[class~="ascendente"]::before {
     content: "";
     width: 0;
@@ -194,8 +189,17 @@ body {
     top: 100%;
 }
 
-.lista .encabezados .id {
+.lista .encabezados .encabezado.id {
     font-size: 20px;
+}
+
+.lista .encabezados a.active {
+    color: var(--success);
+}
+
+.lista .encabezados a:hover {
+    text-decoration: none;
+    color: grey;
 }
 
 /* Tareas */
@@ -229,13 +233,39 @@ body {
 
 /* Tarjetas */
 .lista .tareas .tarjeta {
+    text-align: center;
+    border: thin solid #dddddd;
+    border-radius: .25rem;
     display: flex;
     align-items: center;
     transition: all .5s ease;
 }
 
+.lista .tareas .tarjeta.edit {
+    background-color: rgba(255, 217, 0, 0.05);
+    border: thin solid rgba(255, 217, 0, 0.85);
+}
+
+.lista .tareas .tarjeta .id {
+    color: grey;
+    font-weight: bold;
+}
+
 .lista .tareas .tarjeta:last-child {
     margin-bottom: 0;
+}
+
+/* Tarjeta Final & Botón Mostrar */
+.lista .tarjeta-final {
+    color: grey;
+    font-weight: bold;
+    text-align: center;
+    border: thin solid #dddddd;
+    border-radius: .25rem;
+}
+
+.lista .boton-mostrar {
+    color: grey;
 }
 
 /* Botón Subir */
@@ -269,6 +299,19 @@ body {
 
 .lista .tarjeta .actions .button-edit,
 .lista .tarjeta .actions .button-delete {
+    color: transparent;
+    transition: all .25s ease;
+}
+
+.lista .tarjeta .actions .button-edit.active {
+    color: var(--warning);
+    transform: scale(1.5);
+    transition: all .25s ease;
+}
+
+.lista .tarjeta .actions .button-delete.active {
+    color: var(--danger);
+    transform: scale(1.5);
     transition: all .25s ease;
 }
 

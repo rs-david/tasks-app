@@ -100,16 +100,16 @@ function crearTemplate(tasks) {
     let template = '<div id="inicio-lista"></div>';
     tasks.forEach(task => {
         template += `
-        <div id="tarjeta-${task.id}" class="tarjeta p-3 mb-2 bd-grey bd-radius text-center">
-            <div id="id-${task.id}" class="id text-bold text-grey">${task.id}</div>
+        <div id="tarjeta-${task.id}" class="tarjeta p-3 mb-2">
+            <div id="id-${task.id}" class="id">${task.id}</div>
             <div id="name-${task.id}" class="name">${task.name}</div>
             <div id="description-${task.id}" class="description">${task.description}</div>
             <div id="date-${task.id}" class="date">${task.date}</div>
             <div id="actions-${task.id}" class="actions">
-                <a id="${task.id}" href="#" class="button-edit text-transparent" title="Editar">
+                <a id="${task.id}" href="#" class="button-edit" title="Editar">
                     <i class="fas fa-pen"></i>
                 </a>
-                <a id="${task.id}" href="#" class="button-delete text-transparent" title="Eliminar">
+                <a id="${task.id}" href="#" class="button-delete" title="Eliminar">
                     <i class="fas fa-trash"></i>
                 </a>
             </div>
@@ -275,17 +275,13 @@ function agregarHoverEffect(tarjetas) {
         const deletebutton = tarjeta.childNodes[9].childNodes[3];
         // Mouse Over.
         tarjeta.addEventListener('mouseover', () => {
-            editbutton.classList.remove('text-transparent');
-            deletebutton.classList.remove('text-transparent');
-            editbutton.classList.add('text-yellow', 'scale-one-five');
-            deletebutton.classList.add('text-red', 'scale-one-five');
+            editbutton.classList.add('active');
+            deletebutton.classList.add('active');
         });
         // Mouse Out.
         tarjeta.addEventListener('mouseout', () => {
-            editbutton.classList.remove('text-yellow', 'scale-one-five');
-            deletebutton.classList.remove('text-red', 'scale-one-five');
-            editbutton.classList.add('text-transparent');
-            deletebutton.classList.add('text-transparent');
+            editbutton.classList.remove('active');
+            deletebutton.classList.remove('active');
         });
     }
 }
@@ -293,16 +289,16 @@ function agregarHoverEffect(tarjetas) {
 function agregarTarjetaFinal(message, results) {
     if (message == 'All Results' && results > 7) {
         const endcard = `
-            <div id="end-card" class="tarjeta-final bd-grey bd-radius p-3 text-bold text-center text-grey bg-transparent">
-                <i class="icono fas fa-flag fa-sm"></i>
-                <i class="icono fas fa-flag fa-lg" title="Final"></i>
-                <i class="icono fas fa-flag fa-sm"></i>
+            <div id="end-card" class="tarjeta-final p-3">
+                <i class="fas fa-flag fa-sm"></i>
+                <i class="fas fa-flag fa-lg" title="Final"></i>
+                <i class="fas fa-flag fa-sm"></i>
             </div>
         `;
         document.querySelector('#tasks').innerHTML += endcard;
     } else if (message == 'Not All Results') {
         const showbutton = `
-            <button id="btn-show" class="btn btn-light btn-lg btn-block text-grey" title="Mostrar Más Tareas">
+            <button id="btn-show" class="boton-mostrar btn btn-light btn-lg btn-block" title="Mostrar Más Tareas">
                 <i id="icon-show" class="fas fa-plus fa-lg"></i>
             </button>
         `;
@@ -320,11 +316,11 @@ function agregarIndicadorDeOrden(e) {
     for (let i = 0; i < links.length; i++) {
         const link = links[i];
         const header = links[i].parentElement;
-        link.classList.remove('text-green');
+        link.classList.remove('active');
         header.classList.remove('ascendente', 'descendente');
     }
 
-    link.classList.add('text-green');
+    link.classList.add('active');
     header.classList.add(`${indicador}`);
 }
 
@@ -378,11 +374,11 @@ function quitarEstadoEliminando() {
 }
 
 function agregarEstadoEdicionTarjeta(id) {
-    document.querySelector(`#tarjeta-${id}`).classList.add('bd-edit', 'bg-edit');
+    document.querySelector(`#tarjeta-${id}`).classList.add('edit');
 }
 
 function quitarEstadoEdicionTarjeta(id) {
-    document.querySelector(`#tarjeta-${id}`).classList.remove('bd-edit', 'bg-edit');
+    document.querySelector(`#tarjeta-${id}`).classList.remove('edit');
 }
 
 function agregarEstadoEdicionBotonGuardar() {

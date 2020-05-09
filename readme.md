@@ -1,10 +1,9 @@
 "Tasks App" By David 2020
 
-*Lenguajes:*
-PHP 7.4.1, 7.4, 7.2.10
+*Lenguajes & Servers:*
+PHP 7.4.1
 MySQL 5.7.24
-MariaDB 10.4.10
-Apache 2.4.41, 2.2.31
+Apache 2.2.31
 
 *Navegadores:*
 Google Chrome 81.0.4044.138

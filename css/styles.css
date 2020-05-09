@@ -1,33 +1,8 @@
 /***** CUSTOM STYLES *****/
 
-/***** Text *****/
+/***** Font *****/
 .text-bold {
     font-weight: bold;
-}
-
-.text-light {
-    font-weight: lighter;
-}
-
-.text-upper {
-    text-transform: uppercase;
-}
-
-.text-lower {
-    text-transform: lowercase;
-}
-
-/* Font */
-.font-small {
-    font-size: small;
-}
-
-.font-medium {
-    font-size: medium;
-}
-
-.font-large {
-    font-size: large;
 }
 
 /***** Text Color *****/
@@ -35,58 +10,28 @@
     color: transparent;
 }
 
-.text-red {
-    color: var(--danger);
-}
-
-.text-yellow {
-    color: var(--warning);
-}
-
-.text-green {
-    color: var(--success);
-}
-
-.text-grey {
-    color: grey;
+.text-black {
+    color: black;
 }
 
 .text-white {
     color: white;
 }
 
-/***** Width *****/
-.w-content {
-    width: fit-content;
+.text-grey {
+    color: grey;
 }
 
-.w-auto {
-    width: auto;
+.text-red {
+    color: red;
 }
 
-.w-full {
-    width: 100%;
+.text-gold {
+    color: gold;
 }
 
-.w-fifty {
-    width: 50%;
-}
-
-/***** Height *****/
-.h-content {
-    height: fit-content;
-}
-
-.h-auto {
-    height: auto;
-}
-
-.h-full {
-    height: 100%;
-}
-
-.h-fifty {
-    height: 50%;
+.text-green {
+    color: green;
 }
 
 /***** Background *****/
@@ -96,18 +41,6 @@
 
 .bg-aqua {
     background-color: aquamarine;
-}
-
-.bg-edit {
-    background-color: rgba(255, 217, 0, 0.05);
-}
-
-.bg-transparent {
-    background-color: transparent;
-}
-
-.bg-white {
-    background-color: white;
 }
 
 .bg-happy-cup {
@@ -129,20 +62,12 @@
     border: thin solid black;
 }
 
-.bd-grey {
-    border: thin solid #dddddd;
-}
-
 .bd-green {
     border: thin solid green;
 }
 
 .bd-gold {
     border: thin solid gold;
-}
-
-.bd-edit {
-    border: thin solid rgba(255, 217, 0, 0.85);
 }
 
 .bd-violet {
@@ -156,36 +81,4 @@
 
 .bd-radius {
     border-radius: .25rem;
-}
-
-/***** Transform *****/
-.scale-one-five {
-    transform: scale(1.5);
-}
-
-.scale-two {
-    transform: scale(2);
-}
-
-/***** Display *****/
-.d-none {
-    display: none;
-}
-
-/* Visibility */
-.v-visible {
-    visibility: visible;
-}
-
-.v-hidden {
-    visibility: hidden;
-}
-
-/***** Fix *****/
-.fix-float {
-    overflow: hidden;
-}
-
-.fix-clear {
-    clear: both;
 }
