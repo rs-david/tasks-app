@@ -7,90 +7,117 @@
     <link rel="shortcut icon" href="favicon.svg" type="image/svg">
     <title>Tasks App</title>
 
-    <!-- Fontawesome -->
-    <script src="lib/js/all.js"></script>
-
     <!-- Bootstrap -->
     <link rel="stylesheet" href="lib/css/bootstrap.min.css">
+
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="lib/css/all.css">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/app.css">
     <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Scripts -->
+    <script defer src="js/app.js"></script>
 </head>
 
 <body>
 
     <!-- Navegación -->
     <nav class="navegacion">
-        <div class="contenedor px-1 py-3">
+        <div class="contenedor-navegacion">
             <!-- Logo -->
             <a href="" class="logo" title="Home">
-                <i class="fas fa-address-book text-primary"></i><strong> Tasks </strong>App
+                <i class="icono fas fa-address-book"></i>
+                <strong>Tasks</strong> App
             </a>
 
-            <!-- Filtros -->
-            <div class="filtros ml-auto">
-                <form id="search-form" action="" class="form-inline">
+            <!-- Filtros & Botón Limpiar -->
+            <div class="contenedor-buscar">
+                <form id="search-form" class="formulario-buscar">
                     <!-- Filtro: ID -->
-                    <input type="number" id="search-id" class="form-control mr-2" placeholder="Buscar: Clave">
+                    <input type="number" id="search-id" class="buscar-id form-control" placeholder="Buscar: Clave">
                     <!-- Filtro: Nombre -->
-                    <input type="search" id="search-name" class="form-control mr-2" placeholder="Buscar: Nombre">
+                    <input type="search" id="search-name" class="buscar-nombre form-control" placeholder="Buscar: Nombre">
                     <!-- Filtro: Descripción -->
-                    <input type="search" id="search-description" class="form-control mr-2" placeholder="Buscar: Descripción">
-                    <!-- Botón: Reiniciar -->
-                    <button type="button" id='button-clean' class="btn btn-primary" title="Limpiar Filtros">
-                        <i id="icon-clean" class="fas fa-hands-wash" data-fa-transform="grow-3"></i>
-                    </button>
+                    <input type="search" id="search-description" class="buscar-descripcion form-control" placeholder="Buscar: Descripción">
                 </form>
+                <!-- Botón: Reiniciar -->
+                <button id='button-clean' class="boton boton-limpiar active" title="Limpiar Filtros">
+                    <i id="icon-clean" class="icono fas fa-eraser"></i>
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Formulario & Lista Tareas -->
-    <main class="main px-1 py-2">
-        <!-- Formulario & Contadores -->
-        <div class="formulario p-4">
-            <!-- Formulario -->
-            <form id="tasks-form">
+    <main class="main">
+        <!-- Formulario Guardar & Contadores -->
+        <div class="formulario">
+            <!-- Formulario Guardar -->
+            <form id="save-form" class="formulario-guardar">
                 <!-- Campo: ID -->
-                <div hidden class="form-group">
-                    <input id="field-id" class="form-control" type="number" placeholder="ID" disabled>
-                </div>
+                <input id="save-id" class="guardar-id form-control" type="number" placeholder="Clave" name="id" disabled>
                 <!-- Campo: Nombre -->
-                <div class="form-group">
-                    <input id="field-name" class="form-control" type="text" placeholder="Nombre" required>
-                </div>
+                <input id="save-name" class="guardar-nombre form-control" type="text" placeholder="Nombre" name="name" required>
                 <!-- Campo: Descripción -->
-                <div class="form-group">
-                    <textarea id="field-description" class="form-control" placeholder="Descripción" required></textarea>
-                </div>
+                <textarea id="save-description" class="guardar-descripcion form-control" placeholder="Descripción" name="description" required></textarea>
                 <!-- Botón: Guardar -->
-                <button id="button-save" type="submit" class="boton-guardar btn btn-success btn-lg btn-block text-center" title="Guardar" name="save">
+                <button id="button-save" type="submit" class="boton boton-guardar active" title="Guardar" name="save">
                     <i id="icon-save" class="fas fa-save"></i>
                 </button>
             </form>
 
             <!-- Contadores -->
             <div class="contadores">
-                <div id="" class="contador-busqueda p-2 mt-3">
-                    <span>
+                <!-- Formulario Eliminación Multiple -->
+                <form id="form-multiple-delete" class="formulario-eliminacion-multiple">
+                    <div class="contador-seleccion">
+                        <span>Seleccionadas</span>
+                        <span id="selected-tasks" class="tareas-seleccionadas"></span>
+                    </div>
+                    <button id='button-multiple-delete' class="boton boton-eliminacion-multiple" type="submit" title="Eliminar Tareas">
+                        <i id='icon-multiple-delete' class="icono fas fa-trash-alt"></i>
+                    </button>
+                </form>
+
+                <!-- Contador: Resultados de Búsqueda -->
+                <div class="contador-busqueda">
+                    <div>
                         <span class="text-grey">Tareas</span> Encontradas
-                    </span>
+                    </div>
                     <span id="search-results" class="resultados-busqueda text-bold"></span>
                 </div>
-                <div id="" class="contador-totales p-2 mt-3">
-                    <span>
+
+                <!-- Contador: Tareas Totales -->
+                <div class="contador-totales">
+                    <div>
                         <span class="text-grey">Tareas</span> Totales
-                    </span>
+                    </div>
                     <span id="total-tasks" class="total-tareas text-bold"></span>
                 </div>
+
+                <!-- Formulario Subir Lista -->
+                <form id="form-upload-list" class="formulario-subir-lista">
+                    <input id="input-upload-list" type="file" class="file" accept="application/json">
+                    <label id="field-upload-list" for="input-upload-list" class="campo-subir-lista" title="Buscar Lista">
+                        <span class="file-name">Buscar Lista</span>
+                    </label>
+                    <button id='button-upload-list' class="boton boton-subir-lista" type="submit" title="Subir Lista">
+                        <i id="icon-upload-list" class="icono fas fa-paper-plane"></i>
+                    </button>
+                </form>
             </div>
         </div>
 
         <!-- Lista Tareas -->
-        <div class="lista p-4">
+        <div id="lista-tareas" class="lista">
             <!-- Encabezados -->
-            <div class="encabezados p-3">
+            <div class="encabezados">
+                <div class="encabezado seleccionar">
+                    <input id="checkbox-master" type="checkbox" class="checkbox">
+                    <label for="checkbox-master" class="check-all"></label>
+                </div>
                 <div class="encabezado id">
                     <a id="column-id" href="" class="" name="id" title="Ordenar * Clave">
                         #
@@ -118,8 +145,8 @@
                 </div>
             </div>
 
-            <!-- Tareas-->
-            <div id="tasks" class="tareas mt-2"></div>
+            <!-- Tareas -->
+            <div id="tasks-container" class="tareas"></div>
 
             <!-- Botón Subir -->
             <a id="button-up" href="#inicio-lista" class="boton-subir" title="Principio">
@@ -128,33 +155,35 @@
         </div>
     </main>
 
-    <!-- Popup: Eliminar Tarea -->
+    <!-- Alertas -->
     <div id="overlay" class="overlay">
-        <div id="popup-delete" class="popup-eliminar">
+        <!-- Alerta: Eliminar Tareas -->
+        <div id="alert-delete" class="alerta">
             <!-- Head -->
-            <div id="head-popup" class="cabecera-popup">
-                <a id="close-popup" href="" class="cerrar-popup">
+            <div class="cabecera-alerta">
+                <a id="button-close-alert-delete" href="" class="cerrar-alerta" title="Cerrar">
                     <i class="fas fa-times"></i>
                 </a>
             </div>
             <!-- Body -->
-            <div id="body-popup" class="cuerpo-popup">
-                <span>¿Eliminar Tarea?</span>
+            <div class="cuerpo-alerta">
+                <span>¿Eliminar Tareas?</span>
             </div>
             <!-- Footer -->
-            <div id="footer-popup" class="pie-popup">
-                <button id="delete-task" class="btn btn-outline-danger mr-2" name="">
-                    <i id="delete-task-icon" class="fas fa-trash fa-sm mr-1"></i>Eliminar
-                </button>
-                <button id="cancel-delete-task" class="btn btn-success" name="">
-                    Cancelar
-                </button>
+            <div class="pie-alerta">
+                <!-- Formulario Eliminar -->
+                <form id="form-delete" class="formulario-eliminar">
+                    <button id="button-delete" type="submit" class="boton boton-eliminar">
+                        <i id="icon-delete" class="icono fas fa-trash"></i>
+                        <span>Eliminar</span>
+                    </button>
+                    <button id="button-cancel-delete" class="boton boton-cancelar">
+                        <span>Cancelar</span>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
-
-    <!-- Scripts -->
-    <script src="js/app.js"></script>
 
 </body>
 

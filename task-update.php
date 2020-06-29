@@ -2,11 +2,11 @@
 include('conexion.php');
 
 $data = file_get_contents('php://input');
-$_POST = json_decode($data, true);
+$data = json_decode($data, true);
 
-$id = $_POST['id'];
-$name = $_POST['name'];
-$description = $_POST['description'];
+$id = $data['id'];
+$name = $data['name'];
+$description = $data['description'];
 
 $query = "UPDATE tasks SET name = '$name', description = '$description' WHERE id = $id";
 $result = mysqli_query($conn, $query);

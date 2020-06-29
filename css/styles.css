@@ -22,16 +22,8 @@
     color: grey;
 }
 
-.text-red {
-    color: red;
-}
-
 .text-gold {
     color: gold;
-}
-
-.text-green {
-    color: green;
 }
 
 /***** Background *****/
@@ -43,23 +35,13 @@
     background-color: aquamarine;
 }
 
-.bg-happy-cup {
-    background: url('../img/happy-cup.webp');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 40%;
-}
-
-.bg-green-tea {
-    background: url('../img/green-tea.webp');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 40%;
-}
-
 /***** Border Color *****/
 .bd-black {
     border: thin solid black;
+}
+
+.bd-white {
+    border: thin solid white;
 }
 
 .bd-green {

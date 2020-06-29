@@ -1,43 +1,49 @@
 <?php
+setlocale(LC_ALL, 'spanish');
 include('conexion.php');
-include('functions/functions.php');
 
+// Convertir Datos Recibidos en Array.
 $data = file_get_contents('php://input');
-$_POST = json_decode($data, true);
+$data = json_decode($data, true);
 
-$id = $_POST['id'] ?? '';
-$name = $_POST['name'] ?? '';
-$description = $_POST['description'] ?? '';
-$column = $_POST['column'] ?? 'created';
-$order = $_POST['order'] ?? 'DESC';
-$limit = $_POST['limit'] ?? 100;
+// Manejar Datos del Array.
+$id = $data['id'] ?? '';
+$name = $data['name'] ?? '';
+$description = $data['description'] ?? '';
+$column = $data['column'] ?? 'created';
+$order = $data['order'] ?? 'DESC';
+$limit = $data['limit'] ?? 100;
 
-$all_tasks = "SELECT COUNT(*) AS tareas_totales FROM tasks";
-$all_tasks = mysqli_fetch_assoc(mysqli_query($conn, $all_tasks))["tareas_totales"];
+// Obtener Cantidad Total de Tareas.
+$total = "SELECT COUNT(*) AS total FROM tasks";
+$total = mysqli_fetch_assoc(mysqli_query($conn, $total))["total"];
 
+// Obtener Tareas.
 $query = "SELECT * FROM
-            (SELECT COUNT(*) AS tareas_encontradas FROM tasks WHERE id LIKE '$id%' AND name LIKE '$name%' AND description LIKE '$description%') AS results,
-            (SELECT * FROM tasks WHERE id LIKE '$id%' AND name LIKE '$name%' AND description LIKE '$description%' ORDER BY $column $order LIMIT $limit) AS tasks";
+            (SELECT COUNT(*) AS results FROM tasks WHERE id LIKE '$id%' AND name LIKE '$name%' AND description LIKE '$description%') AS resultados,
+            (SELECT * FROM tasks WHERE id LIKE '$id%' AND name LIKE '$name%' AND description LIKE '$description%' ORDER BY $column $order LIMIT $limit) AS tareas";
 $results = mysqli_query($conn, $query);
 
+// Crear Array Lista de Tareas.
 while ($row = mysqli_fetch_array($results)) {
-    $created = $row['created'];
-    $day = date('d', strtotime($created));
-    $month = spanishMonth(date('m', strtotime($created)));
-    $year = date('Y', strtotime($created));
-    $date = "$day/$month/$year";
-    $message = $limit >= (int)$row['tareas_encontradas'] ? 'All Results' : 'Not All Results';
-    $meta = ['total' => $all_tasks, 'results' => $row['tareas_encontradas'], 'message' => $message];
+    $created = new DateTime($row['created']);
+    $date = strftime('%d/%B/%Y', $created->getTimestamp());
 
-    $tasks[] = [
+    $list[] = [
         'id' => $row['id'],
         'name' => $row['name'],
         'description' => $row['description'],
         'date' => $date,
-        'meta' => $meta
+        'total' => $total,
+        'results' => $row['results']
     ];
 }
 
-$tasks_string = json_encode($tasks);
-$all_tasks_string = json_encode(['message' => 'No Results', 'all' => $all_tasks]);
-echo $tasks_string == 'null' ? $all_tasks_string : $tasks_string;
+// Crear Array Alternativa.
+$alter = ['total' => $total, 'results' => 0];
+
+// Crear Json del Array.
+$json = $list == null ? json_encode($alter) : json_encode($list);
+
+// Mostrar.
+echo $json;
