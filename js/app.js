@@ -115,7 +115,7 @@ function crearListaTareas(tareas) {
 
         const card = document.querySelector(`#tarjeta-${actual_editcard}`);
         if (card != null) agregarEstado(card, 'edit');
-        
+
         alternarSeleccionarTodosLosCheckbox();
         actualizarContadores(total, results);
     }
@@ -200,10 +200,10 @@ function alternarEstadoSeleccionarTarjeta(elemento) {
 
 function desplazarseEntreTarjetas(e) {
     const activecard = document.querySelector('.tarjeta.select');
+    const cards = document.querySelectorAll('.tarjeta');
 
     if (e.code == 'ArrowUp' && activecard != null) {
         e.preventDefault();
-        const cards = document.querySelectorAll('.tarjeta');
 
         for (let i = 0; i < cards.length; i++) {
             const card = cards[i];
@@ -215,12 +215,10 @@ function desplazarseEntreTarjetas(e) {
                 return;
             }
         }
-
     }
 
     if (e.code == 'ArrowDown' && activecard != null) {
         e.preventDefault();
-        const cards = document.querySelectorAll('.tarjeta');
 
         for (let i = 0; i < cards.length; i++) {
             const card = cards[i];
@@ -350,8 +348,8 @@ async function guardarTareas() {
     await listarTareas(undefined, undefined, actual_sort);
 
     const card = document.querySelector('.tarjeta.edit');
-    if (save_button.name == 'update' && card != null) desactivarEstadoEditar(); 
-    else if (save_button.name == 'update' && card == null) { desactivarEstadoEditarFormulario(); actual_editcard = 'No Edit Card' } 
+    if (save_button.name == 'update' && card != null) desactivarEstadoEditar();
+    else if (save_button.name == 'update' && card == null) { desactivarEstadoEditarFormulario(); actual_editcard = 'No Edit Card' }
     else vaciarFormulario(save_form);
 
     enfocarElemento(save_name);
@@ -386,8 +384,8 @@ cardscontainer.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
     const editcard = document.querySelector(`.tarjeta.edit`);
 
-    if (e.code == 'Escape' && save_button.name == 'update' && !overlay.classList.contains('active')) { 
-        if (editcard == null) { desactivarEstadoEditarFormulario();  actual_editcard = 'No Edit Card' }
+    if (e.code == 'Escape' && save_button.name == 'update' && !overlay.classList.contains('active')) {
+        if (editcard == null) { desactivarEstadoEditarFormulario(); actual_editcard = 'No Edit Card' }
         else desactivarEstadoEditar();
     }
 });
@@ -397,8 +395,8 @@ function alternarEstadoEditar(tarjeta) {
     const card = document.querySelector('.tarjeta.edit');
 
     if (!tarjeta.classList.contains('edit') && save_button.name == 'save') activarEstadoEditar(tarjeta);
-    else if (!tarjeta.classList.contains('edit') && save_button.name == 'update') { 
-        if (card != null) quitarEstado(card, 'edit'); activarEstadoEditar(tarjeta) 
+    else if (!tarjeta.classList.contains('edit') && save_button.name == 'update') {
+        if (card != null) quitarEstado(card, 'edit'); activarEstadoEditar(tarjeta)
     }
     else desactivarEstadoEditar();
 }
@@ -416,7 +414,7 @@ function activarEstadoEditar(tarjeta) {
 function desactivarEstadoEditar() {
     const card = document.querySelector('.tarjeta.edit');
     quitarEstado(card, 'edit');
-    desactivarEstadoEditarFormulario();    
+    desactivarEstadoEditarFormulario();
     actual_editcard = 'No Edit Card';
 }
 
@@ -454,6 +452,9 @@ del_buttonclose.addEventListener('click', e => { desactivarEstadoEliminar(); e.p
 del_buttoncancel.addEventListener('click', e => { desactivarEstadoEliminar(); e.preventDefault() });
 document.addEventListener('keydown', e => {
     if (e.code == 'Escape' && del_alert.classList.contains('active') && del_button.classList.contains('active')) desactivarEstadoEliminar();
+});
+overlay.addEventListener('click', e => {
+    if (e.target.id == 'overlay' && del_button.classList.contains('active')) desactivarEstadoEliminar();
 });
 
 /* Funciones */
