@@ -23,4 +23,4 @@
 - Agregar nuevos permisos al usuario, para usar la DB, si es necesario.
 - Usar.
 
-![Pantalla Principal] (previews/principal.png)
+![Pantalla Principal](previews/principal.png)
