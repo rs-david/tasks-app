@@ -43,7 +43,7 @@
                     <input type="search" id="search-description" class="buscar-descripcion form-control" placeholder="Buscar: Descripción">
                 </form>
                 <!-- Botón: Reiniciar -->
-                <button id='button-clean' class="boton boton-limpiar active" title="Limpiar Filtros">
+                <button id='button-clean' class="boton boton-limpiar" title="Limpiar Filtros">
                     <i id="icon-clean" class="icono fas fa-eraser"></i>
                 </button>
             </div>
@@ -63,7 +63,7 @@
                 <!-- Campo: Descripción -->
                 <textarea id="save-description" class="guardar-descripcion form-control" placeholder="Descripción" name="description" required></textarea>
                 <!-- Botón: Guardar -->
-                <button id="button-save" type="submit" class="boton boton-guardar active" title="Guardar" name="save">
+                <button id="button-save" type="submit" class="boton boton-guardar" title="Guardar" name="save">
                     <i id="icon-save" class="fas fa-save"></i>
                 </button>
             </form>
@@ -76,7 +76,7 @@
                         <span>Seleccionadas</span>
                         <span id="selected-tasks" class="tareas-seleccionadas"></span>
                     </div>
-                    <button id='button-multiple-delete' class="boton boton-eliminacion-multiple" type="submit" title="Eliminar Tareas">
+                    <button id='button-multiple-delete' class="boton boton-eliminacion-multiple" type="submit" title="Eliminar Tareas" disabled>
                         <i id='icon-multiple-delete' class="icono fas fa-trash-alt"></i>
                     </button>
                 </form>
@@ -103,7 +103,7 @@
                     <label id="field-upload-list" for="input-upload-list" class="campo-subir-lista" title="Buscar Lista">
                         <span class="file-name">Buscar Lista</span>
                     </label>
-                    <button id='button-upload-list' class="boton boton-subir-lista" type="submit" title="Subir Lista">
+                    <button id='button-upload-list' class="boton boton-subir-lista" type="submit" title="Subir Lista" disabled>
                         <i id="icon-upload-list" class="icono fas fa-paper-plane"></i>
                     </button>
                 </form>
@@ -148,6 +148,9 @@
             <!-- Tareas -->
             <div id="tasks-container" class="tareas"></div>
 
+            <!-- Mensaje -->
+            <div id="message" class="mensaje"></div>
+
             <!-- Botón Subir -->
             <a id="button-up" href="#inicio-lista" class="boton-subir" title="Principio">
                 <i class="fas fa-chevron-up fa-lg"></i>
@@ -161,9 +164,9 @@
         <div id="alert-delete" class="alerta">
             <!-- Head -->
             <div class="cabecera-alerta">
-                <a id="button-close-alert-delete" href="" class="cerrar-alerta" title="Cerrar">
+                <button id="button-close-alert-delete" href="" class="cerrar-alerta" title="Cerrar">
                     <i class="fas fa-times"></i>
-                </a>
+                </button>
             </div>
             <!-- Body -->
             <div class="cuerpo-alerta">

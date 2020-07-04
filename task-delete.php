@@ -1,7 +1,5 @@
 <?php
 
-include('conexion.php');
-
 $data = file_get_contents('php://input');
 $data = json_decode($data, true);
 $cantidad = count($data);
@@ -16,7 +14,13 @@ if (count($data) > 1) {
     }
 }
 
-$query = "DELETE FROM tasks WHERE id = $id $or";
-$result = mysqli_query($conn, $query);
+try {
+    include('conexion.php');
 
-echo $result ? "$cantidad Tareas Eliminadas" : 'Delete Failed';
+    $statement = $conn->prepare("DELETE FROM tasks WHERE id = $id $or");
+    $statement->execute();
+
+    echo "$cantidad Tareas Eliminadas";
+} catch (PDOException $e) {
+    echo 'ERROR: ' . $e->getMessage();
+}

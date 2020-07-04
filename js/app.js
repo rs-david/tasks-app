@@ -12,6 +12,7 @@ let delete_keys;
 const overlay = document.querySelector('#overlay');
 const checkboxmaster = document.querySelector('#checkbox-master');
 const cardscontainer = document.querySelector('#tasks-container');
+const notification = document.querySelector('#message');
 
 /* Contadores */
 const count_selected = document.querySelector('#selected-tasks');
@@ -74,7 +75,7 @@ async function listarTodasLasTareas() {
     const list = await response.json();
 
     crearListaTareas(list);
-    save_name.focus();
+    enfocarElemento(save_name);
 }
 
 async function listarTareas(limite, columna, orden) {
@@ -83,15 +84,15 @@ async function listarTareas(limite, columna, orden) {
     const description = search_description.value;
     const limit = limite ? limite : actual_limit;
     const column = columna ? columna : actual_column;
-    const order = orden ? orden : actual_sort == 'ASC' ? 'DESC' : 'ASC';
-    const data = JSON.stringify({ id, name, description, limit, column, order });
-
-    const response = await fetch('task-list.php', { method: 'post', body: data });
-    const tasks = await response.json();
+    const sort = orden ? orden : actual_sort == 'ASC' ? 'DESC' : 'ASC';
+    const data = JSON.stringify({ id, name, description, limit, column, sort });
 
     actual_limit = limit;
     actual_column = column;
-    actual_sort = order;
+    actual_sort = sort;
+
+    const response = await fetch('task-list.php', { method: 'post', body: data });
+    const tasks = await response.json();
 
     crearListaTareas(tasks);
 }
@@ -110,13 +111,15 @@ function crearListaTareas(tareas) {
         cardscontainer.classList.remove('bg-green-tea', 'bg-happy-cup');
 
         const template = crearTemplate(tareas);
-        cardscontainer.innerHTML = template;
+        cambiarContenido(cardscontainer, template);
         agregarTarjetaFinal(results);
 
-        const card = document.querySelector(`#tarjeta-${actual_editcard}`);
-        if (card != null) agregarEstado(card, 'edit');
+        const editcard = document.querySelector(`#tarjeta-${actual_editcard}`);
+        if (editcard != null) agregarEstado(editcard, 'edit');
 
-        alternarSeleccionarTodosLosCheckbox();
+        const checkboxes = document.querySelectorAll('.tarjeta .checkbox');
+        if (checkboxmaster.checked) marcarElementos(checkboxes);
+
         actualizarContadores(total, results);
     }
 
@@ -184,7 +187,6 @@ cardscontainer.addEventListener('click', e => {
 
     if (ecs_class) alternarEstadoSeleccionarTarjeta(element);
 });
-
 document.addEventListener('keydown', e => desplazarseEntreTarjetas(e));
 
 /* Funciones */
@@ -192,41 +194,40 @@ function alternarEstadoSeleccionarTarjeta(elemento) {
     const card = document.querySelector(`#tarjeta-${elemento.dataset.id}`);
     if (card.classList.contains('select')) { quitarEstado(card, 'select'); return }
 
-    const activecard = document.querySelector('.tarjeta.select');
-    if (activecard != null) quitarEstado(activecard, 'select');
-
+    const selectedcard = document.querySelector('.tarjeta.select');
+    if (selectedcard != null) quitarEstado(selectedcard, 'select');
     agregarEstado(card, 'select');
 }
 
 function desplazarseEntreTarjetas(e) {
-    const activecard = document.querySelector('.tarjeta.select');
+    const selectedcard = document.querySelector('.tarjeta.select');
     const cards = document.querySelectorAll('.tarjeta');
 
-    if (e.code == 'ArrowUp' && activecard != null) {
+    if (e.code == 'ArrowUp' && selectedcard != null) {
         e.preventDefault();
 
         for (let i = 0; i < cards.length; i++) {
             const card = cards[i];
 
-            if (card.classList.contains('select') && i != 0) {
-                const card = cards[i - 1];
-                quitarEstado(activecard, 'select');
-                agregarEstado(card, 'select');
+            if (card.classList.contains('select') && i > 0) {
+                const cardup = cards[i - 1];
+                quitarEstado(selectedcard, 'select');
+                agregarEstado(cardup, 'select');
                 return;
             }
         }
     }
 
-    if (e.code == 'ArrowDown' && activecard != null) {
+    if (e.code == 'ArrowDown' && selectedcard != null) {
         e.preventDefault();
 
         for (let i = 0; i < cards.length; i++) {
             const card = cards[i];
 
-            if (card.classList.contains('select') && i != cards.length - 1) {
-                const card = cards[i + 1];
-                quitarEstado(activecard, 'select');
-                agregarEstado(card, 'select');
+            if (card.classList.contains('select') && i < cards.length - 1) {
+                const carddown = cards[i + 1];
+                quitarEstado(selectedcard, 'select');
+                agregarEstado(carddown, 'select');
                 return;
             }
         }
@@ -335,6 +336,7 @@ save_form.addEventListener('submit', e => { guardarTareas(); e.preventDefault() 
 /* Funciones */
 async function guardarTareas() {
     agregarEstadoGuardando();
+    
     const id = save_id.value;
     const name = save_name.value;
     const description = save_description.value;
@@ -343,9 +345,13 @@ async function guardarTareas() {
 
     const response = await fetch(url, { method: 'post', body: data });
     const message = await response.text();
-    console.log(message);
 
     await listarTareas(undefined, undefined, actual_sort);
+
+    const contenido = `<strong class="mr-2">¡${message}</strong> Exitosamente!`;
+    cambiarContenido(notification, contenido);
+    activarElemento(notification);
+    setTimeout(() => desactivarElemento(notification), 3000);
 
     const card = document.querySelector('.tarjeta.edit');
     if (save_button.name == 'update' && card != null) desactivarEstadoEditar();
@@ -358,13 +364,13 @@ async function guardarTareas() {
 
 function agregarEstadoGuardando() {
     const icon = document.querySelector('#icon-save');
-    desactivarElemento(save_button);
+    deshabilitarElemento(save_button);
     cambiarIcono(icon, 'fa-save', ['fa-cog', 'fa-spin']);
 }
 
 function quitarEstadoGuardando() {
     const icon = document.querySelector('#icon-save');
-    activarElemento(save_button);
+    habilitarElemento(save_button);
     cambiarIcono(icon, ['fa-cog', 'fa-spin'], 'fa-save');
 }
 
@@ -460,19 +466,22 @@ overlay.addEventListener('click', e => {
 /* Funciones */
 async function eliminarTareas() {
     agregarEstadoEliminando();
-
+    
     if (save_button.name == 'update') desactivarEstadoEditar();
 
     const data = JSON.stringify(delete_keys);
     const response = await fetch('task-delete.php', { method: 'post', body: data });
     const message = await response.text();
 
-    console.log(message)
-
-    desactivarElemento(multiple_button);
+    deshabilitarElemento(multiple_button);
     desmarcarElemento(checkboxmaster);
 
     await listarTareas(undefined, undefined, actual_sort);
+
+    const contenido = `<strong class="mr-2">¡${message}</strong> Exitosamente!`;
+    cambiarContenido(notification, contenido);
+    activarElemento(notification);
+    setTimeout(() => desactivarElemento(notification), 2500);
 
     quitarEstadoEliminando();
     desactivarEstadoEliminar();
@@ -489,23 +498,28 @@ function desactivarEstadoEliminar() {
 }
 
 function agregarEstadoEliminando() {
-    desactivarElementos([del_buttonclose, del_button, del_buttoncancel]);
+    deshabilitarElemento(del_buttonclose);
+    deshabilitarElemento(del_button);
+    deshabilitarElemento(del_buttoncancel);
     cambiarIcono(del_icon, 'fa-trash', ['fa-cog', 'fa-spin']);
 }
 
 function quitarEstadoEliminando() {
+    habilitarElemento(del_buttonclose);
+    habilitarElemento(del_button);
+    habilitarElemento(del_buttoncancel);
     cambiarIcono(del_icon, ['fa-cog', 'fa-spin'], 'fa-trash');
 }
 
 function abrirAlertaEliminar() {
-    activarElementos([overlay, del_alert, del_buttonclose, del_button, del_buttoncancel]);
+    activarElementos([overlay, del_alert]);
 }
 
 function cerrarAlertaEliminar() {
-    desactivarElementos([overlay, del_alert, del_buttonclose, del_button, del_buttoncancel]);
+    desactivarElementos([overlay, del_alert]);
 }
 
-/* ---------- ELIMINAR TAREAS MÚLTIPLES ---------- */
+/* ---------- ELIMINAR MÚLTIPLES TAREAS---------- */
 
 /* Listeners */
 multiple_form.addEventListener('submit', e => {
@@ -527,7 +541,7 @@ function obtenerClavesDeCheckboxSeleccionados() {
     return claves;
 }
 
-/* ---------- SELECCIONAR TAREAS MÚLTIPLES ---------- */
+/* ---------- SELECCIONAR MÚLTIPLES TAREAS ---------- */
 
 /* Listeners */
 checkboxmaster.addEventListener('change', () => {
@@ -572,7 +586,7 @@ function alternarSeleccionarTodosLosCheckbox() {
 
 function alternarEstadoActivoBotonEliminacionMultiple() {
     const active = verificarSiHayCheckboxActivados();
-    active == true ? activarElemento(multiple_button) : desactivarElemento(multiple_button);
+    active == true ? habilitarElemento(multiple_button) : deshabilitarElemento(multiple_button);
 }
 
 function verificarSiHayCheckboxActivados() {
@@ -596,9 +610,13 @@ async function subirLista() {
 
     const response = await fetch('list-upload.php', { method: 'post', body: data });
     const message = await response.text();
-    console.log(message);
 
-    if (message == 'Tareas Guardadas') await listarTodasLasTareas();
+    if (message == 'Lista Guardada') await listarTodasLasTareas();
+
+    const contenido = `<strong class="mr-2">¡${message}</strong> Exitosamente!`;
+    cambiarContenido(notification, contenido);
+    activarElemento(notification);
+    setTimeout(() => desactivarElemento(notification), 2500);
 
     desactivarEstadoSubiendo();
     desactivarEstadoSubir();
@@ -611,7 +629,7 @@ function alternarEstadoSubir() {
 
 function activarEstadoSubir(file) {
     activarElemento(up_field);
-    activarElemento(up_button);
+    habilitarElemento(up_button);
     cambiarTitle(up_field, file.name);
     cambiarTitle(up_fieldtext, file.name);
     cambiarTexto(up_fieldtext, file.name);
@@ -620,7 +638,7 @@ function activarEstadoSubir(file) {
 function desactivarEstadoSubir() {
     vaciarFormulario(up_form);
     desactivarElemento(up_field);
-    desactivarElemento(up_button);
+    deshabilitarElemento(up_button);
     cambiarTitle(up_field, 'Buscar Lista');
     cambiarTitle(up_fieldtext, 'Buscar Lista');
     cambiarTexto(up_fieldtext, 'Buscar Lista');
@@ -657,12 +675,12 @@ async function limpiarFiltros() {
 
 function activarEstadoLimpiando() {
     cambiarIcono(clean_icon, 'fa-eraser', ['fa-cog', 'fa-spin']);
-    desactivarElemento(clean_button);
+    deshabilitarElemento(clean_button);
 }
 
 function desactivarEstadoLimpiando() {
     cambiarIcono(clean_icon, ['fa-cog', 'fa-spin'], 'fa-eraser');
-    activarElemento(clean_button);
+    habilitarElemento(clean_button);
 }
 
 /* --------------- FUNCIONES INTERFAZ --------------- */
@@ -681,6 +699,14 @@ function agregarEstado(elemento, estado) {
 
 function quitarEstado(elemento, estado) {
     elemento.classList.remove(estado);
+}
+
+function habilitarElemento(elemento) {
+    elemento.removeAttribute('disabled', true);
+}
+
+function deshabilitarElemento(elemento) {
+    elemento.setAttribute('disabled', true);
 }
 
 function activarElemento(elemento) {
@@ -721,6 +747,10 @@ function vaciarFormulario(formulario) {
 
 function marcarElemento(elemento) {
     elemento.checked = true;
+}
+
+function marcarElementos(elementos) {
+    for (const elemento of elementos) elemento.checked = true;
 }
 
 function desmarcarElemento(elemento) {

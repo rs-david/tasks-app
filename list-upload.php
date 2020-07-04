@@ -1,6 +1,5 @@
 <?php
 
-include('conexion.php');
 include('functions/functions.php');
 
 $filename = almacenarArchivo('file');
@@ -19,10 +18,16 @@ if ($_FILES['file']['type'] == 'application/json') {
         if ($i < 1000 - 1) $values .= ",";
     }
 
-    $query = "INSERT INTO tasks(name, description, created) VALUES$values";
-    $results = mysqli_query($conn, $query);
+    try {
+        include('conexion.php');
 
-    echo $results ? 'Tareas Guardadas' : 'Save Failed';
+        $statement = $conn->prepare("INSERT INTO tasks(name, description, created) VALUES$values");
+        $statement->execute();
+
+        echo 'Lista Guardada';
+    } catch (PDOException $e) {
+        echo 'ERROR: ' . $e->getMessage();
+    }
 } else {
     $link = $_SERVER['HTTP_REFERER'] . $filename;
     echo $link;

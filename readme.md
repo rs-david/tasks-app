@@ -20,7 +20,7 @@
 - Crear Base de Datos "tasks-app" (MySQL).
 - Importar "tasks-app.sql" ubicado en la carpeta "db".
 - Cambiar usuario y contraseña en el archivo "conexion.php".
-- Agregar nuevos permisos al usuario, para usar la DB, si es necesario.
 - Usar.
 
+*Screenshots:*
 ![Pantalla Principal](previews/principal.png)
