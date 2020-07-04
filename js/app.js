@@ -457,10 +457,10 @@ del_form.addEventListener('submit', e => { eliminarTareas(); e.preventDefault() 
 del_buttonclose.addEventListener('click', e => { desactivarEstadoEliminar(); e.preventDefault() });
 del_buttoncancel.addEventListener('click', e => { desactivarEstadoEliminar(); e.preventDefault() });
 document.addEventListener('keydown', e => {
-    if (e.code == 'Escape' && del_alert.classList.contains('active') && del_button.classList.contains('active')) desactivarEstadoEliminar();
+    if (e.code == 'Escape' && del_alert.classList.contains('active') && !del_button.hasAttribute('disabled')) desactivarEstadoEliminar();
 });
 overlay.addEventListener('click', e => {
-    if (e.target.id == 'overlay' && del_button.classList.contains('active')) desactivarEstadoEliminar();
+    if (e.target.id == 'overlay' && !del_button.hasAttribute('disabled')) desactivarEstadoEliminar();
 });
 
 /* Funciones */
