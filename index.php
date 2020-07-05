@@ -27,7 +27,7 @@
     <nav class="navegacion">
         <div class="contenedor-navegacion">
             <!-- Logo -->
-            <a href="" class="logo" title="Home">
+            <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="logo" title="Home">
                 <i class="icono fas fa-address-book"></i>
                 <strong>Tasks</strong> App
             </a>
@@ -111,7 +111,7 @@
         </div>
 
         <!-- Lista Tareas -->
-        <div id="lista-tareas" class="lista">
+        <div class="lista">
             <!-- Encabezados -->
             <div class="encabezados">
                 <div class="encabezado seleccionar">
@@ -148,8 +148,8 @@
             <!-- Tareas -->
             <div id="tasks-container" class="tareas"></div>
 
-            <!-- Mensaje -->
-            <div id="message" class="mensaje"></div>
+            <!-- Notificación -->
+            <div id="notification" class="notificacion"></div>
 
             <!-- Botón Subir -->
             <a id="button-up" href="#inicio-lista" class="boton-subir" title="Principio">

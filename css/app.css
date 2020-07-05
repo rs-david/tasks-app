@@ -734,7 +734,7 @@ body {
 }
 
 /* Mensaje */
-.mensaje {
+.notificacion {
     height: 70px;
     padding: 0 25px;
     color: #036803;
@@ -755,7 +755,7 @@ body {
     transition: all 0.5s ease;
 }
 
-.mensaje.active {
+.notificacion.active {
     opacity: 1;
     visibility: visible;
     transform: translate(0, 0);

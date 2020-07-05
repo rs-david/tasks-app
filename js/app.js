@@ -12,7 +12,7 @@ let delete_keys;
 const overlay = document.querySelector('#overlay');
 const checkboxmaster = document.querySelector('#checkbox-master');
 const cardscontainer = document.querySelector('#tasks-container');
-const notification = document.querySelector('#message');
+const notification = document.querySelector('#notification');
 
 /* Contadores */
 const count_selected = document.querySelector('#selected-tasks');
@@ -348,11 +348,6 @@ async function guardarTareas() {
 
     await listarTareas(undefined, undefined, actual_sort);
 
-    const contenido = `<strong class="mr-2">¡${message}</strong> Exitosamente!`;
-    cambiarContenido(notification, contenido);
-    activarElemento(notification);
-    setTimeout(() => desactivarElemento(notification), 3000);
-
     const card = document.querySelector('.tarjeta.edit');
     if (save_button.name == 'update' && card != null) desactivarEstadoEditar();
     else if (save_button.name == 'update' && card == null) { desactivarEstadoEditarFormulario(); actual_editcard = 'No Edit Card' }
@@ -360,6 +355,8 @@ async function guardarTareas() {
 
     enfocarElemento(save_name);
     quitarEstadoGuardando();
+
+    mostrarNotificacion(message);
 }
 
 function agregarEstadoGuardando() {
@@ -478,13 +475,10 @@ async function eliminarTareas() {
 
     await listarTareas(undefined, undefined, actual_sort);
 
-    const contenido = `<strong class="mr-2">¡${message}</strong> Exitosamente!`;
-    cambiarContenido(notification, contenido);
-    activarElemento(notification);
-    setTimeout(() => desactivarElemento(notification), 2500);
-
     quitarEstadoEliminando();
     desactivarEstadoEliminar();
+
+    mostrarNotificacion(message);
 }
 
 function activarEstadoEliminar(claves) {
@@ -613,13 +607,11 @@ async function subirLista() {
 
     if (message == 'Lista Guardada') await listarTodasLasTareas();
 
-    const contenido = `<strong class="mr-2">¡${message}</strong> Exitosamente!`;
-    cambiarContenido(notification, contenido);
-    activarElemento(notification);
-    setTimeout(() => desactivarElemento(notification), 2500);
-
     desactivarEstadoSubiendo();
     desactivarEstadoSubir();
+
+    console.log(message);
+    mostrarNotificacion(message);
 }
 
 function alternarEstadoSubir() {
@@ -654,6 +646,16 @@ function desactivarEstadoSubiendo() {
     cambiarIcono(up_icon, ['fa-cog', 'fa-spin'], 'fa-paper-plane');
     quitarEstado(up_field, 'upload')
     quitarEstado(up_button, 'upload')
+}
+
+/* --------------- NOTIFICACIONES --------------- */
+
+/* Funciones */
+function mostrarNotificacion(mensaje) {
+    const contenido = `<strong class="mr-2">¡${mensaje}</strong> Exitosamente!`;
+    cambiarContenido(notification, contenido);
+    activarElemento(notification);
+    setTimeout(() => desactivarElemento(notification), 2500);
 }
 
 /* --------------- LIMPIAR FILTROS --------------- */
