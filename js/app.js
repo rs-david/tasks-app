@@ -94,7 +94,8 @@ async function listarTareas(limite, columna, orden) {
     const response = await fetch('task-list.php', { method: 'post', body: data });
     const tasks = await response.json();
 
-    crearListaTareas(tasks);
+    const message = crearListaTareas(tasks);
+    console.log(message);
 }
 
 function crearListaTareas(tareas) {
@@ -103,9 +104,8 @@ function crearListaTareas(tareas) {
 
     if (results == 0) {
         const background = total == 0 ? 'bg-green-tea' : 'bg-happy-cup';
-        cardscontainer.innerHTML = '';
+        cambiarContenido(cardscontainer, '');
         cardscontainer.classList.add(`${background}`);
-        actualizarContadores(total, results);
     }
     else {
         cardscontainer.classList.remove('bg-green-tea', 'bg-happy-cup');
@@ -119,11 +119,10 @@ function crearListaTareas(tareas) {
 
         const checkboxes = document.querySelectorAll('.tarjeta .checkbox');
         if (checkboxmaster.checked) marcarElementos(checkboxes);
-
-        actualizarContadores(total, results);
     }
-
-    console.log('Tareas Listadas');
+    
+    actualizarContadores(total, results);
+    return 'Tareas Listadas';
 }
 
 function crearTemplate(tareas) {
