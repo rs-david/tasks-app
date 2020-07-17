@@ -8,7 +8,7 @@ _Lenguajes & Servers:_
 
 _Navegadores:_
 
--   Google Chrome 83.0.4103.116
+-   Google Chrome 84.0.4147.89
 
 _Frameworks, Icons:_
 
