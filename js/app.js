@@ -84,13 +84,13 @@ async function listarTareas(limite, columna, orden) {
     const description = search_description.value;
     const limit = limite ? limite : actual_limit;
     const column = columna ? columna : actual_column;
-    const sort = orden ? orden : actual_sort == 'ASC' ? 'DESC' : 'ASC';
-    const data = JSON.stringify({ id, name, description, limit, column, sort });
-
+    const sort = orden ? orden : actual_sort;
+    
     actual_limit = limit;
     actual_column = column;
     actual_sort = sort;
-
+    
+    const data = JSON.stringify({ id, name, description, limit, column, sort });
     const response = await fetch('task-list.php', { method: 'post', body: data });
     const tasks = await response.json();
 
@@ -246,7 +246,7 @@ cardscontainer.addEventListener('click', e => {
 function mostrarMasTareas() {
     agregarEstadoMostrando();
     const limit = actual_limit + 100;
-    listarTareas(limit, undefined, actual_sort);
+    listarTareas(limit, undefined, undefined);
 }
 
 function agregarEstadoMostrando() {
@@ -289,7 +289,7 @@ for (const field of search_fields) field.addEventListener('search', () => filtra
 
 /* Funciones */
 function filtrarTareas() {
-    listarTareas(undefined, undefined, actual_sort);
+    listarTareas();
 }
 
 /* --------------- ORDENAR TAREAS --------------- */
@@ -305,7 +305,8 @@ async function ordenarTareas(e) {
     quitarEstadoOrdenar();
 
     const column = e.target.name;
-    await listarTareas(undefined, column, undefined);
+    const sort = actual_sort == 'DESC' ? 'ASC' : 'DESC';
+    await listarTareas(undefined, column, sort);
 
     agregarEstadoOrdenar(e);
 }
@@ -346,16 +347,15 @@ async function guardarTareas() {
     const response = await fetch(url, { method: 'post', body: data });
     const message = await response.text();
 
-    await listarTareas(undefined, undefined, actual_sort);
+    await listarTareas();
 
-    const card = document.querySelector('.tarjeta.edit');
-    if (save_button.name == 'update' && card != null) desactivarEstadoEditar();
-    else if (save_button.name == 'update' && card == null) { desactivarEstadoEditarFormulario(); actual_editcard = 'No Edit Card' }
+    const editcard = document.querySelector('.tarjeta.edit');
+    if (save_button.name == 'update' && editcard != null) desactivarEstadoEditar();
+    else if (save_button.name == 'update' && editcard == null) { desactivarEstadoEditarFormulario(); actual_editcard = 'No Edit Card' }
     else vaciarFormulario(save_form);
 
-    enfocarElemento(save_name);
     quitarEstadoGuardando();
-
+    enfocarElemento(save_name);
     mostrarNotificacion(message);
 }
 
@@ -473,11 +473,10 @@ async function eliminarTareas() {
     deshabilitarElemento(multiple_button);
     desmarcarElemento(checkboxmaster);
 
-    await listarTareas(undefined, undefined, actual_sort);
+    await listarTareas();
 
     quitarEstadoEliminando();
     desactivarEstadoEliminar();
-
     mostrarNotificacion(message);
 }
 
@@ -605,7 +604,7 @@ async function subirLista() {
     const response = await fetch('list-upload.php', { method: 'post', body: data });
     const message = await response.text();
 
-    if (message == 'Lista Guardada') await listarTodasLasTareas();
+    if (message == 'Lista Guardada') await listarTareas();
 
     desactivarEstadoSubiendo();
     desactivarEstadoSubir();
@@ -669,7 +668,7 @@ async function limpiarFiltros() {
 
     vaciarFormulario(search_form);
 
-    await listarTareas(100, undefined, actual_sort);
+    await listarTareas(100, undefined, undefined);
 
     desactivarEstadoLimpiando();
     enfocarElemento(search_name);

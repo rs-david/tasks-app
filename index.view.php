@@ -49,9 +49,9 @@
                     <button id='button-clean' class="boton boton-limpiar" title="Limpiar Filtros">
                         <i id="icon-clean" class="icono fas fa-eraser"></i>
                     </button>
-                    <!-- Botón: Logout -->
-                    <a href="logout.php" class="boton boton-logout" title="Salir">
-                        <i id="icon-clean" class="icono fas fa-user"></i>
+                    <!-- Botón: Cerrar Sesión -->
+                    <a href="logout.php" class="boton boton-logout" title="Cerrar Sesión">
+                        <i class="icono fas fa-user"></i>
                     </a>
                 </div>
             </div>
