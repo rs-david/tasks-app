@@ -1,0 +1,99 @@
+body {
+    color: white;
+    background-image: url("../img/background-join.jpg");  /* Photo by Ant Rozetsky on Unsplash: https://unsplash.com/photos/HXOllTSwrpM */
+    background-repeat: no-repeat;
+    background-position: fixed;
+    background-size: cover;
+}
+
+.contenedor {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.logo {
+    margin-top: 55px;
+    font-size: 40px;
+}
+
+.logo .nombre {
+    color: white;
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.8),
+        rgba(225, 225, 225, 0.45)
+    );
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+.logo .icono {
+    color: var(--primary);
+}
+
+.formulario-join {
+    width: 235px;
+    margin: 20px auto;
+    padding: 16px;
+    border: 1px solid purple;
+    background-color: rgba(255, 255, 255, 0.125);
+    border-radius: 0.25rem;
+}
+
+.titulo-join {
+    margin-bottom: 15px;
+    font-size: medium;
+    text-align: left;
+}
+
+.correo-join,
+.usuario-join,
+.contrasena-join {
+    margin-bottom: 15px;
+}
+
+.confirmacion-join {
+    margin-bottom: 30px;
+}
+
+.correo-join:valid,
+.usuario-join:valid,
+.contrasena-join:valid,
+.confirmacion-join:valid {
+    border-color: var(--success);
+    box-shadow: 0 0 0 0.2rem rgba(17, 218, 10, 0.15);
+}
+
+.boton-join {
+    width: 100%;
+    padding: 12px;
+    font-size: large;
+    border-color: purple;
+    background-color: purple;
+}
+
+.boton-join:hover {
+    border-color: rgba(128, 0, 128, 0.75);
+    background-color: rgba(128, 0, 128, 0.75);
+}
+
+.boton-join:focus {
+    box-shadow: 0 0 0 0.2rem rgba(152, 47, 184, 0.5);
+}
+
+.notificaciones-join {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.link-iniciar-sesion {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: medium;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.link-iniciar-sesion:hover {
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+}

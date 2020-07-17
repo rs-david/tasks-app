@@ -1,0 +1,79 @@
+body {
+    color: white;
+    background-image: url("../img/background-login.jpg"); /* Photo by Annie Spratt on Unsplash (Edited): https://unsplash.com/photos/FSFfEQkd1sc */
+    background-repeat: no-repeat;
+    background-position: fixed;
+    background-size: cover;
+}
+
+.contenedor {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.logo {
+    margin-top: 55px;
+    font-size: 40px;
+}
+
+.logo .nombre {
+    color: white;
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.45)
+    );
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+.logo .icono {
+    color: var(--primary);
+}
+
+.formulario-login {
+    width: 235px;
+    margin: 20px auto;
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.125);
+    border-radius: 0.25rem;
+}
+
+.titulo-login {
+    margin-bottom: 15px;
+    font-size: medium;
+    text-align: left;
+}
+
+.usuario-login {
+    margin-bottom: 15px;
+}
+
+.contrasena-login {
+    margin-bottom: 30px;
+}
+
+.boton-login {
+    width: 100%;
+    padding: 12px;
+    font-size: large;
+    border-radius: 0.25rem;
+}
+
+.notificaciones-login {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.link-registrar {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: medium;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.link-registrar:hover {
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+}
