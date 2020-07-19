@@ -51,7 +51,7 @@
                     </button>
                     <!-- Botón: Cerrar Sesión -->
                     <a href="logout.php" class="boton boton-logout" title="Cerrar Sesión">
-                        <i class="icono fas fa-user"></i>
+                        <i class="icono fas fa-user-alt-slash"></i>
                     </a>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                     <form id="form-multiple-delete" class="formulario-eliminacion-multiple">
                         <div class="contador-seleccion">
                             <span>Seleccionadas</span>
-                            <span id="selected-tasks" class="tareas-seleccionadas"></span>
+                            <span id="counter-selection" class="tareas-seleccionadas"></span>
                         </div>
                         <button id='button-multiple-delete' class="boton boton-eliminacion-multiple" type="submit" title="Eliminar Tareas" disabled>
                             <i id='icon-multiple-delete' class="icono fas fa-trash-alt"></i>
@@ -93,7 +93,7 @@
                         <div>
                             <span class="text-grey">Tareas</span> Encontradas
                         </div>
-                        <span id="search-results" class="resultados-busqueda text-bold"></span>
+                        <span id="counter-results" class="resultados-busqueda text-bold"></span>
                     </div>
 
                     <!-- Contador: Tareas Totales -->
@@ -101,7 +101,7 @@
                         <div>
                             <span class="text-grey">Tareas</span> Totales
                         </div>
-                        <span id="total-tasks" class="total-tareas text-bold"></span>
+                        <span id="counter-totals" class="total-tareas text-bold"></span>
                     </div>
 
                     <!-- Formulario Subir Lista -->
@@ -153,13 +153,13 @@
                 </div>
 
                 <!-- Tareas -->
-                <div id="tasks-container" class="tareas"></div>
+                <div id="cards-container" class="tareas"></div>
 
                 <!-- Notificación -->
                 <div id="notification" class="notificacion"></div>
 
                 <!-- Botón Subir -->
-                <a id="button-up" href="#inicio-lista" class="boton-subir" title="Principio">
+                <a id="button-start-list" href="#inicio-lista" class="boton-inicio-lista" title="Inicio">
                     <i class="fas fa-chevron-up fa-lg"></i>
                 </a>
             </div>

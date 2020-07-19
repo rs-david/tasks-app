@@ -25,7 +25,6 @@ try {
     $tasks = $conn->prepare("SELECT * FROM
                                 (SELECT COUNT(*) AS results FROM tasks WHERE id LIKE :id AND name LIKE :name AND description LIKE :description) AS resultados,
                                 (SELECT * FROM tasks WHERE id LIKE :id AND name LIKE :name AND description LIKE :description ORDER BY $column $sort LIMIT $limit) AS tareas");
-
     $tasks->execute([':id' => $id, ':name' => $name, ':description' => $description]);
 
     // Crear Array Lista Tareas.

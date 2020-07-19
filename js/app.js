@@ -3,21 +3,20 @@
 let actual_limit = 100;
 let actual_sort = 'DESC';
 let actual_column = 'created';
-let actual_editcard = 'No Edit Card';
 let delete_keys;
 
 //*---------- ELEMENTOS ----------*//
 
 /* Interfaz */
 const overlay = document.querySelector('#overlay');
-const checkboxmaster = document.querySelector('#checkbox-master');
-const cardscontainer = document.querySelector('#tasks-container');
+const checkbox_master = document.querySelector('#checkbox-master');
+const cards_container = document.querySelector('#cards-container');
 const notification = document.querySelector('#notification');
 
 /* Contadores */
-const count_selected = document.querySelector('#selected-tasks');
-const count_results = document.querySelector('#search-results');
-const count_total = document.querySelector('#total-tasks');
+const counter_selection = document.querySelector('#counter-selection');
+const counter_results = document.querySelector('#counter-results');
+const counter_totals = document.querySelector('#counter-totals');
 
 /* Filtrar/Buscar Tareas */
 const search_form = document.querySelector('#search-form');
@@ -39,20 +38,20 @@ const save_description = document.querySelector('#save-description');
 const save_button = document.querySelector('#button-save');
 
 /* Subir Lista */
-const up_form = document.querySelector('#form-upload-list');
-const up_input = document.querySelector('#input-upload-list');
-const up_field = document.querySelector('#field-upload-list');
-const up_fieldtext = document.querySelector('#field-upload-list span');
-const up_button = document.querySelector('#button-upload-list');
-const up_icon = document.querySelector('#icon-upload-list');
+const upload_form = document.querySelector('#form-upload-list');
+const upload_input = document.querySelector('#input-upload-list');
+const upload_field = document.querySelector('#field-upload-list');
+const upload_fieldtext = document.querySelector('#field-upload-list span');
+const upload_button = document.querySelector('#button-upload-list');
+const upload_icon = document.querySelector('#icon-upload-list');
 
 /* Eliminar Tareas */
-const del_alert = document.querySelector('#alert-delete');
-const del_form = document.querySelector('#form-delete');
-const del_button = document.querySelector('#button-delete');
-const del_icon = document.querySelector('#icon-delete');
-const del_buttoncancel = document.querySelector('#button-cancel-delete');
-const del_buttonclose = document.querySelector('#button-close-alert-delete');
+const delete_alert = document.querySelector('#alert-delete');
+const delete_form = document.querySelector('#form-delete');
+const delete_button = document.querySelector('#button-delete');
+const delete_icon = document.querySelector('#icon-delete');
+const delete_buttoncancel = document.querySelector('#button-cancel-delete');
+const delete_buttonclose = document.querySelector('#button-close-alert-delete');
 
 /* Eliminar Varias Tareas */
 const multiple_form = document.querySelector('#form-multiple-delete');
@@ -76,6 +75,7 @@ async function listarTodasLasTareas() {
 
     crearListaTareas(list);
     enfocarElemento(save_name);
+    console.log('Tareas Listadas');
 }
 
 async function listarTareas(limite, columna, orden) {
@@ -85,17 +85,17 @@ async function listarTareas(limite, columna, orden) {
     const limit = limite ? limite : actual_limit;
     const column = columna ? columna : actual_column;
     const sort = orden ? orden : actual_sort;
-    
+
     actual_limit = limit;
     actual_column = column;
     actual_sort = sort;
-    
+
     const data = JSON.stringify({ id, name, description, limit, column, sort });
     const response = await fetch('task-list.php', { method: 'post', body: data });
     const tasks = await response.json();
 
-    const message = crearListaTareas(tasks);
-    console.log(message);
+    crearListaTareas(tasks);
+    console.log('Tareas Listadas');
 }
 
 function crearListaTareas(tareas) {
@@ -104,36 +104,49 @@ function crearListaTareas(tareas) {
 
     if (results == 0) {
         const background = total == 0 ? 'bg-green-tea' : 'bg-happy-cup';
-        cambiarContenido(cardscontainer, '');
-        cardscontainer.classList.add(`${background}`);
+        cambiarContenido(cards_container, '');
+        cards_container.classList.add(`${background}`);
     }
     else {
-        cardscontainer.classList.remove('bg-green-tea', 'bg-happy-cup');
+        cards_container.classList.remove('bg-green-tea', 'bg-happy-cup');
 
-        const template = crearTemplate(tareas);
-        cambiarContenido(cardscontainer, template);
-        agregarTarjetaFinal(results);
+        const initialcard = crearTarjetaInicial();
+        cambiarContenido(cards_container, initialcard);
 
-        const editcard = document.querySelector(`#tarjeta-${actual_editcard}`);
-        if (editcard != null) agregarEstado(editcard, 'edit');
+        const cards = crearTarjetas(tareas);
+        agregarContenido(cards_container, cards);
 
-        const checkboxes = document.querySelectorAll('.tarjeta .checkbox');
-        if (checkboxmaster.checked) marcarElementos(checkboxes);
+        const finalcard = crearTarjetaFinal(results);
+        agregarContenido(cards_container, finalcard);
+
+        if (save_button.name == 'update') {
+            const editcard = document.querySelector(`#tarjeta-${save_id.value}`);
+            if (editcard) agregarEstado(editcard, 'edit');
+        }
+
+        if (checkbox_master.checked) {
+            const checkboxes = document.querySelectorAll('.tarjeta .checkbox');
+            marcarElementos(checkboxes);
+        }
     }
-    
+
     actualizarContadores(total, results);
-    return 'Tareas Listadas';
 }
 
-function crearTemplate(tareas) {
-    let template = '<div id="inicio-lista"></div>';
+function crearTarjetaInicial() {
+    const initialcard = `<div id="inicio-lista"></div>`;
+    return initialcard;
+}
+
+function crearTarjetas(tareas) {
+    let cards = '';
 
     for (const tarea of tareas) {
-        const tarjeta = `
+        const card = `
             <div id="tarjeta-${tarea.id}" class="tarjeta" data-id="${tarea.id}">
                 <div class="contenido seleccionar" data-id="${tarea.id}">
-                    <input id="checkbox-${tarea.id}" type="checkbox" class="checkbox" value="${tarea.id}">
-                    <label for="checkbox-${tarea.id}" class="check-delete"></label>
+                    <input id="checkbox-${tarea.id}" type="checkbox" class="checkbox" data-id="${tarea.id}">
+                    <label for="checkbox-${tarea.id}" class="check-delete" data-id="${tarea.id}"></label>
                 </div>
                 <div class="contenido id" data-id="${tarea.id}">${tarea.id}</div>
                 <div class="contenido name" data-id="${tarea.id}">${tarea.name}</div>
@@ -149,22 +162,22 @@ function crearTemplate(tareas) {
                 </div>
             </div>
         `;
-        template += tarjeta;
+        cards += card;
     }
 
-    return template;
+    return cards;
 }
 
-function agregarTarjetaFinal(resultados) {
+function crearTarjetaFinal(resultados) {
     if (actual_limit >= resultados && resultados > 7) {
-        const endcard = `
-            <div id="end-card" class="tarjeta-final p-3">
+        const finalcard = `
+            <div id="end-card" class="tarjeta-final">
                 <i class="fas fa-flag fa-sm"></i>
                 <i class="fas fa-flag fa-lg" title="Final"></i>
                 <i class="fas fa-flag fa-sm"></i>
             </div>
         `;
-        agregarContenido(cardscontainer, endcard)
+        return finalcard;
     }
     else if (actual_limit <= resultados) {
         const showbutton = `
@@ -172,17 +185,17 @@ function agregarTarjetaFinal(resultados) {
                 <i id="icon-show" class="fas fa-plus fa-lg"></i>
             </button>
         `;
-        agregarContenido(cardscontainer, showbutton)
+        return showbutton;
     }
 }
 
 /* --------------- SELECCIONAR TARJETAS --------------- */
 
 /* Listeners */
-cardscontainer.addEventListener('click', e => {
+cards_container.addEventListener('click', e => {
     const element = e.target;
     const firstclass = element.classList[0];
-    const ecs_class = /^tarjeta$|^seleccionar$|^contenido$/.test(firstclass);
+    const ecs_class = /^tarjeta$|^contenido$/.test(firstclass);
 
     if (ecs_class) alternarEstadoSeleccionarTarjeta(element);
 });
@@ -191,18 +204,20 @@ document.addEventListener('keydown', e => desplazarseEntreTarjetas(e));
 /* Funciones */
 function alternarEstadoSeleccionarTarjeta(elemento) {
     const card = document.querySelector(`#tarjeta-${elemento.dataset.id}`);
-    if (card.classList.contains('select')) { quitarEstado(card, 'select'); return }
-
-    const selectedcard = document.querySelector('.tarjeta.select');
-    if (selectedcard != null) quitarEstado(selectedcard, 'select');
-    agregarEstado(card, 'select');
+    
+    if (card.classList.contains('select')) quitarEstado(card, 'select');
+    else {
+        const selectcard = document.querySelector('.tarjeta.select');
+        if (selectcard) quitarEstado(selectcard, 'select');
+        agregarEstado(card, 'select');
+    }
 }
 
 function desplazarseEntreTarjetas(e) {
     const selectedcard = document.querySelector('.tarjeta.select');
     const cards = document.querySelectorAll('.tarjeta');
 
-    if (e.code == 'ArrowUp' && selectedcard != null) {
+    if (e.code == 'ArrowUp' && selectedcard) {
         e.preventDefault();
 
         for (let i = 0; i < cards.length; i++) {
@@ -217,7 +232,7 @@ function desplazarseEntreTarjetas(e) {
         }
     }
 
-    if (e.code == 'ArrowDown' && selectedcard != null) {
+    if (e.code == 'ArrowDown' && selectedcard) {
         e.preventDefault();
 
         for (let i = 0; i < cards.length; i++) {
@@ -236,7 +251,7 @@ function desplazarseEntreTarjetas(e) {
 /* --------------- MOSTRAR MÁS TAREAS --------------- */
 
 /* Listeners */
-cardscontainer.addEventListener('click', e => {
+cards_container.addEventListener('click', e => {
     const element = e.target;
     if (element.id == 'icon-show' || element.id == 'button-show') mostrarMasTareas();
 });
@@ -249,10 +264,10 @@ function mostrarMasTareas() {
 }
 
 function agregarEstadoMostrando() {
-    const button = document.querySelector('#button-show');
-    const icon = document.querySelector('#icon-show');
-    desactivarElemento(button);
-    cambiarIcono(icon, 'fa-plus', ['fa-cog', 'fa-spin']);
+    const show_button = document.querySelector('#button-show');
+    const show_icon = document.querySelector('#icon-show');
+    desactivarElemento(show_button);
+    cambiarIcono(show_icon, 'fa-plus', ['fa-cog', 'fa-spin']);
 }
 
 /* ---------- ACTUALIZAR CONTADORES ---------- */
@@ -266,15 +281,15 @@ function actualizarContadores(total, resultados) {
 
 function actualizarContadorTareasSeleccionadas() {
     const quantity = document.querySelectorAll('.tarjeta .checkbox:checked').length;
-    cambiarContenido(count_selected, quantity);
+    cambiarContenido(counter_selection, quantity);
 }
 
 function actualizarContadorTareasEncontradas(resultados) {
-    cambiarContenido(count_results, resultados);
+    cambiarContenido(counter_results, resultados);
 }
 
 function actualizarContadorTareasTotales(total) {
-    cambiarContenido(count_total, total);
+    cambiarContenido(counter_totals, total);
 }
 
 /* --------------- FILTRAR/BUSCAR TAREAS --------------- */
@@ -283,13 +298,8 @@ function actualizarContadorTareasTotales(total) {
 const search_fields = [search_id, search_name, search_description];
 
 /* Listeners */
-for (const field of search_fields) field.addEventListener('keyup', () => filtrarTareas());
-for (const field of search_fields) field.addEventListener('search', () => filtrarTareas());
-
-/* Funciones */
-function filtrarTareas() {
-    listarTareas();
-}
+for (const field of search_fields) field.addEventListener('keyup', () => listarTareas());
+for (const field of search_fields) field.addEventListener('search', () => listarTareas());
 
 /* --------------- ORDENAR TAREAS --------------- */
 
@@ -336,7 +346,7 @@ save_form.addEventListener('submit', e => { guardarTareas(); e.preventDefault() 
 /* Funciones */
 async function guardarTareas() {
     agregarEstadoGuardando();
-    
+
     const id = save_id.value;
     const name = save_name.value;
     const description = save_description.value;
@@ -348,9 +358,11 @@ async function guardarTareas() {
 
     await listarTareas();
 
-    const editcard = document.querySelector('.tarjeta.edit');
-    if (save_button.name == 'update' && editcard != null) desactivarEstadoEditar();
-    else if (save_button.name == 'update' && editcard == null) { desactivarEstadoEditarFormulario(); actual_editcard = 'No Edit Card' }
+    if (save_button.name == 'update') {
+        const editcard = document.querySelector('.tarjeta.edit');
+        if (editcard) desactivarEstadoEditar(editcard);
+        else desactivarEstadoEditar();
+    }
     else vaciarFormulario(save_form);
 
     quitarEstadoGuardando();
@@ -373,58 +385,41 @@ function quitarEstadoGuardando() {
 /* --------------- EDITAR TAREAS --------------- */
 
 /* Listeners */
-cardscontainer.addEventListener('click', e => {
+cards_container.addEventListener('click', e => {
     const element = e.target;
 
     if (element.classList.contains('button-edit') || element.classList.contains('icon-edit')) {
-        const id = element.dataset.id;
-        const card = document.querySelector(`#tarjeta-${id}`);
+        const card = document.querySelector(`#tarjeta-${element.dataset.id}`);
         alternarEstadoEditar(card);
         e.preventDefault();
     }
 });
 document.addEventListener('keydown', e => {
-    const editcard = document.querySelector(`.tarjeta.edit`);
-
     if (e.code == 'Escape' && save_button.name == 'update' && !overlay.classList.contains('active')) {
-        if (editcard == null) { desactivarEstadoEditarFormulario(); actual_editcard = 'No Edit Card' }
+        const editcard = document.querySelector(`.tarjeta.edit`);
+        if (editcard) desactivarEstadoEditar(editcard);
         else desactivarEstadoEditar();
     }
 });
 
 /* Funciones */
 function alternarEstadoEditar(tarjeta) {
-    const card = document.querySelector('.tarjeta.edit');
-
-    if (!tarjeta.classList.contains('edit') && save_button.name == 'save') activarEstadoEditar(tarjeta);
-    else if (!tarjeta.classList.contains('edit') && save_button.name == 'update') {
-        if (card != null) quitarEstado(card, 'edit'); activarEstadoEditar(tarjeta)
+    if (save_button.name == 'save') activarEstadoEditar(tarjeta, save_button);
+    else {
+        if (tarjeta.classList.contains('edit')) desactivarEstadoEditar(tarjeta);
+        else {
+            const editcard = document.querySelector('.tarjeta.edit');
+            if (editcard) quitarEstado(editcard, 'edit');
+            activarEstadoEditar(tarjeta);
+        }
     }
-    else desactivarEstadoEditar();
 }
 
-function activarEstadoEditar(tarjeta) {
+function activarEstadoEditar(tarjeta, boton) {
     llenarFormularioGuardar(tarjeta);
+    if (boton) activarEstadoEditarBoton(boton);
     agregarEstado(tarjeta, 'edit');
-    cambiarName(save_button, 'update');
-    cambiarTitle(save_button, 'Guardar Cambios');
-    agregarEstado(save_button, 'edit');
     enfocarElemento(save_name);
-    actual_editcard = tarjeta.dataset.id;
-}
-
-function desactivarEstadoEditar() {
-    const card = document.querySelector('.tarjeta.edit');
-    quitarEstado(card, 'edit');
-    desactivarEstadoEditarFormulario();
-    actual_editcard = 'No Edit Card';
-}
-
-function desactivarEstadoEditarFormulario() {
-    vaciarFormulario(save_form);
-    cambiarName(save_button, 'save');
-    cambiarTitle(save_button, 'Guardar');
-    quitarEstado(save_button, 'edit');
 }
 
 function llenarFormularioGuardar(tarjeta) {
@@ -436,41 +431,62 @@ function llenarFormularioGuardar(tarjeta) {
     cambiarValue(save_description, description);
 }
 
+function activarEstadoEditarBoton(boton) {
+    cambiarName(boton, 'update');
+    cambiarTitle(boton, 'Guardar Cambios');
+    agregarEstado(boton, 'edit');
+}
+
+function desactivarEstadoEditar(tarjeta) {
+    vaciarFormulario(save_form);
+    desactivarEstadoEditarBoton(save_button);
+    if (tarjeta) quitarEstado(tarjeta, 'edit');
+}
+
+function desactivarEstadoEditarBoton(boton) {
+    cambiarName(boton, 'save');
+    cambiarTitle(boton, 'Guardar');
+    quitarEstado(boton, 'edit');
+}
+
 /* ---------- ELIMINAR TAREAS ---------- */
 
 /* Listeners */
-cardscontainer.addEventListener('click', e => {
+cards_container.addEventListener('click', e => {
     const element = e.target;
 
     if (element.classList.contains('button-delete') || element.classList.contains('icon-delete')) {
-        const id = element.dataset.id;
-        const key = [{ id }];
-        activarEstadoEliminar(key);
+        const id = [element.dataset.id];
+        activarEstadoEliminar(id);
         e.preventDefault();
     }
 });
-del_form.addEventListener('submit', e => { eliminarTareas(); e.preventDefault() });
-del_buttonclose.addEventListener('click', e => { desactivarEstadoEliminar(); e.preventDefault() });
-del_buttoncancel.addEventListener('click', e => { desactivarEstadoEliminar(); e.preventDefault() });
+delete_form.addEventListener('submit', e => { eliminarTareas(); e.preventDefault() });
+delete_buttonclose.addEventListener('click', e => { desactivarEstadoEliminar(); e.preventDefault() });
+delete_buttoncancel.addEventListener('click', e => { desactivarEstadoEliminar(); e.preventDefault() });
 document.addEventListener('keydown', e => {
-    if (e.code == 'Escape' && del_alert.classList.contains('active') && !del_button.hasAttribute('disabled')) desactivarEstadoEliminar();
+    if (e.code == 'Escape' && delete_alert.classList.contains('active') && !delete_button.hasAttribute('disabled')) desactivarEstadoEliminar();
 });
 overlay.addEventListener('click', e => {
-    if (e.target.id == 'overlay' && !del_button.hasAttribute('disabled')) desactivarEstadoEliminar();
+    if (e.target.id == 'overlay' && !delete_button.hasAttribute('disabled')) desactivarEstadoEliminar();
 });
 
 /* Funciones */
 async function eliminarTareas() {
     agregarEstadoEliminando();
-    
-    if (save_button.name == 'update') desactivarEstadoEditar();
+
+    if (save_button.name == 'update' && delete_keys.includes(save_id.value)) {
+        const editcard = document.querySelector('.tarjeta.edit');
+        if (editcard) desactivarEstadoEditar(editcard);
+        else desactivarEstadoEditar();
+    }
 
     const data = JSON.stringify(delete_keys);
     const response = await fetch('task-delete.php', { method: 'post', body: data });
     const message = await response.text();
 
     deshabilitarElemento(multiple_button);
-    desmarcarElemento(checkboxmaster);
+    desmarcarElemento(checkbox_master);
 
     await listarTareas();
 
@@ -490,25 +506,25 @@ function desactivarEstadoEliminar() {
 }
 
 function agregarEstadoEliminando() {
-    deshabilitarElemento(del_buttonclose);
-    deshabilitarElemento(del_button);
-    deshabilitarElemento(del_buttoncancel);
-    cambiarIcono(del_icon, 'fa-trash', ['fa-cog', 'fa-spin']);
+    deshabilitarElemento(delete_buttonclose);
+    deshabilitarElemento(delete_button);
+    deshabilitarElemento(delete_buttoncancel);
+    cambiarIcono(delete_icon, 'fa-trash', ['fa-cog', 'fa-spin']);
 }
 
 function quitarEstadoEliminando() {
-    habilitarElemento(del_buttonclose);
-    habilitarElemento(del_button);
-    habilitarElemento(del_buttoncancel);
-    cambiarIcono(del_icon, ['fa-cog', 'fa-spin'], 'fa-trash');
+    habilitarElemento(delete_buttonclose);
+    habilitarElemento(delete_button);
+    habilitarElemento(delete_buttoncancel);
+    cambiarIcono(delete_icon, ['fa-cog', 'fa-spin'], 'fa-trash');
 }
 
 function abrirAlertaEliminar() {
-    activarElementos([overlay, del_alert]);
+    activarElementos([overlay, delete_alert]);
 }
 
 function cerrarAlertaEliminar() {
-    desactivarElementos([overlay, del_alert]);
+    desactivarElementos([overlay, delete_alert]);
 }
 
 /* ---------- ELIMINAR MÚLTIPLES TAREAS---------- */
@@ -524,19 +540,14 @@ multiple_form.addEventListener('submit', e => {
 function obtenerClavesDeCheckboxSeleccionados() {
     const checkboxes = document.querySelectorAll('.tareas .checkbox:checked');
     const claves = [];
-
-    for (const checkbox of checkboxes) {
-        const id = checkbox.value;
-        claves.push({ id });
-    }
-
+    for (const checkbox of checkboxes) claves.push(checkbox.dataset.id);
     return claves;
 }
 
 /* ---------- SELECCIONAR MÚLTIPLES TAREAS ---------- */
 
 /* Listeners */
-checkboxmaster.addEventListener('change', () => {
+checkbox_master.addEventListener('change', () => {
     alternarSeleccionarTodosLosCheckbox();
     alternarEstadoEliminarMultiple();
 });
@@ -551,7 +562,7 @@ document.addEventListener('keydown', e => {
         alternarEstadoEliminarMultiple();
     }
 });
-cardscontainer.addEventListener('change', e => {
+cards_container.addEventListener('change', e => {
     const element = e.target;
 
     if (element.classList.contains('checkbox')) {
@@ -571,7 +582,7 @@ function alternarEstadoEliminarMultiple() {
 
 function alternarSeleccionarTodosLosCheckbox() {
     const checkboxes = document.querySelectorAll('.tareas .checkbox');
-    const state = checkboxmaster.checked;
+    const state = checkbox_master.checked;
 
     for (const checkbox of checkboxes) { checkbox.checked = state }
 }
@@ -589,14 +600,14 @@ function verificarSiHayCheckboxActivados() {
 /* ---------- SUBIR LISTA ---------- */
 
 /* Listeners */
-up_input.addEventListener('change', () => alternarEstadoSubir());
-up_form.addEventListener('submit', e => { subirLista(); e.preventDefault() });
+upload_input.addEventListener('change', () => alternarEstadoSubir());
+upload_form.addEventListener('submit', e => { subirLista(); e.preventDefault() });
 
 /* Funciones */
 async function subirLista() {
     activarEstadoSubiendo();
 
-    const file = up_input.files[0];
+    const file = upload_input.files[0];
     const data = new FormData();
     data.append('file', file);
 
@@ -613,37 +624,37 @@ async function subirLista() {
 }
 
 function alternarEstadoSubir() {
-    const file = up_input.files[0] ? up_input.files[0] : 'No File';
+    const file = upload_input.files[0] ? upload_input.files[0] : 'No File';
     file == 'No File' ? desactivarEstadoSubir() : activarEstadoSubir(file);
 }
 
 function activarEstadoSubir(file) {
-    activarElemento(up_field);
-    habilitarElemento(up_button);
-    cambiarTitle(up_field, file.name);
-    cambiarTitle(up_fieldtext, file.name);
-    cambiarTexto(up_fieldtext, file.name);
+    activarElemento(upload_field);
+    habilitarElemento(upload_button);
+    cambiarTitle(upload_field, file.name);
+    cambiarTitle(upload_fieldtext, file.name);
+    cambiarTexto(upload_fieldtext, file.name);
 }
 
 function desactivarEstadoSubir() {
-    vaciarFormulario(up_form);
-    desactivarElemento(up_field);
-    deshabilitarElemento(up_button);
-    cambiarTitle(up_field, 'Buscar Lista');
-    cambiarTitle(up_fieldtext, 'Buscar Lista');
-    cambiarTexto(up_fieldtext, 'Buscar Lista');
+    vaciarFormulario(upload_form);
+    desactivarElemento(upload_field);
+    deshabilitarElemento(upload_button);
+    cambiarTitle(upload_field, 'Buscar Lista');
+    cambiarTitle(upload_fieldtext, 'Buscar Lista');
+    cambiarTexto(upload_fieldtext, 'Buscar Lista');
 }
 
 function activarEstadoSubiendo() {
-    cambiarIcono(up_icon, 'fa-paper-plane', ['fa-cog', 'fa-spin']);
-    agregarEstado(up_field, 'upload')
-    agregarEstado(up_button, 'upload')
+    cambiarIcono(upload_icon, 'fa-paper-plane', ['fa-cog', 'fa-spin']);
+    agregarEstado(upload_field, 'upload')
+    agregarEstado(upload_button, 'upload')
 }
 
 function desactivarEstadoSubiendo() {
-    cambiarIcono(up_icon, ['fa-cog', 'fa-spin'], 'fa-paper-plane');
-    quitarEstado(up_field, 'upload')
-    quitarEstado(up_button, 'upload')
+    cambiarIcono(upload_icon, ['fa-cog', 'fa-spin'], 'fa-paper-plane');
+    quitarEstado(upload_field, 'upload')
+    quitarEstado(upload_button, 'upload')
 }
 
 /* --------------- NOTIFICACIONES --------------- */

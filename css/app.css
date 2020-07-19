@@ -60,8 +60,13 @@ body {
     border-color: white;
 }
 
+.buscar-nombre,
+.buscar-descripcion {
+    width: 225px;
+}
+
 .buscar-id {
-    max-width: 175px;
+    width: 165px;
 }
 
 .buscar-id::-webkit-inner-spin-button,
@@ -106,6 +111,7 @@ body {
 
 .boton-logout:hover {
     color: white;
+    text-decoration: none;
     border-color: rgb(214, 57, 0);
     background-color: rgb(214, 57, 0);
 }
@@ -544,6 +550,7 @@ body {
 
 /* Tarjeta Final */
 .tarjeta-final {
+    padding: 18px;
     color: grey;
     font-weight: bold;
     text-align: center;
@@ -604,7 +611,7 @@ body {
 }
 
 /* Botón Subir */
-.boton-subir {
+.boton-inicio-lista {
     width: 55px;
     height: 55px;
     color: black;
@@ -621,7 +628,7 @@ body {
     transition: all 0.35s ease;
 }
 
-.boton-subir:hover {
+.boton-inicio-lista:hover {
     color: black;
     text-decoration: none;
     background-color: rgba(225, 225, 225, 0.75);

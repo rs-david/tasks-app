@@ -31,13 +31,13 @@
         <form class="formulario-join" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
             <h1 class="titulo-join">Registro</h1>
             <!-- Campo: Usuario -->
-            <input class="usuario-join form-control" type="text" placeholder="Usuario:" name="user" title="Sólo Puedes Usar Letras, Números, '_', '-' y '.'" pattern="[\w\-.]+" maxlength="50" required autofocus>
+            <input class="usuario-join form-control" type="text" placeholder="Usuario:" name="user" title="Ingresa Un Nombre De Usuario: Puedes Usar Letras, Números, '_', '-' y '.'" pattern="[\w\-.]+" maxlength="50" required autofocus>
             <!-- Campo: Correo -->
             <input class="correo-join form-control" type="email" placeholder="Correo:" name="email" title="Ingresa Un Email" maxlength="255" required>
             <!-- Campo: Contraseña -->
-            <input class="contrasena-join form-control" type="password" placeholder="Contraseña:" name="password" title="Longitud Mínima 3 Caracteres. No Usar Espacios" pattern="[^\s]+" minlength="3" maxlength="100" required>
+            <input class="contrasena-join form-control" type="password" placeholder="Contraseña:" name="password" title="Ingresa Una Contraseña: Longitud Mínima 3 Caracteres. No Usar Espacios" pattern="[^\s]+" minlength="3" maxlength="100" required>
             <!-- Campo: Verificar Contraseña -->
-            <input class="confirmacion-join form-control" type="password" placeholder="Repetir Contraseña:" name="confirmation" title="Longitud Mínima 3 Caracteres. No Usar Espacios" pattern="[^\s]+" minlength="3" maxlength="100" required>
+            <input class="confirmacion-join form-control" type="password" placeholder="Repetir Contraseña:" name="confirmation" title="Ingresa Una Vez Más Tu Contraseña" pattern="[^\s]+" minlength="3" maxlength="100" required>
             <!-- Botón: Registrar -->
             <button class="boton boton-join" type="submit" title="Registrarme" name="join">
                 <i class="fas fa-user-plus"></i>

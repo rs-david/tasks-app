@@ -25,9 +25,18 @@ _Importar Base de Datos:_
 -   Crear Base de Datos "tasks-app" (MySQL).
 -   Importar "tasks-app.sql" ubicado en la carpeta "db".
 -   Cambiar usuario y contraseña en el archivo "conexion.php".
--   Usar.
+-   Listo.
+
+_Importar Lista JSON de Prueba:_
+
+-   Iniciar Sesión.
+-   Hacer click en el campo "Buscar Lista".
+-   Ir a la carpeta "files".
+-   Seleccionar el archivo "tasks.json".
+-   Hacer click en el botón "Subir Lista".
+-   Listo.
 
 _Screenshots:_
 
--   Pantalla Principal
-    ![Pantalla Principal](previews/principal.png)
+_Pantalla Principal_
+![Pantalla Principal](previews/principal.png)
