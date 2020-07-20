@@ -36,7 +36,7 @@
             <input class="contrasena-login form-control" type="password" placeholder="Contraseña:" name="password" title="Ingresa Tu Contraseña" required>
             <!-- Botón: Iniciar Sesión -->
             <button class="boton boton-login" type="submit" title="Iniciar Sesión" name="login">
-                <i class="fas fa-user"></i>
+                <i class="icono fas fa-user"></i>
             </button>
         </form>
 

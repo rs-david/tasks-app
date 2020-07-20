@@ -1,6 +1,6 @@
 body {
     color: white;
-    background-image: url("../img/background-join.jpg");  /* Photo by Ant Rozetsky on Unsplash: https://unsplash.com/photos/HXOllTSwrpM */
+    background-image: url("../img/background-join.jpg"); /* Photo by Ant Rozetsky on Unsplash: https://unsplash.com/photos/HXOllTSwrpM */
     background-repeat: no-repeat;
     background-position: fixed;
     background-size: cover;
@@ -19,8 +19,8 @@ body {
 .logo .nombre {
     color: white;
     background: linear-gradient(
-        rgba(255, 255, 255, 0.8),
-        rgba(225, 225, 225, 0.45)
+        rgba(255, 255, 255, 0.85),
+        rgba(225, 225, 225, 0.4)
     );
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
@@ -31,10 +31,10 @@ body {
 }
 
 .formulario-join {
-    width: 235px;
+    width: 230px;
     margin: 20px auto;
     padding: 16px;
-    border: 1px solid purple;
+    border: 1px solid rgba(115, 0, 115, 0.85);
     background-color: rgba(255, 255, 255, 0.125);
     border-radius: 0.25rem;
 }
@@ -60,24 +60,27 @@ body {
 .contrasena-join:valid,
 .confirmacion-join:valid {
     border-color: var(--success);
-    box-shadow: 0 0 0 0.2rem rgba(17, 218, 10, 0.15);
+    box-shadow: 0 0 0 0.2rem rgba(5, 150, 0, 0.35);
 }
 
 .boton-join {
     width: 100%;
-    padding: 12px;
-    font-size: large;
+    padding: 13px 10px;
     border-color: purple;
     background-color: purple;
 }
 
 .boton-join:hover {
-    border-color: rgba(128, 0, 128, 0.75);
-    background-color: rgba(128, 0, 128, 0.75);
+    border-color: rgba(128, 0, 128, 0.8);
+    background-color: rgba(128, 0, 128, 0.8);
 }
 
 .boton-join:focus {
     box-shadow: 0 0 0 0.2rem rgba(152, 47, 184, 0.5);
+}
+
+.boton-join .icono {
+    font-size: 20px;
 }
 
 .notificaciones-join {

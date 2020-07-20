@@ -117,7 +117,7 @@ function crearListaTareas(tareas) {
         agregarContenido(cards_container, cards);
 
         const finalcard = crearTarjetaFinal(results);
-        agregarContenido(cards_container, finalcard);
+        if (finalcard) agregarContenido(cards_container, finalcard);
 
         if (save_button.name == 'update') {
             const editcard = document.querySelector(`#tarjeta-${save_id.value}`);
@@ -179,7 +179,7 @@ function crearTarjetaFinal(resultados) {
         `;
         return finalcard;
     }
-    else if (actual_limit <= resultados) {
+    if (actual_limit <= resultados) {
         const showbutton = `
             <button id="button-show" class="boton boton-mostrar active" title="Mostrar Más Tareas">
                 <i id="icon-show" class="fas fa-plus fa-lg"></i>

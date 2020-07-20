@@ -40,7 +40,7 @@
             <input class="confirmacion-join form-control" type="password" placeholder="Repetir Contraseña:" name="confirmation" title="Ingresa Una Vez Más Tu Contraseña" pattern="[^\s]+" minlength="3" maxlength="100" required>
             <!-- Botón: Registrar -->
             <button class="boton boton-join" type="submit" title="Registrarme" name="join">
-                <i class="fas fa-user-plus"></i>
+                <i class="icono fas fa-user-plus"></i>
             </button>
         </form>
 
