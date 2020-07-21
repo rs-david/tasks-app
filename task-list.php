@@ -2,8 +2,7 @@
 setlocale(LC_ALL, 'spanish');
 
 // Convertir Datos Recibidos en Array.
-$data = file_get_contents('php://input');
-$data = json_decode($data, true);
+$data = json_decode($_POST['data'], true);
 
 // Manejar Datos del Array.
 $id = $data['id'] ? "$data[id]%" : '%';

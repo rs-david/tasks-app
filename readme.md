@@ -14,7 +14,7 @@ _Navegadores:_
 _Frameworks, Icons:_
 
 -   Bootstrap 4.4.1 (Modificado: "!important" Eliminados)
--   Font Awesome 5.13
+-   Font Awesome 5.14
 
 _Otros:_
 
@@ -40,4 +40,10 @@ _Importar Lista JSON de Prueba:_
 _Screenshots:_
 
 _Pantalla Principal_
-![Pantalla Principal](previews/principal.png)
+![Pantalla Principal](previews/principal.jpg)
+
+_Iniciar Sesión_
+![Iniciar Sesión](previews/login.jpg)
+
+_Registro_
+![Registro](previews/join.jpg)

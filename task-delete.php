@@ -1,8 +1,6 @@
 <?php
 
-$data = file_get_contents('php://input');
-$data = json_decode($data, true);
-$cantidad = count($data);
+$data = json_decode($_POST['data'], true);
 
 $id = $data[0];
 $or = '';
@@ -20,6 +18,7 @@ try {
     $statement = $conn->prepare("DELETE FROM tasks WHERE id = $id $or");
     $statement->execute();
 
+    $cantidad = count($data);
     echo "$cantidad Tareas Eliminadas";
 } catch (PDOException $e) {
     echo 'ERROR: ' . $e->getMessage();

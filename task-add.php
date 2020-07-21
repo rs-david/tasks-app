@@ -1,7 +1,6 @@
 <?php
 
-$data = file_get_contents('php://input');
-$data = json_decode($data, true);
+$data = json_decode($_POST['data'], true);
 
 $name = $data['name'];
 $description = $data['description'];

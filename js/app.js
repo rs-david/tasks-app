@@ -63,20 +63,11 @@ const clean_icon = document.querySelector('#icon-clean');
 
 //*---------- FUNCIONES DE INICIO: ----------*//
 
-listarTodasLasTareas();
+listarTareas();
 
 //*---------- FUNCIONES ----------*//
 
 /* --------------- LISTAR TAREAS --------------- */
-
-async function listarTodasLasTareas() {
-    const response = await fetch('task-list.php');
-    const list = await response.json();
-
-    crearListaTareas(list);
-    enfocarElemento(save_name);
-    console.log('Tareas Listadas');
-}
 
 async function listarTareas(limite, columna, orden) {
     const id = search_id.value;
@@ -90,7 +81,9 @@ async function listarTareas(limite, columna, orden) {
     actual_column = column;
     actual_sort = sort;
 
-    const data = JSON.stringify({ id, name, description, limit, column, sort });
+    const json = JSON.stringify({ id, name, description, limit, column, sort });
+    const data = new FormData();
+    data.append('data', json);
     const response = await fetch('task-list.php', { method: 'post', body: data });
     const tasks = await response.json();
 
@@ -338,7 +331,7 @@ function quitarEstadoOrdenar() {
     header.classList.remove(`${indicador}`);
 }
 
-/* ---------- GUARDAR TAREAS ---------- */
+/* ---------- GUARDAR/ACTUALIZAR TAREAS ---------- */
 
 /* Listeners */
 save_form.addEventListener('submit', e => { guardarTareas(); e.preventDefault() });
@@ -350,9 +343,11 @@ async function guardarTareas() {
     const id = save_id.value;
     const name = save_name.value;
     const description = save_description.value;
-    const data = JSON.stringify({ id, name, description });
+    const json = JSON.stringify({ id, name, description });
     const url = save_button.name == 'update' ? 'task-update.php' : 'task-add.php';
-
+    
+    const data = new FormData();
+    data.append('data', json);
     const response = await fetch(url, { method: 'post', body: data });
     const message = await response.text();
 
@@ -491,7 +486,9 @@ async function eliminarTareas() {
         else desactivarEstadoEditar();
     }
 
-    const data = JSON.stringify(delete_keys);
+    const json = JSON.stringify(delete_keys);
+    const data = new FormData();
+    data.append('data', json);
     const response = await fetch('task-delete.php', { method: 'post', body: data });
     const message = await response.text();
 
@@ -638,7 +635,6 @@ async function subirLista(lista) {
 
     const data = new FormData();
     data.append('file', lista);
-
     const response = await fetch('list-upload.php', { method: 'post', body: data });
     const message = await response.text();
 
@@ -715,7 +711,7 @@ async function limpiarFiltros() {
 
     vaciarFormulario(search_form);
 
-    await listarTareas(100, undefined, undefined);
+    await listarTareas(100);
 
     desactivarEstadoLimpiando();
     enfocarElemento(search_name);
