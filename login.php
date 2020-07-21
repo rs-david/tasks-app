@@ -16,7 +16,7 @@ if ($_SESSION["user"]) {
         if (empty($user) || empty($password)) $errors[] = 'Llena Todos Los Campos';
 
         try {
-            require 'conexion.php';
+            require 'connection.php';
 
             // Verificar Si Usuario Existe.
             $user_exists = verificarUsuario($conn, $user);

@@ -7,7 +7,7 @@ $name = $data['name'];
 $description = $data['description'];
 
 try {
-    include('conexion.php');
+    include('connection.php');
     
     $statement = $conn->prepare("UPDATE tasks SET name = :name, description = :description WHERE id = :id");
     $statement->execute([':id'=>$id, ':name'=>$name, ':description'=>$description]);

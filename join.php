@@ -36,7 +36,7 @@ if ($_SESSION["user"]) {
         if ($password !== $confirmation) $errors[] = 'Contraseñas No Coinciden';
 
         try {
-            require 'conexion.php';
+            require 'connection.php';
 
             // Verificar Si Usuario Existe.
             $user_exists = verificarUsuario($conn, $user);

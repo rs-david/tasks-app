@@ -13,7 +13,7 @@ if (count($data) > 1) {
 }
 
 try {
-    include('conexion.php');
+    include('connection.php');
 
     $statement = $conn->prepare("DELETE FROM tasks WHERE id = $id $or");
     $statement->execute();

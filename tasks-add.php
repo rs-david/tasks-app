@@ -6,7 +6,7 @@ $name = $data['name'];
 $description = $data['description'];
 
 try {
-    include('conexion.php');
+    include('connection.php');
 
     $statement = $conn->prepare("INSERT INTO tasks(name, description) VALUES(:name, :description)");
     $statement->execute([':name'=>$name, ':description'=>$description]);

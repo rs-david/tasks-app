@@ -84,7 +84,7 @@ async function listarTareas(limite, columna, orden) {
     const json = JSON.stringify({ id, name, description, limit, column, sort });
     const data = new FormData();
     data.append('data', json);
-    const response = await fetch('task-list.php', { method: 'post', body: data });
+    const response = await fetch('tasks-list.php', { method: 'post', body: data });
     const tasks = await response.json();
 
     crearListaTareas(tasks);
@@ -344,7 +344,7 @@ async function guardarTareas() {
     const name = save_name.value;
     const description = save_description.value;
     const json = JSON.stringify({ id, name, description });
-    const url = save_button.name == 'update' ? 'task-update.php' : 'task-add.php';
+    const url = save_button.name == 'update' ? 'tasks-update.php' : 'tasks-add.php';
     
     const data = new FormData();
     data.append('data', json);
@@ -489,7 +489,7 @@ async function eliminarTareas() {
     const json = JSON.stringify(delete_keys);
     const data = new FormData();
     data.append('data', json);
-    const response = await fetch('task-delete.php', { method: 'post', body: data });
+    const response = await fetch('tasks-delete.php', { method: 'post', body: data });
     const message = await response.text();
 
     if (!multiple_button.hasAttribute('disabled')) deshabilitarElemento(multiple_button);

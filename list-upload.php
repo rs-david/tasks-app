@@ -19,7 +19,7 @@ if ($_FILES['file']['type'] == 'application/json') {
     }
 
     try {
-        include('conexion.php');
+        include('connection.php');
 
         $statement = $conn->prepare("INSERT INTO tasks(name, description, created) VALUES$values");
         $statement->execute();
