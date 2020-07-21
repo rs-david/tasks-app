@@ -40,10 +40,4 @@ _Importar Lista JSON de Prueba:_
 _Screenshots:_
 
 _Pantalla Principal_
-![Pantalla Principal](previews/principal.jpg)
-
-_Iniciar Sesión_
-![Iniciar Sesión](previews/login.jpg)
-
-_Registro_
-![Registro](previews/join.jpg)
+![Pantalla Principal](previews/principal.png)
