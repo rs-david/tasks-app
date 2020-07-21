@@ -130,7 +130,8 @@ function crearListaTareas(tareas) {
         }
     }
 
-    actualizarContadores(total, results);
+    const checkboxes = document.querySelectorAll('.tarjeta .checkbox:checked');
+    actualizarContadores(total, results, checkboxes.length);
 }
 
 function crearTarjetaInicial() {
@@ -204,7 +205,7 @@ document.addEventListener('keydown', e => desplazarseEntreTarjetas(e));
 /* Funciones */
 function alternarEstadoSeleccionarTarjeta(elemento) {
     const card = document.querySelector(`#tarjeta-${elemento.dataset.id}`);
-    
+
     if (card.classList.contains('select')) quitarEstado(card, 'select');
     else {
         const selectcard = document.querySelector('.tarjeta.select');
@@ -217,7 +218,7 @@ function desplazarseEntreTarjetas(e) {
     const selectedcard = document.querySelector('.tarjeta.select');
     const cards = document.querySelectorAll('.tarjeta');
 
-    if (e.code == 'ArrowUp' && selectedcard) {
+    if (e.key == 'ArrowUp' && selectedcard) {
         e.preventDefault();
 
         for (let i = 0; i < cards.length; i++) {
@@ -232,7 +233,7 @@ function desplazarseEntreTarjetas(e) {
         }
     }
 
-    if (e.code == 'ArrowDown' && selectedcard) {
+    if (e.key == 'ArrowDown' && selectedcard) {
         e.preventDefault();
 
         for (let i = 0; i < cards.length; i++) {
@@ -273,15 +274,14 @@ function agregarEstadoMostrando() {
 /* ---------- ACTUALIZAR CONTADORES ---------- */
 
 /* Funciones */
-function actualizarContadores(total, resultados) {
-    actualizarContadorTareasSeleccionadas();
+function actualizarContadores(total, resultados, seleccion) {
+    actualizarContadorTareasSeleccionadas(seleccion);
     actualizarContadorTareasEncontradas(resultados);
     actualizarContadorTareasTotales(total);
 }
 
-function actualizarContadorTareasSeleccionadas() {
-    const quantity = document.querySelectorAll('.tarjeta .checkbox:checked').length;
-    cambiarContenido(counter_selection, quantity);
+function actualizarContadorTareasSeleccionadas(cantidad) {
+    cambiarContenido(counter_selection, cantidad);
 }
 
 function actualizarContadorTareasEncontradas(resultados) {
@@ -395,7 +395,7 @@ cards_container.addEventListener('click', e => {
     }
 });
 document.addEventListener('keydown', e => {
-    if (e.code == 'Escape' && save_button.name == 'update' && !overlay.classList.contains('active')) {
+    if (e.key == 'Escape' && save_button.name == 'update' && !overlay.classList.contains('active')) {
         const editcard = document.querySelector(`.tarjeta.edit`);
         if (editcard) desactivarEstadoEditar(editcard);
         else desactivarEstadoEditar();
@@ -461,14 +461,24 @@ cards_container.addEventListener('click', e => {
         e.preventDefault();
     }
 });
-delete_form.addEventListener('submit', e => { eliminarTareas(); e.preventDefault() });
-delete_buttonclose.addEventListener('click', e => { desactivarEstadoEliminar(); e.preventDefault() });
-delete_buttoncancel.addEventListener('click', e => { desactivarEstadoEliminar(); e.preventDefault() });
-document.addEventListener('keydown', e => {
-    if (e.code == 'Escape' && delete_alert.classList.contains('active') && !delete_button.hasAttribute('disabled')) desactivarEstadoEliminar();
+delete_form.addEventListener('submit', e => {
+    eliminarTareas();
+    e.preventDefault();
+});
+delete_buttonclose.addEventListener('click', e => {
+    desactivarEstadoEliminar();
+    e.preventDefault();
+});
+delete_buttoncancel.addEventListener('click', e => {
+    desactivarEstadoEliminar();
+    e.preventDefault();
 });
 overlay.addEventListener('click', e => {
     if (e.target.id == 'overlay' && !delete_button.hasAttribute('disabled')) desactivarEstadoEliminar();
+});
+document.addEventListener('keydown', e => {
+    if (e.key == 'Escape' && delete_alert.classList.contains('active') && !delete_button.hasAttribute('disabled')) desactivarEstadoEliminar();
+    if (e.key == 'Enter' && delete_alert.classList.contains('active') && !delete_button.hasAttribute('disabled')) eliminarTareas();
 });
 
 /* Funciones */
@@ -485,8 +495,8 @@ async function eliminarTareas() {
     const response = await fetch('task-delete.php', { method: 'post', body: data });
     const message = await response.text();
 
-    deshabilitarElemento(multiple_button);
-    desmarcarElemento(checkbox_master);
+    if (!multiple_button.hasAttribute('disabled')) deshabilitarElemento(multiple_button);
+    if (checkbox_master.checked) desmarcarElemento(checkbox_master);
 
     await listarTareas();
 
@@ -501,7 +511,7 @@ function activarEstadoEliminar(claves) {
 }
 
 function desactivarEstadoEliminar() {
-    delete_keys = NaN;
+    delete_keys = false;
     cerrarAlertaEliminar();
 }
 
@@ -532,16 +542,33 @@ function cerrarAlertaEliminar() {
 /* Listeners */
 multiple_form.addEventListener('submit', e => {
     const keys = obtenerClavesDeCheckboxSeleccionados();
-    activarEstadoEliminar(keys);
+    if (keys) activarEstadoEliminar(keys);
+    else {
+        mostrarNotificacion('No Hay Casillas Seleccionadas', 'warning');
+        deshabilitarElemento(multiple_button);
+    }
     e.preventDefault();
+});
+document.addEventListener('keydown', e => {
+    if (e.key == 'Delete' && !overlay.classList.contains('active') && !multiple_button.hasAttribute('disabled')) {
+        e.preventDefault();
+        const keys = obtenerClavesDeCheckboxSeleccionados();
+        if (keys) activarEstadoEliminar(keys);
+        else {
+            mostrarNotificacion('No Hay Casillas Seleccionadas', 'warning');
+            deshabilitarElemento(multiple_button);
+        }
+    }
 });
 
 /* Funciones */
 function obtenerClavesDeCheckboxSeleccionados() {
     const checkboxes = document.querySelectorAll('.tareas .checkbox:checked');
-    const claves = [];
-    for (const checkbox of checkboxes) claves.push(checkbox.dataset.id);
-    return claves;
+    if (checkboxes.length > 0) {
+        const keys = [];
+        for (const checkbox of checkboxes) keys.push(checkbox.dataset.id);
+        return keys;
+    }
 }
 
 /* ---------- SELECCIONAR MÚLTIPLES TAREAS ---------- */
@@ -552,12 +579,11 @@ checkbox_master.addEventListener('change', () => {
     alternarEstadoEliminarMultiple();
 });
 document.addEventListener('keydown', e => {
-    const activecard = document.querySelector('.tarjeta.select');
+    const selectcard = document.querySelector('.tarjeta.select');
 
-    if (e.code == 'Space' && activecard != null) {
+    if (e.code == 'Space' && selectcard) {
         e.preventDefault();
-        const checkbox = activecard.children[0].children[0];
-
+        const checkbox = selectcard.children[0].children[0];
         alternarSeleccionarCheckbox(checkbox);
         alternarEstadoEliminarMultiple();
     }
@@ -571,45 +597,47 @@ cards_container.addEventListener('change', e => {
 });
 
 /* Funciones */
-function alternarSeleccionarCheckbox(checkbox) {
-    checkbox.checked = checkbox.checked == true ? false : true;
+function alternarEstadoEliminarMultiple() {
+    const checkboxes = document.querySelectorAll('.tarjeta .checkbox:checked');
+    actualizarContadorTareasSeleccionadas(checkboxes.length);
+    alternarEstadoEliminarMultipleBoton(checkboxes);
 }
 
-function alternarEstadoEliminarMultiple() {
-    actualizarContadorTareasSeleccionadas();
-    alternarEstadoActivoBotonEliminacionMultiple();
+function alternarEstadoEliminarMultipleBoton(checkboxes) {
+    if (checkboxes.length > 0) habilitarElemento(multiple_button);
+    else deshabilitarElemento(multiple_button);
+}
+
+function alternarSeleccionarCheckbox(checkbox) {
+    checkbox.checked = checkbox.checked ? false : true;
 }
 
 function alternarSeleccionarTodosLosCheckbox() {
     const checkboxes = document.querySelectorAll('.tareas .checkbox');
     const state = checkbox_master.checked;
-
-    for (const checkbox of checkboxes) { checkbox.checked = state }
-}
-
-function alternarEstadoActivoBotonEliminacionMultiple() {
-    const active = verificarSiHayCheckboxActivados();
-    active == true ? habilitarElemento(multiple_button) : deshabilitarElemento(multiple_button);
-}
-
-function verificarSiHayCheckboxActivados() {
-    const checkboxes = document.querySelectorAll('.tareas .checkbox:checked');
-    return checkboxes.length > 0 ? true : false;
+    for (const checkbox of checkboxes) checkbox.checked = state;
 }
 
 /* ---------- SUBIR LISTA ---------- */
 
 /* Listeners */
 upload_input.addEventListener('change', () => alternarEstadoSubir());
-upload_form.addEventListener('submit', e => { subirLista(); e.preventDefault() });
+upload_form.addEventListener('submit', e => {
+    const file = upload_input.files[0];
+    if (file) subirLista(file);
+    else {
+        mostrarNotificacion('Selecciona Antes Un Archivo', 'warning');
+        deshabilitarElemento(upload_button);
+    }
+    e.preventDefault();
+});
 
 /* Funciones */
-async function subirLista() {
+async function subirLista(lista) {
     activarEstadoSubiendo();
 
-    const file = upload_input.files[0];
     const data = new FormData();
-    data.append('file', file);
+    data.append('file', lista);
 
     const response = await fetch('list-upload.php', { method: 'post', body: data });
     const message = await response.text();
@@ -660,17 +688,26 @@ function desactivarEstadoSubiendo() {
 /* --------------- NOTIFICACIONES --------------- */
 
 /* Funciones */
-function mostrarNotificacion(mensaje) {
-    const contenido = `<strong class="mr-2">¡${mensaje}</strong> Exitosamente!`;
+function mostrarNotificacion(mensaje, estado) {
+    const contenido = `<strong>${mensaje}</strong>`;
     cambiarContenido(notification, contenido);
+    agregarEstado(notification, estado);
     activarElemento(notification);
-    setTimeout(() => desactivarElemento(notification), 2500);
+    setTimeout(() => cerrarNotificacion(estado), 2500);
+}
+
+function cerrarNotificacion(estado) {
+    desactivarElemento(notification);
+    if (estado) quitarEstado(notification, estado);
 }
 
 /* --------------- LIMPIAR FILTROS --------------- */
 
 /* Listeners */
-clean_button.addEventListener('click', e => { limpiarFiltros(); e.preventDefault() });
+clean_button.addEventListener('click', e => {
+    limpiarFiltros();
+    e.preventDefault();
+});
 
 /* Functions */
 async function limpiarFiltros() {

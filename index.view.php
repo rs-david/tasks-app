@@ -83,7 +83,7 @@
                             <span>Seleccionadas</span>
                             <span id="counter-selection" class="tareas-seleccionadas"></span>
                         </div>
-                        <button id='button-multiple-delete' class="boton boton-eliminacion-multiple" type="submit" title="Eliminar Tareas" disabled>
+                        <button id='button-multiple-delete' class="boton boton-eliminacion-multiple" type="submit" title="Eliminar Tareas | Delete" disabled>
                             <i id='icon-multiple-delete' class="icono fas fa-trash-alt"></i>
                         </button>
                     </form>

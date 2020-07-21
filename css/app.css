@@ -104,16 +104,16 @@ body {
 .boton-logout {
     width: 40px;
     height: 100%;
-    color: white;
+    color: orangered;
     border-color: orangered;
-    background-color: orangered;
+    background-color: transparent;
 }
 
 .boton-logout:hover {
     color: white;
     text-decoration: none;
-    border-color: rgb(214, 57, 0);
-    background-color: rgb(214, 57, 0);
+    border-color: orangered;
+    background-color: orangered;
 }
 
 .boton-logout:focus {
@@ -490,7 +490,7 @@ body {
 
 .tarjeta.select {   
     background-color: #f5f5f5;
-    transition: all 0.1s ease;
+    transition: all 0.05s ease;
 }
 
 .tarjeta.edit,
@@ -608,6 +608,12 @@ body {
     opacity: 1;
     visibility: visible;
     transform: translate(0, 0);
+}
+
+.notificacion.warning {
+    color: rgb(50, 50, 50);
+    background-color: #fff8cd;
+    border: 1px solid var(--warning);
 }
 
 /* Botón Subir */
