@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+$session_started = session_start();
 
 if ($_SESSION["user"]) {
     header('location: index.php');
@@ -45,7 +45,7 @@ if ($_SESSION["user"]) {
             // Verificar Si Email Existe.
             $email_exists = verificarEmail($conn, $email);
             if ($email_exists) $errors[] = 'Éste Email Ya Está Registrado';
-            
+
             if (!$errors) {
                 $correct_join = registrarUsuario($conn, $user, $email, $password);
                 $notification = $correct_join ? "¡Usuario <strong>$user</strong> Registrado Con Éxito!" : 'Registro Fallido';

@@ -1,6 +1,6 @@
 body {
     color: white;
-    background-image: url("../img/background-login.jpg"); /* Photo by Annie Spratt on Unsplash (Edited): https://unsplash.com/photos/FSFfEQkd1sc */
+    background-image: url("../img/background-login.jpg"); /* Photo by Annie Spratt on Unsplash (Edited): https://unsplash.com/photos/wgivdx9dBdQ */
     background-repeat: no-repeat;
     background-position: fixed;
     background-size: cover;
@@ -32,7 +32,7 @@ body {
 
 .formulario-login {
     width: 220px;
-    margin: 20px auto;
+    margin: 22px auto;
     padding: 16px;
     border: 1px solid rgba(255, 255, 255, 0.55);
     background-color: rgba(255, 255, 255, 0.125);
@@ -42,6 +42,7 @@ body {
 .titulo-login {
     margin-bottom: 15px;
     font-size: medium;
+    font-weight: 500;
     text-align: left;
 }
 
@@ -54,19 +55,13 @@ body {
 }
 
 .boton-login {
-    width: 100%;
-    padding: 13px 10px;
-    background-color: rgb(10, 150, 0);
-    border-color: rgb(10, 150, 0);
+    height: 50px;
+    font-size: 20px;
 }
 
-.boton-login:hover {
+.boton-login.success:hover {
     background-color: rgba(10, 150, 0, 0.85);
     border-color: rgba(10, 150, 0, 0.85);
-}
-
-.boton-login .icono {
-    font-size: 20px;
 }
 
 .notificaciones-login {
@@ -85,4 +80,8 @@ body {
 .link-registrar:hover {
     color: rgba(255, 255, 255, 0.95);
     text-decoration: none;
+}
+
+.link-registrar:focus {
+    outline: none;
 }

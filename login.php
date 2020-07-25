@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+$session_started = session_start();
 
 if ($_SESSION["user"]) {
     header('location: index.php');
@@ -21,7 +21,7 @@ if ($_SESSION["user"]) {
             // Verificar Si Usuario Existe.
             $user_exists = verificarUsuario($conn, $user);
             if (!$user_exists) $errors[] = 'Éste Usuario No Está Registrado';
-            
+
             if (!$errors) {
                 // Verificar Si Contraseña Es Correcta.
                 $correct_password = verificarContraseña($conn, $user, $password);

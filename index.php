@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+$session_started = session_start();
 
 if ($_SESSION['user']) {
     require 'index.view.php';

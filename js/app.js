@@ -140,14 +140,14 @@ function crearTarjetas(tareas) {
             <div id="tarjeta-${tarea.id}" class="tarjeta" data-id="${tarea.id}">
                 <div class="contenido seleccionar" data-id="${tarea.id}">
                     <input id="checkbox-${tarea.id}" type="checkbox" class="checkbox" data-id="${tarea.id}">
-                    <label for="checkbox-${tarea.id}" class="check-delete" data-id="${tarea.id}"></label>
+                    <label for="checkbox-${tarea.id}" class="check-delete custom-checkbox" data-id="${tarea.id}"></label>
                 </div>
                 <div class="contenido id" data-id="${tarea.id}">${tarea.id}</div>
                 <div class="contenido name" data-id="${tarea.id}">${tarea.name}</div>
                 <div class="contenido description" data-id="${tarea.id}">${tarea.description}</div>
                 <div class="contenido date" data-id="${tarea.id}">${tarea.date}</div>
                 <div class="contenido actions" data-id="${tarea.id}">
-                    <a id="button-edit-${tarea.id}" href="" class="button-edit mr-4" title="Editar" data-id="${tarea.id}">
+                    <a id="button-edit-${tarea.id}" href="" class="button-edit" title="Editar" data-id="${tarea.id}">
                         <i id="icon-edit-${tarea.id}" class="icon-edit fas fa-pen" data-id="${tarea.id}"></i>
                     </a>
                     <a id="button-delete-${tarea.id}" href="" class="button-delete" title="Eliminar" data-id="${tarea.id}">
@@ -345,7 +345,7 @@ async function guardarTareas() {
     const description = save_description.value;
     const json = JSON.stringify({ id, name, description });
     const url = save_button.name == 'update' ? 'tasks-update.php' : 'tasks-add.php';
-    
+
     const data = new FormData();
     data.append('data', json);
     const response = await fetch(url, { method: 'post', body: data });
@@ -648,37 +648,44 @@ async function subirLista(lista) {
 }
 
 function alternarEstadoSubir() {
-    const file = upload_input.files[0] ? upload_input.files[0] : 'No File';
-    file == 'No File' ? desactivarEstadoSubir() : activarEstadoSubir(file);
+    const file = upload_input.files[0] ? upload_input.files[0] : false;
+    if (file) activarEstadoSubir(file);
+    else {
+        if (!upload_button.hasAttribute('disabled')) {
+            quitarEstado(upload_button, 'upload')
+            deshabilitarElemento(upload_button);
+        }
+        desactivarEstadoSubir();
+    }
 }
 
 function activarEstadoSubir(file) {
     activarElemento(upload_field);
-    habilitarElemento(upload_button);
     cambiarTitle(upload_field, file.name);
-    cambiarTitle(upload_fieldtext, file.name);
     cambiarTexto(upload_fieldtext, file.name);
+    cambiarTitle(upload_fieldtext, file.name);
+    habilitarElemento(upload_button);
 }
 
 function desactivarEstadoSubir() {
-    vaciarFormulario(upload_form);
     desactivarElemento(upload_field);
-    deshabilitarElemento(upload_button);
     cambiarTitle(upload_field, 'Buscar Lista');
     cambiarTitle(upload_fieldtext, 'Buscar Lista');
     cambiarTexto(upload_fieldtext, 'Buscar Lista');
 }
 
 function activarEstadoSubiendo() {
+    agregarEstado(upload_field, 'uploading');
+    agregarEstado(upload_button, 'uploading');
+    deshabilitarElemento(upload_button);
     cambiarIcono(upload_icon, 'fa-paper-plane', ['fa-cog', 'fa-spin']);
-    agregarEstado(upload_field, 'upload')
-    agregarEstado(upload_button, 'upload')
 }
 
 function desactivarEstadoSubiendo() {
+    vaciarFormulario(upload_form);
+    quitarEstado(upload_field, 'uploading');
+    quitarEstado(upload_button, 'uploading');
     cambiarIcono(upload_icon, ['fa-cog', 'fa-spin'], 'fa-paper-plane');
-    quitarEstado(upload_field, 'upload')
-    quitarEstado(upload_button, 'upload')
 }
 
 /* --------------- NOTIFICACIONES --------------- */

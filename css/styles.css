@@ -22,10 +22,6 @@
     color: grey;
 }
 
-.text-gold {
-    color: gold;
-}
-
 /***** Background *****/
 .bg-mark {
     background-color: blanchedalmond;
@@ -54,13 +50,4 @@
 
 .bd-violet {
     border: thin solid blueviolet;
-}
-
-/* Border */
-.bd-dashed {
-    border-style: dashed;
-}
-
-.bd-radius {
-    border-radius: .25rem;
 }

@@ -1,41 +1,115 @@
 /*---------- VARIABLES ----------*/
 :root {
+    --success: rgb(10, 150, 0);
+    --success-hover: rgb(10, 125, 0);
+    --warning: rgb(250, 212, 0);
+    --warning-hover: rgb(230, 170, 19);
+    --danger: rgb(245, 0, 0);
+    --danger-hover: rgb(230, 0, 0);
+    --primary: rgb(0, 102, 255);
+    --primary-hover: rgb(0, 60, 224);
+    --secondary: grey;
+    --secondary-hover: rgb(100, 100, 100);
+    --info: rgb(0, 132, 255);
+    --light: #eeeeee;
     --light-grey: #dddddd;
+}
+
+/*---------- ELEMENTOS ----------*/
+body,
+input,
+button,
+textarea {
+    font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+}
+
+body,
+figure,
+h1 {
+    margin: 0;
+}
+
+button {
+    padding: 0;
+}
+
+a,
+div,
+input,
+form,
+button,
+figure,
+textarea,
+label,
+label:before {
+    box-sizing: border-box;
+}
+
+a:hover,
+button:hover {
+    cursor: pointer;
+}
+
+a:focus {
+    outline: 1px dotted rgb(25, 25, 25);
 }
 
 /*---------- ELEMENTOS PERSONALIZADOS ----------*/
 
+/* Campos de Formulario Personalizados */
+.form-field {
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 1rem;
+    line-height: 1;
+    color: rgb(100, 100, 100);
+    background-color: white;
+    border: 1px solid var(--light-grey);
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+textarea.form-field {
+    height: auto;
+    padding: 13px 15px;
+}
+
+.form-field:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
 /* Checkbox Personalizado */
-.checkbox {
+[type="checkbox"].checkbox {
     display: none;
 }
 
-.checkbox + label {
+[type="checkbox"].checkbox + label.custom-checkbox {
     width: 17px;
     height: 17px;
-    padding: 0;
-    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.checkbox + label:before {
+[type="checkbox"].checkbox + label.custom-checkbox:before {
     content: "";
     height: 17px;
     width: 17px;
     background-color: white;
     border: thin solid var(--primary);
     border-radius: 0.25rem;
-    display: block;
-    position: absolute;
 }
 
-.checkbox:checked + label:before {
+[type="checkbox"].checkbox:checked + label.custom-checkbox:before {
     background-color: var(--primary);
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center center;
 }
 
 /* Input File Personalizado */
@@ -43,9 +117,8 @@
     display: none;
 }
 
-.file + label {
+.file + label.custom-file {
     height: 40px;
-    margin: 0;
     padding: 0 20px;
     color: var(--warning);
     border: 1px solid var(--warning);
@@ -54,39 +127,105 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.35s ease;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
-.file + label .file-name {
+.file + label.custom-file .file-name {
+    line-height: 1.5;
     max-height: calc(1rem * 1.5); /* Valor del "line-height" */
     overflow: hidden;
 }
 
 /* Botones Personalizados */
 .boton {
-    padding: 5px;
+    height: 40px;
+    width: 100%;
     color: white;
-    background-color: var(--success);
-    border: 1px solid var(--success);
+    font-size: 18px;
+    background-color: var(--secondary);
+    border: 1px solid var(--secondary);
     border-radius: 0.25rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.35s ease;
+    transition: color 0.35s ease, background-color 0.35s ease,
+        border-color 0.35s ease;
 }
 
 .boton:hover {
-    border-color: darkgreen;
-    background-color: darkgreen;
+    border-color: var(--secondary-hover);
+    background-color: var(--secondary-hover);
 }
 
 .boton:focus {
     outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(129, 129, 129, 0.5);
 }
 
-.boton .icono {
-    font-size: 18px;
+.boton:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* Botón Success */
+.boton.success {
+    background-color: var(--success);
+    border-color: var(--success);
+}
+
+.boton.success:hover {
+    background-color: var(--success-hover);
+    border-color: var(--success-hover);
+}
+
+.boton.success:focus {
+    box-shadow: 0 0 0 0.2rem rgba(52, 141, 64, 0.5);
+}
+
+/* Botón Warning */
+.boton.warning {
+    color: #212529;
+    background-color: var(--warning);
+    border-color: var(--warning);
+}
+
+.boton.warning:hover {
+    background-color: var(--warning-hover);
+    border-color: var(--warning-hover);
+}
+
+.boton.warning:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 196, 0, 0.5);
+}
+
+/* Botón Primary */
+.boton.primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.boton.primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.boton.primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 132, 255, 0.5);
+}
+
+/* Botón Danger */
+.boton.danger {
+    background-color: var(--danger);
+    border-color: var(--danger);
+}
+
+.boton.danger:hover {
+    background-color: var(--danger-hover);
+    border-color: var(--danger-hover);
+}
+
+.boton.danger:focus {
+    box-shadow: 0 0 0 0.2rem rgba(233, 42, 9, 0.5);
 }
 
 /* Overlay */
@@ -101,20 +240,19 @@
     left: 0;
     right: 0;
     opacity: 0;
-    z-index: -1;
     visibility: hidden;
-    transition: all 0.35s ease;
+    transition: visibility 0.5s ease, background-color 0.5s ease,
+        opacity 0.5s ease;
 }
 
 .overlay.active {
     opacity: 1;
-    z-index: 1;
     visibility: visible;
 }
 
 /* Alertas Personalizadas */
-.alerta {
-    width: 400px;
+div.alerta {
+    width: 380px;
     height: 195px;
     padding: 1rem;
     background-color: white;
@@ -123,27 +261,24 @@
     display: flex;
     flex-direction: column;
     opacity: 0;
-    z-index: -1;
     visibility: hidden;
     transform: scale(0.5);
     transition: all 0.5s ease;
 }
 
-.alerta.active {
+div.alerta.active {
     opacity: 1;
-    z-index: 1;
     visibility: visible;
     transform: scale(1);
 }
 
-.cabecera-alerta {
+div.cabecera-alerta {
     height: fit-content;
     line-height: 1;
     text-align: right;
 }
 
-.cabecera-alerta .cerrar-alerta {
-    padding: 0;
+div.cabecera-alerta button.cerrar-alerta {
     color: #bdbdbd;
     font-size: 20px;
     font-weight: bold;
@@ -154,31 +289,50 @@
     transition: all 0.25s ease;
 }
 
-.cabecera-alerta .cerrar-alerta:disabled {
+div.cabecera-alerta button.cerrar-alerta:disabled {
     pointer-events: none;
     opacity: 0.5;
 }
 
-.cabecera-alerta .cerrar-alerta:focus {
+div.cabecera-alerta button.cerrar-alerta:focus {
     outline: none;
 }
 
-.cabecera-alerta .cerrar-alerta:hover {
+div.cabecera-alerta button.cerrar-alerta:hover {
     color: #a0a0a0;
-    text-decoration: none;
 }
 
-.cuerpo-alerta {
+div.cuerpo-alerta {
     height: 100%;
     color: #757575;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 700;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.pie-alerta {
+div.pie-alerta {
     height: fit-content;
     text-align: right;
+}
+
+div.pie-alerta button.boton-eliminar,
+div.pie-alerta button.boton-cancelar {
+    width: auto;
+    height: 38px;
+    padding: 0 10px;
+    font-size: medium;
+    line-height: 1.5;
+}
+
+div.pie-alerta button.boton-eliminar {
+    margin-right: 10px;
+    color: red;
+    background-color: white;
+}
+
+div.pie-alerta button.boton-eliminar:hover {
+    color: white;
+    background-color: red;
 }

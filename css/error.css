@@ -1,0 +1,7 @@
+body {
+    height: 100vh;
+    background-color: whitesmoke;
+    background-image: url("../img/error-cup.webp");
+    background-repeat: no-repeat;
+    background-position: center center;
+}

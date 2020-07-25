@@ -1,5 +1,4 @@
 body {
-    color: white;
     background-image: url("../img/background-join.jpg"); /* Photo by Ant Rozetsky on Unsplash: https://unsplash.com/photos/HXOllTSwrpM */
     background-repeat: no-repeat;
     background-position: fixed;
@@ -7,12 +6,11 @@ body {
 }
 
 .contenedor {
-    margin-top: 25px;
+    margin-top: 50px;
     text-align: center;
 }
 
 .logo {
-    margin-top: 55px;
     font-size: 40px;
 }
 
@@ -32,7 +30,7 @@ body {
 
 .formulario-join {
     width: 230px;
-    margin: 20px auto;
+    margin: 22px auto;
     padding: 16px;
     border: 1px solid rgba(115, 0, 115, 0.85);
     background-color: rgba(255, 255, 255, 0.125);
@@ -40,8 +38,10 @@ body {
 }
 
 .titulo-join {
+    color: white;
     margin-bottom: 15px;
     font-size: medium;
+    font-weight: 500;
     text-align: left;
 }
 
@@ -59,13 +59,21 @@ body {
 .usuario-join:valid,
 .contrasena-join:valid,
 .confirmacion-join:valid {
-    border-color: var(--success);
-    box-shadow: 0 0 0 0.2rem rgba(5, 150, 0, 0.35);
+    border: 1px solid rgba(0, 200, 0, 0.9);
 }
 
+.correo-join:valid:focus,
+.usuario-join:valid:focus,
+.contrasena-join:valid:focus,
+.confirmacion-join:valid:focus {
+    border: 1px solid rgba(0, 200, 0, 0.9);
+    box-shadow: 0 0 0 0.2rem rgba(8, 235, 0, 0.35);
+}
+
+/* Botón Registro */
 .boton-join {
-    width: 100%;
-    padding: 13px 10px;
+    height: 50px;
+    font-size: 20px;
     border-color: purple;
     background-color: purple;
 }
@@ -79,11 +87,8 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(152, 47, 184, 0.5);
 }
 
-.boton-join .icono {
-    font-size: 20px;
-}
-
 .notificaciones-join {
+    color: white;
     text-align: center;
     margin-bottom: 15px;
 }
@@ -93,10 +98,14 @@ body {
     font-size: medium;
     font-weight: bold;
     text-decoration: none;
-    transition: all 0.25s ease;
+    transition: color 0.3s ease;
 }
 
 .link-iniciar-sesion:hover {
     color: rgba(255, 255, 255, 0.95);
     text-decoration: none;
+}
+
+.link-iniciar-sesion:focus {
+    outline: none;
 }

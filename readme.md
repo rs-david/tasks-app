@@ -13,13 +13,11 @@ _Navegadores:_
 
 _Frameworks, Icons:_
 
--   Bootstrap 4.4.1 (Modificado: "!important" Eliminados)
 -   Font Awesome 5.14
 
 _Otros:_
 
 -   https://unsplash.com/
--   https://tinypng.com/
 
 _Importar Base de Datos:_
 

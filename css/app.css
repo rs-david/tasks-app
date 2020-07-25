@@ -22,14 +22,15 @@ body {
     max-width: 1280px;
     margin: auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
 /* Logo */
 .logo {
-    font-size: 28px;
     color: black;
+    font-size: 28px;
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .logo:hover {
@@ -37,26 +38,26 @@ body {
     text-decoration: none;
 }
 
-.logo .icono {
-    color: var(--primary);
+.logo:focus {
+    outline: none;
 }
 
-/* Contenedor Buscar */
-.contenedor-buscar {
-    height: 40px;
-    display: flex;
+.logo i.icono {
+    color: var(--primary);
 }
 
 /* Formulario Buscar */
 .formulario-buscar {
-    height: 100%;
+    height: 40px;
+    margin-left: auto;
+    margin-right: 5px;
     display: flex;
 }
 
 .formulario-buscar input[class^="buscar"] {
     height: 100%;
     margin-right: 10px;
-    border-color: white;
+    border-color: whitesmoke;
 }
 
 .buscar-nombre,
@@ -71,38 +72,17 @@ body {
 .buscar-id::-webkit-inner-spin-button,
 .buscar-id::-webkit-outer-spin-button {
     -webkit-appearance: none;
-    margin: 0;
 }
 
 /* Botón Limpiar */
 .boton-limpiar {
     width: 40px;
-    height: 100%;
-    margin-right: 5px;
-    border-color: var(--primary);
-    background-color: var(--primary);
-    pointer-events: all;
-    opacity: 1;
-}
-
-.boton-limpiar:disabled {
-    pointer-events: none;
-    opacity: 0.5;
-}
-
-.boton-limpiar:hover {
-    border-color: #0064cf;
-    background-color: #0064cf;
-}
-
-.boton-limpiar:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 132, 255, 0.5);
 }
 
 /* Boton: Logout */
 .boton-logout {
     width: 40px;
-    height: 100%;
+    height: 40px;
     color: orangered;
     border-color: orangered;
     background-color: transparent;
@@ -156,23 +136,17 @@ body {
     height: 225px;
     min-height: 225px;
     max-height: 225px;
+    max-width: 100%;
+    min-width: 100%;
     margin-bottom: 10px;
 }
 
 /* Botón Guardar */
 .boton-guardar {
     height: 50px;
-    width: 100%;
-    padding: 0 20px;
-    font-size: x-large;
-    transition: all 0.45s ease;
+    font-size: 25px;
     pointer-events: all;
     opacity: 1;
-}
-
-.boton-guardar:disabled {
-    pointer-events: none;
-    opacity: 0.5;
 }
 
 .boton-guardar.edit {
@@ -182,8 +156,8 @@ body {
 }
 
 .boton-guardar.edit:hover {
-    border-color: goldenrod;
-    background-color: goldenrod;
+    border-color: var(--warning-hover);
+    background-color: var(--warning-hover);
 }
 
 .boton-guardar.edit:focus {
@@ -217,28 +191,16 @@ body {
 /* Botón Eliminación Múltiple */
 .boton-eliminacion-multiple {
     width: 40px;
-    color: white;
-    background-color: red;
-    border-color: red;
-    pointer-events: all;
 }
 
 .boton-eliminacion-multiple:disabled {
-    color: red;
+    color: var(--danger);
     background-color: white;
     pointer-events: none;
+    opacity: 1;
 }
 
-.boton-eliminacion-multiple:hover {
-    border-color: #c80000;
-    background-color: #c80000;
-}
-
-.boton-eliminacion-multiple:focus {
-    box-shadow: 0 0 0 0.2rem rgba(233, 42, 9, 0.5);
-}
-
-/* Contador: Resultados de Búsqueda */
+/* Contadores: Resultados de Búsqueda  & Tareas Totales */
 .contador-busqueda {
     height: 40px;
     margin-bottom: 15px;
@@ -251,7 +213,6 @@ body {
     align-items: center;
 }
 
-/* Contador: Tareas Totales */
 .contador-totales {
     height: 40px;
     margin-bottom: 15px;
@@ -262,6 +223,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.contador-busqueda > span,
+.contador-totales > span {
+    font-weight: bold;
 }
 
 /* Formulario: Subir Lista */
@@ -275,11 +241,14 @@ body {
 }
 
 .campo-subir-lista.active {
-    color: #212529;
     background-color: var(--warning);
 }
 
-.campo-subir-lista.active.upload {
+.campo-subir-lista.active .file-name{
+    color: #212529;
+}
+
+.campo-subir-lista.active.uploading {
     opacity: 0.5;
     pointer-events: none;
 }
@@ -287,30 +256,19 @@ body {
 /* Botón Subir Lista */
 .boton-subir-lista {
     width: 40px;
-    color: black;
-    background-color: var(--warning);
-    border-color: var(--warning);
-    pointer-events: all;
 }
 
 .boton-subir-lista:disabled {
     color: var(--warning);
     background-color: white;
-    pointer-events: none;
+    opacity: 1;
 }
 
-.boton-subir-lista.upload {
+.boton-subir-lista:disabled.uploading {
+    color: black;
+    background-color: var(--warning);
     opacity: 0.5;
     pointer-events: none;
-}
-
-.boton-subir-lista:hover {
-    border-color: goldenrod;
-    background-color: goldenrod;
-}
-
-.boton-subir-lista:focus {
-    box-shadow: 0 0 0 0.2rem rgba(255, 196, 0, 0.5);
 }
 
 /* Lista */
@@ -365,7 +323,12 @@ body {
 .encabezado.actions,
 .contenido.actions {
     width: 10%;
-    justify-content: space-around;
+    text-align: center;
+}
+
+.contenido.actions {
+    padding: 0 10px;
+    justify-content: space-between;
 }
 
 /* Encabezados */
@@ -422,9 +385,18 @@ body {
     color: var(--success);
 }
 
-.encabezados a:hover {
+.encabezados a {
+    color: var(--primary);
     text-decoration: none;
+}
+
+.encabezados a:hover {
     color: grey;
+    text-decoration: none;
+}
+
+.encabezados a:focus {
+    outline: none;
 }
 
 /* Tareas */
@@ -484,10 +456,19 @@ body {
     border-radius: 0.25rem;
     display: flex;
     align-items: center;
-    transition: all 0.25s ease;
+    transition: border 0.25s ease, background-color 0.25s ease;
 }
 
-.tarjeta.select {   
+.tarjeta:last-child {
+    margin-bottom: 0;
+}
+
+.tarjeta .contenido.id {
+    color: grey;
+    font-weight: bold;
+}
+
+.tarjeta.select {
     background-color: #f5f5f5;
     transition: all 0.05s ease;
 }
@@ -499,6 +480,35 @@ body {
     transition: all 0.45s ease;
 }
 
+/* Checkboxes de Tarjetas */
+.tarjeta .checkbox + label.custom-checkbox::before {
+    border: thin solid rgb(200, 200, 200);
+}
+
+.tarjeta .checkbox:checked + label.custom-checkbox::before {
+    background-color: rgb(200, 200, 200);
+}
+
+/* Botones Editar & Eliminar */
+.button-edit,
+.button-delete {
+    color: transparent;
+    text-decoration: none;
+    transform: scale(0.5);
+    transition: all 0.3s ease;
+}
+
+.button-edit:hover,
+.button-delete:hover {
+    text-decoration: none;
+}
+
+.button-edit:focus,
+.button-delete:focus {
+    outline: none;
+}
+
+/* Tarjeta Hover */
 .tarjeta:hover .button-delete {
     color: var(--danger);
     transform: scale(1.2);
@@ -511,45 +521,8 @@ body {
     transition: all 0.25s ease;
 }
 
-/* Checkboxes de Eliminación */
-.tarjeta .checkbox + .check-delete::before {
-    border: thin solid rgb(200, 200, 200);
-}
-
-.tarjeta .checkbox:checked + .check-delete::before {
-    background-color: rgb(200, 200, 200);
-}
-
-.tarjeta .id {
-    color: grey;
-    font-weight: bold;
-}
-
-.tarjeta:last-child {
-    margin-bottom: 0;
-}
-
-/* Botones Editar & Eliminar */
-.button-edit,
-.button-delete {
-    color: transparent;
-    transform: scale(0.5);
-    transition: all 0.25s ease;
-}
-
-.button-edit:hover {
-    text-decoration: none;
-    color: var(--warning);
-}
-
-.button-delete:hover {
-    text-decoration: none;
-    color: var(--danger);
-}
-
 /* Tarjeta Final */
 .tarjeta-final {
-    padding: 18px;
     color: grey;
     font-weight: bold;
     text-align: center;
@@ -558,10 +531,9 @@ body {
 
 /* Botón Mostrar */
 .boton-mostrar {
-    width: 100%;
-    padding: 15px 10px;
-    font-size: 20px;
+    height: 55px;
     color: grey;
+    font-size: 20px;
     background-color: #f8f9fa;
     border-color: #f8f9fa;
     pointer-events: none;
@@ -639,46 +611,18 @@ body {
     background-color: rgba(225, 225, 225, 0.75);
 }
 
+.boton-inicio-lista:focus {
+    outline: none;
+}
+
 /* Formulario Eliminar */
 .formulario-eliminar {
     display: flex;
     justify-content: flex-end;
 }
 
-/* Botón Eliminar & Botón Cancelar */
-.formulario-eliminar .boton-eliminar,
-.formulario-eliminar .boton-cancelar {
-    line-height: 1;
-    height: 38px;
-    padding: 0 10px;
-    pointer-events: all;
-    opacity: 1;
-}
-
-.formulario-eliminar .boton-eliminar {
-    margin-right: 8px;
-    color: red;
-    background-color: white;
-    border-color: red;
-}
-
-.formulario-eliminar .boton-eliminar:disabled,
-.formulario-eliminar .boton-cancelar:disabled {
-    pointer-events: none;
-    opacity: 0.5;
-}
-
-.formulario-eliminar .boton-eliminar:hover {
-    color: white;
-    border-color: red;
-    background-color: red;
-}
-
-.formulario-eliminar .boton-eliminar:focus {
-    box-shadow: 0 0 0 0.2rem rgba(233, 42, 9, 0.5);
-}
-
-.formulario-eliminar .boton-eliminar .icono {
+/* Icono Botón Eliminar */
+.formulario-eliminar .boton-eliminar i.icono {
     margin-right: 5px;
     font-size: medium;
 }
