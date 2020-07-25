@@ -523,6 +523,7 @@ body {
 
 /* Tarjeta Final */
 .tarjeta-final {
+    padding: 20px 0;
     color: grey;
     font-weight: bold;
     text-align: center;
