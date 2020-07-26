@@ -61,6 +61,9 @@ const multiple_button = document.querySelector('#button-multiple-delete');
 const clean_button = document.querySelector('#button-clean');
 const clean_icon = document.querySelector('#icon-clean');
 
+/* Scrolling */
+const top_button = document.querySelector('#button-top-list');
+
 //*---------- FUNCIONES DE INICIO: ----------*//
 
 listarTareas();
@@ -103,11 +106,8 @@ function crearListaTareas(tareas) {
     else {
         cards_container.classList.remove('bg-green-tea', 'bg-happy-cup');
 
-        const initialcard = crearTarjetaInicial();
-        cambiarContenido(cards_container, initialcard);
-
         const cards = crearTarjetas(tareas);
-        agregarContenido(cards_container, cards);
+        cambiarContenido(cards_container, cards);
 
         const finalcard = crearTarjetaFinal(results);
         if (finalcard) agregarContenido(cards_container, finalcard);
@@ -125,11 +125,6 @@ function crearListaTareas(tareas) {
 
     const checkboxes = document.querySelectorAll('.tarjeta .checkbox:checked');
     actualizarContadores(total, results, checkboxes.length);
-}
-
-function crearTarjetaInicial() {
-    const initialcard = `<div id="inicio-lista"></div>`;
-    return initialcard;
 }
 
 function crearTarjetas(tareas) {
@@ -175,7 +170,7 @@ function crearTarjetaFinal(resultados) {
     }
     if (actual_limit <= resultados) {
         const showbutton = `
-            <button id="button-show" class="boton boton-mostrar active" title="Mostrar Más Tareas">
+            <button id="button-show" class="boton-mostrar boton active" title="Mostrar Más Tareas">
                 <i id="icon-show" class="fas fa-plus fa-lg"></i>
             </button>
         `;
@@ -208,8 +203,8 @@ function alternarEstadoSeleccionarTarjeta(elemento) {
 }
 
 function desplazarseEntreTarjetas(e) {
-    const selectedcard = document.querySelector('.tarjeta.select');
     const cards = document.querySelectorAll('.tarjeta');
+    const selectedcard = document.querySelector('.tarjeta.select');
 
     if (e.key == 'ArrowUp' && selectedcard) {
         e.preventDefault();
@@ -219,7 +214,7 @@ function desplazarseEntreTarjetas(e) {
 
             if (card.classList.contains('select') && i > 0) {
                 const cardup = cards[i - 1];
-                quitarEstado(selectedcard, 'select');
+                quitarEstado(card, 'select');
                 agregarEstado(cardup, 'select');
                 return;
             }
@@ -234,12 +229,25 @@ function desplazarseEntreTarjetas(e) {
 
             if (card.classList.contains('select') && i < cards.length - 1) {
                 const carddown = cards[i + 1];
-                quitarEstado(selectedcard, 'select');
+                quitarEstado(card, 'select');
                 agregarEstado(carddown, 'select');
                 return;
             }
         }
     }
+}
+
+/* --------------- SCROLLING --------------- */
+
+/* Listeners */
+top_button.addEventListener('click', e => {
+    desplazarAlInicioDeLaLista();
+    e.preventDefault();
+});
+
+/* Funciones */
+function desplazarAlInicioDeLaLista() {
+    cards_container.scrollTop = 0;
 }
 
 /* --------------- MOSTRAR MÁS TAREAS --------------- */

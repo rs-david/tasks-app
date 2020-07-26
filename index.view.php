@@ -155,7 +155,7 @@
                     <div id="notification" class="notificacion"></div>
 
                     <!-- Botón Subir -->
-                    <a id="button-start-list" href="#inicio-lista" class="boton-inicio-lista" title="Inicio">
+                    <a id="button-top-list" href="" class="boton-inicio-lista" title="Inicio">
                         <i class="fas fa-chevron-up fa-lg"></i>
                     </a>
                 </div>
