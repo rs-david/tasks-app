@@ -1,25 +1,26 @@
 <?php
 
+session_start();
 $data = json_decode($_POST['data'], true);
 
-$id = $data[0];
-$or = '';
-
-if (count($data) > 1) {
-    for ($i = 1; $i < count($data); $i++) {
-        $key = $data[$i];
-        $or .= " OR id = $key";
-    }
+for ($i = 0; $i < count($data); $i++) {
+    $id = $data[$i];
+    $condition .= "id = $id";
+    if ($i < count($data) - 1) $condition .= ' OR ';
 }
 
 try {
-    include('connection.php');
+    require('connection.php');
+    $user_id = $_SESSION["user"];
 
-    $statement = $conn->prepare("DELETE FROM tasks WHERE id = $id $or");
-    $statement->execute();
+    $statement = $conn->prepare("DELETE FROM tasks WHERE user_id = :user_id AND $condition");
+    $statement->execute([':user_id' => $user_id]);
 
-    $cantidad = count($data);
-    echo "$cantidad Tareas Eliminadas";
+    $quantity = count($data);
+    $response = ['content' => "¡$quantity Tareas Eliminadas!", 'type' => 'success'];
 } catch (PDOException $e) {
-    echo 'ERROR: ' . $e->getMessage();
+    $error = 'ERROR: ' . $e->getMessage();
+    $response = ['content' => "Error En El Servidor", 'type' => 'danger', 'error' => $error];
 }
+
+echo json_encode($response);

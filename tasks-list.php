@@ -1,4 +1,5 @@
 <?php
+session_start();
 setlocale(LC_ALL, 'spanish');
 
 // Convertir Datos Recibidos en Array.
@@ -8,6 +9,7 @@ $data = json_decode($_POST['data'], true);
 $id = $data['id'] ? "$data[id]%" : '%';
 $name = $data['name'] ? "$data[name]%" : '%';
 $description = $data['description'] ? "$data[description]%" : '%';
+$user_id = $_SESSION["user"] ?? 0;
 $column = $data['column'] ?? "created";
 $sort = $data['sort'] ?? "DESC";
 $limit = $data['limit'] ?? 100;
@@ -16,15 +18,16 @@ try {
     include('connection.php');
 
     // Obtener Cantidad Total de Tareas.
-    $total = $conn->query('SELECT COUNT(*) AS total FROM tasks');
-    $total = $total->fetch(PDO::FETCH_ASSOC);
+    $total = $conn->prepare('SELECT COUNT(*) AS total FROM tasks WHERE user_id=:user_id');
+    $total->execute([':user_id' => $user_id]);
+    $total = $total->fetch();
     $total = $total["total"];
 
     // Obtener Tareas.
     $tasks = $conn->prepare("SELECT * FROM
-                                (SELECT COUNT(*) AS results FROM tasks WHERE id LIKE :id AND name LIKE :name AND description LIKE :description) AS resultados,
-                                (SELECT * FROM tasks WHERE id LIKE :id AND name LIKE :name AND description LIKE :description ORDER BY $column $sort LIMIT $limit) AS tareas");
-    $tasks->execute([':id' => $id, ':name' => $name, ':description' => $description]);
+                                (SELECT COUNT(*) AS results FROM tasks WHERE user_id = :user_id AND id LIKE :id AND name LIKE :name AND description LIKE :description) AS resultados,
+                                (SELECT * FROM tasks WHERE user_id=:user_id AND id LIKE :id AND name LIKE :name AND description LIKE :description ORDER BY $column $sort LIMIT $limit) AS tareas");
+    $tasks->execute([':user_id' => $user_id, ':id' => $id, ':name' => $name, ':description' => $description]);
 
     // Crear Array Lista Tareas.
     while ($row = $tasks->fetch(PDO::FETCH_ASSOC)) {
@@ -44,11 +47,11 @@ try {
     // Crear Array Alternativa.
     $alter = ['total' => $total, 'results' => 0];
 
-    // Crear Json del Array.
-    $json = $list == null ? json_encode($alter) : json_encode($list);
-
-    // Mostrar.
-    echo $json;
+    // Crear Respuesta.
+    $response = $list ?? $alter;
 } catch (PDOException $e) {
-    echo 'ERROR: ' . $e->getMessage();
+    $error = 'ERROR: ' . $e->getMessage();
+    $response = ['content' => 'Error En El Servidor', 'type' => 'danger', 'error' => $error];
 }
+
+echo json_encode($response);

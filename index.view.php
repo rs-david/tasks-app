@@ -28,7 +28,7 @@
             <nav class="navegacion">
                 <div class="contenedor-navegacion">
                     <!-- Logo -->
-                    <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="logo" title="Home">
+                    <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" class="logo" title="Home">
                         <i class="icono fas fa-address-book"></i>
                         <strong>Tasks</strong> App
                     </a>
@@ -47,7 +47,7 @@
                         </button>
                     </form>
                     <!-- Botón: Cerrar Sesión -->
-                    <a href="logout.php" class="boton boton-logout" title="Cerrar Sesión">
+                    <a id="button-logout" href="logout.php" class="boton boton-logout" title="Cerrar Sesión">
                         <i class="fas fa-user-alt-slash"></i>
                     </a>
                 </div>
@@ -151,11 +151,8 @@
                     <!-- Tareas -->
                     <div id="cards-container" class="tareas"></div>
 
-                    <!-- Notificación -->
-                    <div id="notification" class="notificacion"></div>
-
                     <!-- Botón Subir -->
-                    <a id="button-top-list" href="" class="boton-inicio-lista" title="Inicio">
+                    <a id="button-top-list" href="" class="boton-inicio-lista" title="Arriba">
                         <i class="fas fa-chevron-up fa-lg"></i>
                     </a>
                 </div>

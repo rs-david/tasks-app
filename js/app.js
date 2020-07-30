@@ -1,3 +1,4 @@
+"use strict";
 //*---------- VARIABLES ----------*//
 
 let actual_limit = 100;
@@ -90,8 +91,11 @@ async function listarTareas(limite, columna, orden) {
     const response = await fetch('tasks-list.php', { method: 'post', body: data });
     const tasks = await response.json();
 
-    crearListaTareas(tasks);
-    console.log('Tareas Listadas');
+    if (tasks.error) {
+        mostrarNotificacion(tasks.content, tasks.type);
+        console.log(tasks.error);
+    }
+    else crearListaTareas(tasks);
 }
 
 function crearListaTareas(tareas) {
@@ -123,8 +127,8 @@ function crearListaTareas(tareas) {
         }
     }
 
-    const checkboxes = document.querySelectorAll('.tarjeta .checkbox:checked');
-    actualizarContadores(total, results, checkboxes.length);
+    const checkedcheckboxes = document.querySelectorAll('.tarjeta .checkbox:checked');
+    actualizarContadores(total, results, checkedcheckboxes.length);
 }
 
 function crearTarjetas(tareas) {
@@ -357,9 +361,10 @@ async function guardarTareas() {
     const data = new FormData();
     data.append('data', json);
     const response = await fetch(url, { method: 'post', body: data });
-    const message = await response.text();
+    const message = await response.json();
 
-    await listarTareas();
+    if (message.error) console.log(message.error);
+    else await listarTareas();
 
     if (save_button.name == 'update') {
         const editcard = document.querySelector('.tarjeta.edit');
@@ -370,7 +375,7 @@ async function guardarTareas() {
 
     quitarEstadoGuardando();
     enfocarElemento(save_name);
-    mostrarNotificacion(message);
+    mostrarNotificacion(message.content, message.type);
 }
 
 function agregarEstadoGuardando() {
@@ -498,16 +503,17 @@ async function eliminarTareas() {
     const data = new FormData();
     data.append('data', json);
     const response = await fetch('tasks-delete.php', { method: 'post', body: data });
-    const message = await response.text();
+    const message = await response.json();
 
     if (!multiple_button.hasAttribute('disabled')) deshabilitarElemento(multiple_button);
     if (checkbox_master.checked) desmarcarElemento(checkbox_master);
-
-    await listarTareas();
+    
+    if (message.error) console.log(message.error);
+    else await listarTareas();
 
     quitarEstadoEliminando();
     desactivarEstadoEliminar();
-    mostrarNotificacion(message);
+    mostrarNotificacion(message.content, message.type);
 }
 
 function activarEstadoEliminar(claves) {
@@ -644,15 +650,15 @@ async function subirLista(lista) {
     const data = new FormData();
     data.append('file', lista);
     const response = await fetch('list-upload.php', { method: 'post', body: data });
-    const message = await response.text();
+    const message = await response.json();
 
-    if (message == 'Lista Guardada') await listarTareas();
+    if (message.content == '¡Lista Guardada!') await listarTareas();
+    if (message.error) console.log(message.error);
 
     desactivarEstadoSubiendo();
     desactivarEstadoSubir();
 
-    console.log(message);
-    mostrarNotificacion(message);
+    mostrarNotificacion(message.content, message.type);
 }
 
 function alternarEstadoSubir() {
@@ -699,17 +705,20 @@ function desactivarEstadoSubiendo() {
 /* --------------- NOTIFICACIONES --------------- */
 
 /* Funciones */
-function mostrarNotificacion(mensaje, estado) {
-    const contenido = `<strong>${mensaje}</strong>`;
-    cambiarContenido(notification, contenido);
-    agregarEstado(notification, estado);
-    activarElemento(notification);
-    setTimeout(() => cerrarNotificacion(estado), 2500);
+function mostrarNotificacion(mensaje, tipo) {
+    const notification = document.createElement("div");
+    notification.className = `notificacion ${tipo}`;
+    const message = document.createTextNode(mensaje);
+    notification.appendChild(message);
+
+    const lista = document.querySelector('.lista');
+    const encabezados = document.querySelector('.encabezados');
+    lista.insertBefore(notification, encabezados);
+    setTimeout(() => cerrarNotificacion(notification), 2500);
 }
 
-function cerrarNotificacion(estado) {
-    desactivarElemento(notification);
-    if (estado) quitarEstado(notification, estado);
+function cerrarNotificacion(notificacion) {
+    notificacion.remove();
 }
 
 /* --------------- LIMPIAR FILTROS --------------- */

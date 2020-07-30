@@ -196,7 +196,6 @@ body {
 .boton-eliminacion-multiple:disabled {
     color: var(--danger);
     background-color: white;
-    pointer-events: none;
     opacity: 1;
 }
 
@@ -244,7 +243,7 @@ body {
     background-color: var(--warning);
 }
 
-.campo-subir-lista.active .file-name{
+.campo-subir-lista.active .file-name {
     color: #212529;
 }
 
@@ -554,38 +553,39 @@ body {
     box-shadow: none;
 }
 
-/* Mensaje */
+/* Notificación */
 .notificacion {
+    width: calc(100% - 50px);
     height: 70px;
-    padding: 0 25px;
-    color: #036803;
+    color: white;
     font-size: medium;
-    text-align: center;
-    background-color: #e7f7e7;
-    border: 1px solid #64ac64;
+    font-weight: bold;
+    background-color: var(--info);
+    border: 1px solid var(--info);
     border-radius: 0.25rem;
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    right: 25px;
-    left: 25px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translate(0, -25px);
-    transition: all 0.5s ease;
+    z-index: 1;
 }
 
-.notificacion.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(0, 0);
+.notificacion.success {
+    color: white;
+    background-color: var(--success);
+    border: 1px solid var(--success);
 }
 
 .notificacion.warning {
     color: rgb(50, 50, 50);
-    background-color: #fff8cd;
+    background-color: var(--warning);
     border: 1px solid var(--warning);
+}
+
+.notificacion.danger {
+    color: white;
+    background-color: var(--danger);
+    border: 1px solid var(--danger);
 }
 
 /* Botón Subir */

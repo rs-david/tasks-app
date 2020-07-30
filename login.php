@@ -7,20 +7,19 @@ if ($_SESSION["user"]) {
     exit;
 } else {
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
-        require 'functions/functions.php';
-
-        $user = filtrarDatos($_POST['user']);
-        $password = filtrarDatos($_POST['password']);
-
-        // Revisar Campos Vacios.
-        if (empty($user) || empty($password)) $errors[] = 'Llena Todos Los Campos';
-
         try {
             require 'connection.php';
+            require 'functions/functions.php';
+
+            $user = filtrarDatos($_POST['user']);
+            $password = filtrarDatos($_POST['password']);
+
+            // Revisar Campos Vacios.
+            if (empty($user) || empty($password)) $errors[] = 'Llena Todos Los Campos';
 
             // Verificar Si Usuario Existe.
-            $user_exists = verificarUsuario($conn, $user);
-            if (!$user_exists) $errors[] = 'Éste Usuario No Está Registrado';
+            $user_id = obtenerClaveDeUsuario($conn, $user);
+            if (!$user_id) $errors[] = 'Éste Usuario No Está Registrado';
 
             if (!$errors) {
                 // Verificar Si Contraseña Es Correcta.
@@ -29,7 +28,7 @@ if ($_SESSION["user"]) {
 
                 if (!$errors) {
                     // Iniciar Sesión.
-                    $_SESSION['user'] = $user;
+                    $_SESSION['user'] = $user_id;
                     header('location: index.php');
                     exit;
                 }

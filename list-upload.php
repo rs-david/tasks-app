@@ -1,34 +1,42 @@
 <?php
 
+session_start();
 include('functions/functions.php');
 
-$filename = almacenarArchivo('file');
-
-if ($_FILES['file']['type'] == 'application/json') {
+if ($_SESSION["user"] && $_FILES['file']['type'] == 'application/json') {
+    $filename = almacenarArchivo('file');
     $data = file_get_contents($filename);
-    $list = json_decode($data, true);
+    $tasks = json_decode($data, true);
 
-    for ($i = 0; $i < 1000; $i++) {
-        $task = $list[$i];
-        $name = $task['name'];
-        $description = $task['description'];
-        $created = $task['created'];
+    if (!json_last_error()) {
+        $user_id = $_SESSION["user"];
 
-        $values .= "('$name', '$description', '$created')";
-        if ($i < 1000 - 1) $values .= ",";
-    }
+        for ($i = 0; $i < 1000; $i++) {
+            $task = $tasks[$i];
+            $name = $task['name'];
+            $description = $task['description'];
+            $created = $task['created'];
 
-    try {
-        include('connection.php');
+            $values .= "($user_id, '$name', '$description', '$created')";
+            if ($i < 1000 - 1) $values .= ",";
+        }
 
-        $statement = $conn->prepare("INSERT INTO tasks(name, description, created) VALUES$values");
-        $statement->execute();
+        try {
+            include('connection.php');
 
-        echo 'Lista Guardada';
-    } catch (PDOException $e) {
-        echo 'ERROR: ' . $e->getMessage();
+            $statement = $conn->prepare("INSERT INTO tasks(user_id, name, description, created) VALUES$values");
+            $statement->execute();
+
+            $response = ['content' => '¡Lista Guardada!', 'type' => 'success'];
+        } catch (PDOException $e) {
+            $error = 'ERROR: ' . $e->getMessage();
+            $response = ['content' => 'Error En El Servidor', 'type' => 'danger', 'error' => $error];
+        }
+    } else {
+        $response = ['content' => 'Archivo No Válido', 'type' => 'danger'];
     }
 } else {
-    $link = $_SERVER['HTTP_REFERER'] . $filename;
-    echo $link;
+    $response = ['content' => 'Archivo No Admitido', 'type' => 'warning'];
 }
+
+echo json_encode($response);

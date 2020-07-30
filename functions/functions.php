@@ -30,6 +30,16 @@ function verificarUsuario($conexion, $usuario)
     return $exists == false ? false : true;
 }
 
+function obtenerClaveDeUsuario($conexion, $usuario)
+{
+    $user_id = $conexion->prepare('SELECT id FROM users WHERE user=:user');
+    $user_id->execute([':user' => $usuario]);
+    $user_id = $user_id->fetch();
+    $user_id = $user_id["id"] ?? false;
+
+    return $user_id;
+}
+
 function verificarEmail($conexion, $correo)
 {
     $exists = $conexion->prepare('SELECT email FROM users WHERE email=:email');
@@ -46,7 +56,8 @@ function verificarContraseña($conexion, $usuario, $password)
     $hash = $hash->fetch();
     $hash = $hash['password'];
 
-    return password_verify($password, $hash);
+    $correct = password_verify($password, $hash);
+    return $correct;
 }
 
 function registrarUsuario($conexion, $usuario, $correo, $contrasena)

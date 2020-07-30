@@ -1,4 +1,5 @@
 body {
+    color: white;
     background-image: url("../img/background-join.jpg"); /* Photo by Ant Rozetsky on Unsplash: https://unsplash.com/photos/HXOllTSwrpM */
     background-repeat: no-repeat;
     background-position: fixed;

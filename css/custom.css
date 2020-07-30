@@ -284,8 +284,6 @@ div.cabecera-alerta button.cerrar-alerta {
     font-weight: bold;
     background-color: transparent;
     border: hidden;
-    pointer-events: all;
-    opacity: 1;
     transition: all 0.25s ease;
 }
 

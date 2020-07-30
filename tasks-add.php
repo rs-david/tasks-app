@@ -1,17 +1,22 @@
 <?php
+session_start();
 
 $data = json_decode($_POST['data'], true);
 
 $name = $data['name'];
 $description = $data['description'];
+$user_id = $_SESSION['user'];
 
 try {
     include('connection.php');
 
-    $statement = $conn->prepare("INSERT INTO tasks(name, description) VALUES(:name, :description)");
-    $statement->execute([':name'=>$name, ':description'=>$description]);
+    $statement = $conn->prepare("INSERT INTO tasks(user_id, name, description) VALUES(:user_id, :name, :description)");
+    $statement->execute([':user_id' => $user_id, ':name' => $name, ':description' => $description]);
 
-    echo "Tarea Guardada";
+    $response = ['content' => "¡Tarea Guardada!", 'type' => 'success'];
 } catch (PDOException $e) {
-    echo 'ERROR: ' . $e->getMessage();
+    $error = 'ERROR: ' . $e->getMessage();
+    $response = ['content' => "Error En El Servidor", 'type' => 'danger', 'error' => $error];
 }
+
+echo json_encode($response);
