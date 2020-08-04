@@ -50,7 +50,7 @@ body {
 .formulario-buscar {
     height: 40px;
     margin-left: auto;
-    margin-right: 5px;
+    margin-right: 8px;
     display: flex;
 }
 
@@ -199,6 +199,12 @@ body {
     opacity: 1;
 }
 
+.boton-eliminacion-multiple:disabled:hover {
+    color: var(--danger);
+    background-color: white;
+    border-color: var(--danger);
+}
+
 /* Contadores: Resultados de Búsqueda  & Tareas Totales */
 .contador-busqueda {
     height: 40px;
@@ -243,13 +249,13 @@ body {
     background-color: var(--warning);
 }
 
-.campo-subir-lista.active .file-name {
-    color: #212529;
-}
-
 .campo-subir-lista.active.uploading {
     opacity: 0.5;
     pointer-events: none;
+}
+
+.campo-subir-lista.active .file-name {
+    color: #212529;
 }
 
 /* Botón Subir Lista */
@@ -266,8 +272,14 @@ body {
 .boton-subir-lista:disabled.uploading {
     color: black;
     background-color: var(--warning);
-    opacity: 0.5;
     pointer-events: none;
+    opacity: 0.5;
+}
+
+.boton-subir-lista:disabled:hover {
+    color: var(--warning);
+    background-color: white;
+    border-color: var(--warning);
 }
 
 /* Lista */
@@ -480,11 +492,11 @@ body {
 }
 
 /* Checkboxes de Tarjetas */
-.tarjeta .checkbox + label.custom-checkbox::before {
+.tarjeta .checkbox + label:before {
     border: thin solid rgb(200, 200, 200);
 }
 
-.tarjeta .checkbox:checked + label.custom-checkbox::before {
+.tarjeta .checkbox:checked + label:before {
     background-color: rgb(200, 200, 200);
 }
 

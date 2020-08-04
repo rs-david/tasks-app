@@ -19,7 +19,7 @@
             <link rel="stylesheet" href="css/styles.css">
 
             <!-- Scripts -->
-            <script defer src="js/app.js"></script>
+            <script type="module" src="js/app.js"></script>
         </head>
 
         <body>
@@ -66,7 +66,7 @@
                         <!-- Campo: Descripción -->
                         <textarea id="save-description" class="guardar-descripcion form-field" placeholder="Descripción:" name="description" required></textarea>
                         <!-- Botón: Guardar -->
-                        <button id="button-save" type="submit" class="boton-guardar boton success" title="Guardar" name="save">
+                        <button id="button-save" type="submit" class="boton-guardar boton success" title="Guardar">
                             <i id="icon-save" class="fas fa-save"></i>
                         </button>
                     </form>
@@ -119,7 +119,7 @@
                     <div class="encabezados">
                         <div class="encabezado seleccionar">
                             <input id="checkbox-master" type="checkbox" class="checkbox">
-                            <label for="checkbox-master" class="check-all custom-checkbox"></label>
+                            <label for="checkbox-master" class="custom-checkbox"></label>
                         </div>
                         <div class="encabezado id">
                             <a id="column-id" href="" class="" name="id" title="Ordenar * Clave">
@@ -147,6 +147,7 @@
                             </span>
                         </div>
                     </div>
+                    
 
                     <!-- Tareas -->
                     <div id="cards-container" class="tareas"></div>
