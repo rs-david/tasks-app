@@ -1,7 +1,9 @@
+import { save } from "./variablesInterfaz.js";
 import { search_id, search_name, search_description, cards_container, checkbox_master, top_button, sort_id, sort_name, sort_description, sort_date, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_alert, multiple_form, multiple_button, upload_input, upload_form, upload_button, clean_button, save_name } from "./elementosInterfaz.js";
 import { deshabilitarElemento } from "./funcionesInterfaz.js";
 import { listarTareas } from "./listarTareas.js";
 import { activarEstadoEliminar, eliminarTareas, desactivarEstadoEliminar, obtenerClavesDeCasillasSeleccionadas } from "./eliminarTareas.js";
+import { guardarTareas } from "./guardarTareas.js";
 import { alternarEstadoEditar, desactivarEstadoEditar } from "./estadoEditar.js";
 import { alternarEstadoSubir, subirLista } from "./subirLista.js";
 import { limpiarFiltros } from "./limpiarFiltros.js";
@@ -9,9 +11,7 @@ import { mostrarNotificacion } from "./mostrarNotificaciones.js";
 import { alternarEstadoEliminarVariasTareas } from "./estadoEliminarVariasTareas.js";
 import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas } from "./estadoSeleccionarTarjeta.js";
 import { mostrarMasTareas } from "./mostrarMasTareas.js";
-import { guardarTareas } from "./guardarTareas.js";
 import { ordenarTareas } from "./ordenarTareas.js";
-import { save } from "./variablesInterfaz.js";
 
 //* --------------------------------------------------------------------------------- FUNCIONES DE INICIO *//
 
@@ -62,9 +62,9 @@ cards_container.addEventListener('click', e => {
     if (element.classList.contains('button-edit') || element.classList.contains('icon-edit')) {
         const card = document.querySelector(`#tarjeta-${element.dataset.id}`);
         alternarEstadoEditar(card);
+        e.preventDefault();
     }
 
-    e.preventDefault();
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Escape' && save.state == 'update' && !overlay.classList.contains('active')) {
@@ -93,9 +93,9 @@ cards_container.addEventListener('click', e => {
     if (element.classList.contains('button-delete') || element.classList.contains('icon-delete')) {
         const id = [element.dataset.id];
         activarEstadoEliminar(id);
+        e.preventDefault();
     }
 
-    e.preventDefault();
 });
 delete_buttonclose.addEventListener('click', e => {
     desactivarEstadoEliminar();
@@ -147,7 +147,6 @@ checkbox_master.addEventListener('change', () => {
 });
 cards_container.addEventListener('click', e => {
     const element = e.target;
-    console.log(element);
     if (element.classList.contains('checkbox') || element.classList.contains('custom-checkbox')) {
         alternarEstadoEliminarVariasTareas();
     }

@@ -27,8 +27,7 @@ export async function listarTareas(limite, columna, orden) {
         mostrarNotificacion(tasks.content, tasks.type);
         console.log(tasks.error);
     }
-    else
-        crearListaTareas(tasks);
+    else crearListaTareas(tasks);
 }
 
 function crearListaTareas(tareas) {

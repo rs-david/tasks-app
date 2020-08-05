@@ -1,16 +1,16 @@
 import { search_name, clean_button, search_form, clean_icon } from "./elementosInterfaz.js";
-import { cambiarIcono, deshabilitarElemento, enfocarElemento, habilitarElemento, vaciarFormulario } from "./funcionesInterfaz.js";
+import { cambiarIcono, deshabilitarElemento, habilitarElemento } from "./funcionesInterfaz.js";
 import { listarTareas } from "./listarTareas.js";
 
 /* Limpiar Filtros */
 export async function limpiarFiltros() {
     activarEstadoLimpiando();
 
-    vaciarFormulario(search_form);
+    search_form.reset();
     await listarTareas(100);
 
     desactivarEstadoLimpiando();
-    enfocarElemento(search_name);
+    search_name.focus();
 }
 
 function activarEstadoLimpiando() {

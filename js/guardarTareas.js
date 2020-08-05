@@ -1,6 +1,6 @@
 import { save } from "./variablesInterfaz.js";
 import { save_name, save_button, save_id, save_form, save_description } from "./elementosInterfaz.js";
-import { cambiarIcono, deshabilitarElemento, enfocarElemento, habilitarElemento, vaciarFormulario } from "./funcionesInterfaz.js";
+import { cambiarIcono, deshabilitarElemento, habilitarElemento } from "./funcionesInterfaz.js";
 import { desactivarEstadoEditar } from "./estadoEditar.js";
 import { mostrarNotificacion } from "./mostrarNotificaciones.js";
 import { listarTareas } from "./listarTareas.js";
@@ -28,10 +28,10 @@ export async function guardarTareas() {
         if (editcard) desactivarEstadoEditar(editcard);
         else desactivarEstadoEditar();
     }
-    else vaciarFormulario(save_form);
+    else save_form.reset();
 
     quitarEstadoGuardando();
-    enfocarElemento(save_name);
+    save_name.focus();
     mostrarNotificacion(message.content, message.type);
 }
 

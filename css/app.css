@@ -492,11 +492,11 @@ body {
 }
 
 /* Checkboxes de Tarjetas */
-.tarjeta .checkbox + label:before {
+.tarjeta .checkbox + label.custom-checkbox:before {
     border: thin solid rgb(200, 200, 200);
 }
 
-.tarjeta .checkbox:checked + label:before {
+.tarjeta .checkbox:checked + label.custom-checkbox:before {
     background-color: rgb(200, 200, 200);
 }
 

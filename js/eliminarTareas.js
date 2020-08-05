@@ -1,6 +1,6 @@
 import { save_id, multiple_button, checkbox_master, delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, overlay, delete_alert } from "./elementosInterfaz.js";
 import { keys, save } from "./variablesInterfaz.js";
-import { cambiarIcono, habilitarElemento, deshabilitarElemento, desmarcarElemento } from "./funcionesInterfaz.js";
+import { cambiarIcono, habilitarElemento, deshabilitarElemento } from "./funcionesInterfaz.js";
 import { listarTareas } from "./listarTareas.js";
 import { mostrarNotificacion } from "./mostrarNotificaciones.js";
 import { desactivarEstadoEditar } from "./estadoEditar.js";
@@ -22,7 +22,7 @@ export async function eliminarTareas() {
     const message = await response.json();
 
     if (!multiple_button.hasAttribute('disabled')) deshabilitarElemento(multiple_button);
-    if (checkbox_master.checked) desmarcarElemento(checkbox_master);
+    if (checkbox_master.checked) checkbox_master.checked = false;
 
     if (message.error) console.log(message.error);
     else await listarTareas();
