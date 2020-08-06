@@ -51,7 +51,7 @@ try {
     $response = $list ?? $alter;
 } catch (PDOException $e) {
     $error = 'ERROR: ' . $e->getMessage();
-    $response = ['content' => 'Error En El Servidor', 'type' => 'danger', 'error' => $error];
+    $response = ['message' => 'Error En El Servidor', 'type' => 'danger', 'error' => $error];
 }
 
 echo json_encode($response);

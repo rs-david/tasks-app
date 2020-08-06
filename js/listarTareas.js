@@ -1,6 +1,6 @@
 import { actual, save } from "./variablesInterfaz.js";
 import { search_id, search_name, search_description, cards_container, save_id, checkbox_master } from "./elementosInterfaz.js";
-import { agregarContenido, cambiarContenido, marcarCasillas } from "./funcionesInterfaz.js";
+import { agregarClase, agregarContenido, cambiarContenido, marcarCasillas } from "./funcionesInterfaz.js";
 import { actualizarContadores } from "./actualizarContadores.js";
 import { mostrarNotificacion } from "./mostrarNotificaciones.js";
 
@@ -13,21 +13,32 @@ export async function listarTareas(limite, columna, orden) {
     const column = columna ? columna : actual.column;
     const sort = orden ? orden : actual.sort;
 
-    actual.limit = limit;
-    actual.column = column;
-    actual.sort = sort;
-
-    const json = JSON.stringify({ id, name, description, limit, column, sort });
-    const data = new FormData();
-    data.append('data', json);
-    const response = await fetch('tasks-list.php', { method: 'post', body: data });
-    const tasks = await response.json();
-
-    if (tasks.error) {
-        mostrarNotificacion(tasks.content, tasks.type);
+    const data = JSON.stringify({ id, name, description, limit, column, sort });
+    const tasks = await traerTareas(data);
+    
+    if (!tasks.error) {
+        actualizarVariables(limit, column, sort);
+        crearListaTareas(tasks);
+    }
+    else {
+        mostrarNotificacion(tasks.message, tasks.type);
         console.log(tasks.error);
     }
-    else crearListaTareas(tasks);
+}
+
+async function traerTareas(datos) {
+    const data = new FormData();
+    data.append('data', datos);
+    const response = await fetch('tasks-list.php', { method: 'post', body: data });
+    const tasks = await response.json();
+    return tasks;
+}
+
+function actualizarVariables(limite, columna, orden) {
+    actual.limit = limite;
+    actual.column = columna;
+    actual.sort = orden;
+    return actual;
 }
 
 function crearListaTareas(tareas) {
@@ -37,7 +48,7 @@ function crearListaTareas(tareas) {
     if (results == 0) {
         const background = total == 0 ? 'bg-green-tea' : 'bg-happy-cup';
         cambiarContenido(cards_container, '');
-        cards_container.classList.add(`${background}`);
+        agregarClase(cards_container, background);
     }
     else {
         cards_container.classList.remove('bg-green-tea', 'bg-happy-cup');
