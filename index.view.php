@@ -147,7 +147,6 @@
                             </span>
                         </div>
                     </div>
-                    
 
                     <!-- Tareas -->
                     <div id="cards-container" class="tareas"></div>
@@ -159,30 +158,29 @@
                 </div>
             </main>
 
-            <!-- Alertas -->
+            <!-- Overlay -->
             <div id="overlay" class="overlay">
-                <!-- Alerta: Eliminar Tareas -->
-                <div id="alert-delete" class="alerta">
-                    <!-- Head -->
-                    <div class="cabecera-alerta">
-                        <button id="button-close-alert-delete" href="" class="cerrar-alerta" title="Cerrar">
+                <!-- Modal: Eliminar Tareas -->
+                <div id="modal-delete" class="modal">
+                    <!-- Header -->
+                    <div class="cabecera-modal">
+                        <button id="button-close-modal" class="boton-cerrar-modal" title="Cerrar">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                     <!-- Body -->
-                    <div class="cuerpo-alerta">
+                    <div class="cuerpo-modal">
                         <span>¿Eliminar Tareas?</span>
                     </div>
                     <!-- Footer -->
-                    <div class="pie-alerta">
+                    <div class="pie-modal">
                         <!-- Formulario Eliminar -->
                         <form id="form-delete" class="formulario-eliminar">
-                            <button id="button-delete" type="submit" class="boton-eliminar boton danger">
-                                <i id="icon-delete" class="icono fas fa-trash"></i>
-                                <span>Eliminar</span>
+                            <button id="button-delete" class="boton-eliminar boton danger" type="submit">
+                                <i id="icon-delete" class="icono fas fa-trash"></i> Eliminar
                             </button>
                             <button id="button-cancel-delete" class="boton-cancelar boton success">
-                                <span>Cancelar</span>
+                                Cancelar
                             </button>
                         </form>
                     </div>

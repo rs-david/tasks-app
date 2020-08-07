@@ -113,11 +113,11 @@ input[type="checkbox"].checkbox:checked + .custom-checkbox:before {
 }
 
 /* Input File Personalizado */
-.file {
+input[type="file"].file {
     display: none;
 }
 
-.file + label.custom-file {
+input[type="file"].file + label.custom-file {
     height: 40px;
     padding: 0 20px;
     color: var(--warning);
@@ -130,7 +130,7 @@ input[type="checkbox"].checkbox:checked + .custom-checkbox:before {
     transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
-.file + label.custom-file .file-name {
+input[type="file"].file + label.custom-file span.file-name {
     line-height: 1.5;
     max-height: calc(1rem * 1.5); /* Valor del "line-height" */
     overflow: hidden;
@@ -249,8 +249,8 @@ input[type="checkbox"].checkbox:checked + .custom-checkbox:before {
     visibility: visible;
 }
 
-/* Alertas Personalizadas */
-div.alerta {
+/* Modals Personalizados */
+div.modal {
     width: 380px;
     height: 195px;
     padding: 1rem;
@@ -265,19 +265,19 @@ div.alerta {
     transition: all 0.5s ease;
 }
 
-div.alerta.active {
+div.modal.active {
     opacity: 1;
     visibility: visible;
     transform: scale(1);
 }
 
-div.cabecera-alerta {
+div.cabecera-modal {
     height: fit-content;
     line-height: 1;
     text-align: right;
 }
 
-div.cabecera-alerta button.cerrar-alerta {
+div.cabecera-modal button.boton-cerrar-modal {
     color: #bdbdbd;
     font-size: 20px;
     font-weight: bold;
@@ -286,20 +286,20 @@ div.cabecera-alerta button.cerrar-alerta {
     transition: all 0.25s ease;
 }
 
-div.cabecera-alerta button.cerrar-alerta:disabled {
+div.cabecera-modal button.boton-cerrar-modal:disabled {
     pointer-events: none;
     opacity: 0.5;
 }
 
-div.cabecera-alerta button.cerrar-alerta:focus {
+div.cabecera-modal button.boton-cerrar-modal:focus {
     outline: none;
 }
 
-div.cabecera-alerta button.cerrar-alerta:hover {
+div.cabecera-modal button.boton-cerrar-modal:hover {
     color: #a0a0a0;
 }
 
-div.cuerpo-alerta {
+div.cuerpo-modal {
     height: 100%;
     color: #757575;
     font-size: 20px;
@@ -309,13 +309,13 @@ div.cuerpo-alerta {
     align-items: center;
 }
 
-div.pie-alerta {
+div.pie-modal {
     height: fit-content;
     text-align: right;
 }
 
-div.pie-alerta button.boton-eliminar,
-div.pie-alerta button.boton-cancelar {
+div.pie-modal button.boton-eliminar,
+div.pie-modal button.boton-cancelar {
     width: auto;
     height: 38px;
     padding: 0 10px;
@@ -323,13 +323,13 @@ div.pie-alerta button.boton-cancelar {
     line-height: 1.5;
 }
 
-div.pie-alerta button.boton-eliminar {
+div.pie-modal button.boton-eliminar {
     margin-right: 10px;
     color: red;
     background-color: white;
 }
 
-div.pie-alerta button.boton-eliminar:hover {
+div.pie-modal button.boton-eliminar:hover {
     color: white;
     background-color: red;
 }

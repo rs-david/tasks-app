@@ -501,32 +501,32 @@ body {
 }
 
 /* Botones Editar & Eliminar */
-.button-edit,
-.button-delete {
+.tarjeta .boton-editar,
+.tarjeta .boton-eliminar {
     color: transparent;
     text-decoration: none;
     transform: scale(0.5);
     transition: all 0.3s ease;
 }
 
-.button-edit:hover,
-.button-delete:hover {
+.tarjeta .boton-editar:hover,
+.tarjeta .boton-eliminar:hover {
     text-decoration: none;
 }
 
-.button-edit:focus,
-.button-delete:focus {
+.tarjeta .boton-editar:focus,
+.tarjeta .boton-eliminar:focus {
     outline: none;
 }
 
 /* Tarjeta Hover */
-.tarjeta:hover .button-delete {
+.tarjeta:hover .boton-eliminar {
     color: var(--danger);
     transform: scale(1.2);
     transition: all 0.25s ease;
 }
 
-.tarjeta:hover .button-edit {
+.tarjeta:hover .boton-editar {
     color: var(--warning);
     transform: scale(1.2);
     transition: all 0.25s ease;

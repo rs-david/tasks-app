@@ -1,4 +1,4 @@
-import { save_id, multiple_button, checkbox_master, delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, overlay, delete_alert } from "./elementosInterfaz.js";
+import { save_id, multiple_delete_button, checkbox_master, delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, overlay, delete_modal } from "./elementosInterfaz.js";
 import { keys, save } from "./variablesInterfaz.js";
 import { cambiarIcono, habilitarElemento, deshabilitarElemento } from "./funcionesInterfaz.js";
 import { listarTareas } from "./listarTareas.js";
@@ -21,7 +21,7 @@ export async function eliminarTareas() {
     const response = await fetch('tasks-delete.php', { method: 'post', body: data });
     const message = await response.json();
 
-    if (!multiple_button.hasAttribute('disabled')) deshabilitarElemento(multiple_button);
+    if (!multiple_delete_button.hasAttribute('disabled')) deshabilitarElemento(multiple_delete_button);
     if (checkbox_master.checked) checkbox_master.checked = false;
 
     if (message.error) console.log(message.error);
@@ -59,12 +59,12 @@ function quitarEstadoEliminando() {
 
 function abrirAlertaEliminar() {
     overlay.classList.add('active');
-    delete_alert.classList.add('active');
+    delete_modal.classList.add('active');
 }
 
 function cerrarAlertaEliminar() {
     overlay.classList.remove('active');
-    delete_alert.classList.remove('active');
+    delete_modal.classList.remove('active');
 }
 
 export function obtenerClavesDeCasillasSeleccionadas() {

@@ -1,34 +1,33 @@
-import { save } from "./variablesInterfaz.js";
-import { search_id, search_name, search_description, cards_container, checkbox_master, top_button, sort_id, sort_name, sort_description, sort_date, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_alert, multiple_form, multiple_button, upload_input, upload_form, upload_button, clean_button, save_name } from "./elementosInterfaz.js";
-import { deshabilitarElemento } from "./funcionesInterfaz.js";
-import { listarTareas } from "./listarTareas.js";
-import { activarEstadoEliminar, eliminarTareas, desactivarEstadoEliminar, obtenerClavesDeCasillasSeleccionadas } from "./eliminarTareas.js";
-import { guardarTareas } from "./guardarTareas.js";
-import { alternarEstadoEditar, desactivarEstadoEditar } from "./estadoEditar.js";
-import { alternarEstadoSubir, subirLista } from "./subirLista.js";
-import { limpiarFiltros } from "./limpiarFiltros.js";
-import { mostrarNotificacion } from "./mostrarNotificaciones.js";
-import { alternarEstadoEliminarVariasTareas } from "./estadoEliminarVariasTareas.js";
-import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas } from "./estadoSeleccionarTarjeta.js";
-import { mostrarMasTareas } from "./mostrarMasTareas.js";
-import { ordenarTareas } from "./ordenarTareas.js";
+import { save } from "./modules/variablesInterfaz.js";
+import { search_id, search_name, search_description, cards_container, checkbox_master, top_list_button, sort_id, sort_name, sort_description, sort_date, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_modal, multiple_delete_form, multiple_delete_button, upload_input, upload_form, upload_button, clean_button, save_name } from "./modules/elementosInterfaz.js";
+import { deshabilitarElemento } from "./modules/funcionesInterfaz.js";
+import { listarTareas } from "./modules/listarTareas.js";
+import { activarEstadoEliminar, eliminarTareas, desactivarEstadoEliminar, obtenerClavesDeCasillasSeleccionadas } from "./modules/eliminarTareas.js";
+import { guardarTareas } from "./modules/guardarTareas.js";
+import { alternarEstadoEditar, desactivarEstadoEditar } from "./modules/estadoEditar.js";
+import { alternarEstadoSubir, subirLista } from "./modules/subirLista.js";
+import { limpiarFiltros } from "./modules/limpiarFiltros.js";
+import { mostrarNotificacion } from "./modules/mostrarNotificaciones.js";
+import { alternarEstadoEliminarVariasTareas } from "./modules/estadoEliminarVariasTareas.js";
+import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas } from "./modules/estadoSeleccionarTarjeta.js";
+import { mostrarMasTareas } from "./modules/mostrarMasTareas.js";
+import { ordenarTareas } from "./modules/ordenarTareas.js";
 
-//* --------------------------------------------------------------------------------- FUNCIONES DE INICIO *//
+//* -------------------------------------------------------------------------------------------------------------- FUNCIONES DE INICIO *//
 
 listarTareas();
 save_name.focus();
 
-//* ------------------------------------------------------------------------------ FILTRAR/BUSCAR TAREAS *//
+//* -------------------------------------------------------------------------------------------------------------- FILTRAR/BUSCAR TAREAS *//
 
 search_id.addEventListener('keyup', () => listarTareas());
 search_name.addEventListener('keyup', () => listarTareas());
 search_description.addEventListener('keyup', () => listarTareas());
-
 search_id.addEventListener('search', () => listarTareas());
 search_name.addEventListener('search', () => listarTareas());
 search_description.addEventListener('search', () => listarTareas());
 
-//* ----------------------------------------------------------------------------------- ORDENAR TAREAS *//
+//* -------------------------------------------------------------------------------------------------------------- ORDENAR TAREAS *//
 
 sort_id.addEventListener('click', e => {
     ordenarTareas(e);
@@ -47,55 +46,52 @@ sort_date.addEventListener('click', e => {
     e.preventDefault();
 })
 
-//* --------------------------------------------------------------------------- GUARDAR/EDITAR TAREAS *//
+//* -------------------------------------------------------------------------------------------------------------- GUARDAR/EDITAR TAREAS *//
 
 save_form.addEventListener('submit', e => {
     guardarTareas();
     e.preventDefault();
 });
 
-//* --------------------------------------------------------- ACTIVAR/DESACTIVAR ESTADO EDITAR TAREAS *//
+//* ----------------------------------- ACTIVAR/DESACTIVAR ESTADO EDITAR TAREAS *//
 
 cards_container.addEventListener('click', e => {
-    const element = e.target;
-
-    if (element.classList.contains('button-edit') || element.classList.contains('icon-edit')) {
-        const card = document.querySelector(`#tarjeta-${element.dataset.id}`);
+    if (e.target.classList.contains('boton-editar') || e.target.classList.contains('icono-editar')) {
+        const card = document.querySelector(`#tarjeta-${e.target.dataset.id}`);
         alternarEstadoEditar(card);
         e.preventDefault();
     }
-
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Escape' && save.state == 'update' && !overlay.classList.contains('active')) {
+        e.preventDefault();
         const editcard = document.querySelector(`.tarjeta.edit`);
         if (editcard) desactivarEstadoEditar(editcard);
         else desactivarEstadoEditar();
     }
 });
 
-//* --------------------------------------------------------------------------------- ELIMINAR TAREAS *//
+//* -------------------------------------------------------------------------------------------------------------- ELIMINAR TAREAS *//
 
 delete_form.addEventListener('submit', e => {
     eliminarTareas();
     e.preventDefault();
 });
 document.addEventListener('keydown', e => {
-    if (e.key == 'Enter' && delete_alert.classList.contains('active') && !delete_button.hasAttribute('disabled')) eliminarTareas();
+    if (e.key == 'Enter' && delete_modal.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
+        e.preventDefault();
+        eliminarTareas();
+    }
 });
 
-//* ------------------------------------------------------- ACTIVAR/DESACTIVAR ESTADO ELIMINAR TAREAS *//
+//* ----------------------------------- ACTIVAR/DESACTIVAR ESTADO ELIMINAR TAREAS *//
 
-/* Desde: Botón Eliminar */
 cards_container.addEventListener('click', e => {
-    const element = e.target;
-
-    if (element.classList.contains('button-delete') || element.classList.contains('icon-delete')) {
-        const id = [element.dataset.id];
-        activarEstadoEliminar(id);
+    if (e.target.classList.contains('boton-eliminar') || e.target.classList.contains('icono-eliminar')) {
+        const key = [e.target.dataset.id];
+        activarEstadoEliminar(key);
         e.preventDefault();
     }
-
 });
 delete_buttonclose.addEventListener('click', e => {
     desactivarEstadoEliminar();
@@ -106,63 +102,62 @@ delete_buttoncancel.addEventListener('click', e => {
     e.preventDefault();
 });
 overlay.addEventListener('click', e => {
-    if (e.target.id == 'overlay' && !delete_button.hasAttribute('disabled')) desactivarEstadoEliminar();
+    if (e.target.id == 'overlay' && !delete_button.hasAttribute('disabled')) {
+        desactivarEstadoEliminar();
+    }
 });
 document.addEventListener('keydown', e => {
-    if (e.key == 'Escape' && delete_alert.classList.contains('active') && !delete_button.hasAttribute('disabled')) desactivarEstadoEliminar();
+    if (e.key == 'Escape' && overlay.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
+        e.preventDefault();
+        desactivarEstadoEliminar();
+    }
 });
-
-/* Desde: Botón Eliminar Varias Tareas */
-multiple_form.addEventListener('submit', e => {
+multiple_delete_form.addEventListener('submit', e => {
     const keys = obtenerClavesDeCasillasSeleccionadas();
-
     if (keys) activarEstadoEliminar(keys);
     else {
         mostrarNotificacion('No Hay Casillas Seleccionadas', 'warning');
-        deshabilitarElemento(multiple_button);
+        deshabilitarElemento(multiple_delete_button);
     }
-
     e.preventDefault();
 });
 document.addEventListener('keydown', e => {
-    if (e.key == 'Delete' && !overlay.classList.contains('active') && !multiple_button.hasAttribute('disabled')) {
+    if (e.key == 'Delete' && !overlay.classList.contains('active') && !multiple_delete_button.hasAttribute('disabled')) {
         e.preventDefault();
         const keys = obtenerClavesDeCasillasSeleccionadas();
-
         if (keys) activarEstadoEliminar(keys);
         else {
             mostrarNotificacion('No Hay Casillas Seleccionadas', 'warning');
-            deshabilitarElemento(multiple_button);
+            deshabilitarElemento(multiple_delete_button);
         }
     }
 });
 
-//* ---------------------------------------------- ACTIVAR/DESACTIVAR ESTADO ELIMINAR VARIAS TAREAS *//
+//* ----------------------------------- ACTIVAR/DESACTIVAR ESTADO ELIMINAR VARIAS TAREAS *//
 
 checkbox_master.addEventListener('change', () => {
     const checkboxes = document.querySelectorAll('.tarjeta .checkbox');
-    for (const checkbox of checkboxes) checkbox.checked = checkbox_master.checked;
-
-    alternarEstadoEliminarVariasTareas();
+    if (checkboxes.length > 0) {
+        for (const checkbox of checkboxes) checkbox.checked = checkbox_master.checked;
+        alternarEstadoEliminarVariasTareas();
+    }
 });
 cards_container.addEventListener('click', e => {
-    const element = e.target;
-    if (element.classList.contains('checkbox') || element.classList.contains('custom-checkbox')) {
+    if (e.target.classList.contains('checkbox') || e.target.classList.contains('custom-checkbox')) {
         alternarEstadoEliminarVariasTareas();
     }
 });
 document.addEventListener('keydown', e => {
     const selectcard = document.querySelector('.tarjeta.select');
-
     if (e.code == 'Space' && selectcard) {
         e.preventDefault();
         const checkbox = selectcard.children[0].children[0];
-        checkbox.checked = checkbox.checked ? false : true;
+        checkbox.checked = !checkbox.checked;
         alternarEstadoEliminarVariasTareas();
     }
 });
 
-//* ----------------------------------------------------------------------------------- SUBIR LISTA *//
+//* -------------------------------------------------------------------------------------------------------------- SUBIR LISTA *//
 
 upload_input.addEventListener('change', () => alternarEstadoSubir());
 upload_form.addEventListener('submit', e => {
@@ -175,35 +170,28 @@ upload_form.addEventListener('submit', e => {
     e.preventDefault();
 });
 
-//* ------------------------------------------------------------------------------- LIMPIAR FILTROS *//
+//* -------------------------------------------------------------------------------------------------------------- LIMPIAR FILTROS *//
 
-clean_button.addEventListener('click', e => {
-    limpiarFiltros();
-    e.preventDefault();
-});
+clean_button.addEventListener('click', () => limpiarFiltros());
 
-//* -------------------------------------------------------------------------- SELECCIONAR TARJETAS *//
+//* -------------------------------------------------------------------------------------------------------------- SELECCIONAR TARJETAS *//
 
 cards_container.addEventListener('click', e => {
-    const element = e.target;
-    const firstclass = element.classList[0];
-    const ecs_class = /^tarjeta$|^contenido$/.test(firstclass);
-
-    if (ecs_class) alternarEstadoSeleccionarTarjeta(element);
+    if (e.target.classList.contains('tarjeta') || e.target.classList.contains('contenido')) {
+        alternarEstadoSeleccionarTarjeta(e.target);
+    }
 });
 document.addEventListener('keydown', e => desplazarseEntreTarjetas(e));
 
-//* -------------------------------------------------------------------------------- TOP SCROLLING *//
+//* -------------------------------------------------------------------------------------------------------------- SCROLL TOP *//
 
-top_button.addEventListener('click', e => {
+top_list_button.addEventListener('click', e => {
     cards_container.scrollTop = 0;
     e.preventDefault();
 });
 
-//* --------------------------------------------------------------------------- MOSTRAR MÁS TAREAS *//
+//* -------------------------------------------------------------------------------------------------------------- MOSTRAR MÁS TAREAS *//
 
 cards_container.addEventListener('click', e => {
-    const element = e.target;
-    if (element.id == 'icon-show' || element.id == 'button-show') mostrarMasTareas();
+    if (e.target.id == 'icon-show' || e.target.id == 'button-show') mostrarMasTareas();
 });
-

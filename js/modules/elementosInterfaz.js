@@ -1,5 +1,4 @@
 import { $ } from "./selectores.js";
-//*---------- ELEMENTOS ----------*//
 
 /* Elementos Interfaz */
 export const overlay = $('#overlay');
@@ -33,18 +32,17 @@ export const upload_fieldtext = $('#field-upload-list span');
 export const upload_button = $('#button-upload-list');
 export const upload_icon = $('#icon-upload-list');
 /* Eliminar Tareas */
-
-export const delete_alert = $('#alert-delete');
+export const delete_modal = $('#modal-delete');
 export const delete_form = $('#form-delete');
 export const delete_button = $('#button-delete');
 export const delete_icon = $('#icon-delete');
 export const delete_buttoncancel = $('#button-cancel-delete');
-export const delete_buttonclose = $('#button-close-alert-delete');
+export const delete_buttonclose = $('#button-close-modal');
 /* Eliminar Varias Tareas */
-export const multiple_form = $('#form-multiple-delete');
-export const multiple_button = $('#button-multiple-delete');
+export const multiple_delete_form = $('#form-multiple-delete');
+export const multiple_delete_button = $('#button-multiple-delete');
 /* Limpiar Filtros */
 export const clean_button = $('#button-clean');
 export const clean_icon = $('#icon-clean');
 /* Scrolling */
-export const top_button = $('#button-top-list');
+export const top_list_button = $('#button-top-list');

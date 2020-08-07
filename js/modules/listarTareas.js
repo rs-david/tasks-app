@@ -56,7 +56,7 @@ function crearListaTareas(tareas) {
         const cards = crearTarjetas(tareas);
         cambiarContenido(cards_container, cards);
 
-        const finalcard = actual.limit >= results && results > 7 ? crearTarjetaFinal() : actual.limit <= results ? crearBotonMostrarMasTareas() : false;
+        const finalcard = actual.limit >= results && results > 7 ? crearTarjetaFinal() : actual.limit <= results ? crearBotonMostrarMas() : false;
         if (finalcard) agregarContenido(cards_container, finalcard);
 
         if (save.state == 'update') {
@@ -89,11 +89,11 @@ function crearTarjetas(tareas) {
                 <div class="contenido description" data-id="${tarea.id}">${tarea.description}</div>
                 <div class="contenido date" data-id="${tarea.id}">${tarea.date}</div>
                 <div class="contenido actions" data-id="${tarea.id}">
-                    <a id="button-edit-${tarea.id}" href="" class="button-edit" title="Editar" data-id="${tarea.id}">
-                        <i id="icon-edit-${tarea.id}" class="icon-edit fas fa-pen" data-id="${tarea.id}"></i>
+                    <a id="button-edit-${tarea.id}" href="" class="boton-editar" title="Editar" data-id="${tarea.id}">
+                        <i id="icon-edit-${tarea.id}" class="icono-editar fas fa-pen" data-id="${tarea.id}"></i>
                     </a>
-                    <a id="button-delete-${tarea.id}" href="" class="button-delete" title="Eliminar" data-id="${tarea.id}">
-                        <i id="icon-delete-${tarea.id}" class="icon-delete fas fa-trash" data-id="${tarea.id}"></i>
+                    <a id="button-delete-${tarea.id}" href="" class="boton-eliminar" title="Eliminar" data-id="${tarea.id}">
+                        <i id="icon-delete-${tarea.id}" class="icono-eliminar fas fa-trash" data-id="${tarea.id}"></i>
                     </a>
                 </div>
             </div>
@@ -115,7 +115,7 @@ function crearTarjetaFinal() {
     return finalcard;
 }
 
-function crearBotonMostrarMasTareas() {
+function crearBotonMostrarMas() {
     const showbutton = `
         <button id="button-show" class="boton-mostrar boton active" title="Mostrar Más Tareas">
             <i id="icon-show" class="fas fa-plus fa-lg"></i>

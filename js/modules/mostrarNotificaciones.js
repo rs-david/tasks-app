@@ -1,5 +1,4 @@
-/* --------------- NOTIFICACIONES --------------- */
-/* Funciones */
+/* Notificaciones */
 export function mostrarNotificacion(mensaje, tipo) {
     const notification = document.createElement("div");
     notification.className = `notificacion ${tipo}`;
@@ -11,6 +10,7 @@ export function mostrarNotificacion(mensaje, tipo) {
     lista.insertBefore(notification, encabezados);
     setTimeout(() => cerrarNotificacion(notification), 2500);
 }
+
 function cerrarNotificacion(notificacion) {
     notificacion.remove();
 }
