@@ -1,7 +1,7 @@
 import { upload_input, upload_form, upload_button, upload_field, upload_fieldtext, upload_icon } from "./elementosInterfaz.js";
 import { cambiarIcono, deshabilitarElemento, habilitarElemento } from "./funcionesInterfaz.js";
 import { listarTareas } from "./listarTareas.js";
-import { mostrarNotificacion } from "./mostrarNotificaciones.js";
+import { mostrarNotificacion } from "./notificaciones.js";
 
 /* Subir Lista */
 export function alternarEstadoSubir() {

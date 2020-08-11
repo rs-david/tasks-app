@@ -2,7 +2,7 @@ import { save_id, multiple_delete_button, checkbox_master, delete_buttonclose, d
 import { keys, save } from "./variablesInterfaz.js";
 import { cambiarIcono, habilitarElemento, deshabilitarElemento } from "./funcionesInterfaz.js";
 import { listarTareas } from "./listarTareas.js";
-import { mostrarNotificacion } from "./mostrarNotificaciones.js";
+import { mostrarNotificacion } from "./notificaciones.js";
 import { desactivarEstadoEditar } from "./estadoEditar.js";
 
 /* Eliminar Tareas */

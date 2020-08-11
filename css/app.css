@@ -145,8 +145,8 @@ body {
 .boton-guardar {
     height: 50px;
     font-size: 25px;
-    pointer-events: all;
-    opacity: 1;
+    transition: color 0.45s ease, background-color 0.45s ease,
+        border-color 0.45s ease;
 }
 
 .boton-guardar.edit {
@@ -205,7 +205,7 @@ body {
     border-color: var(--danger);
 }
 
-/* Contadores: Resultados de Búsqueda  & Tareas Totales */
+/* -------------------------------------------------- Contador Búsqueda */
 .contador-busqueda {
     height: 40px;
     margin-bottom: 15px;
@@ -218,6 +218,11 @@ body {
     align-items: center;
 }
 
+.contador-busqueda span {
+    color: grey;
+}
+
+/* -------------------------------------------------- Contador Totales */
 .contador-totales {
     height: 40px;
     margin-bottom: 15px;
@@ -230,9 +235,8 @@ body {
     align-items: center;
 }
 
-.contador-busqueda > span,
-.contador-totales > span {
-    font-weight: bold;
+.contador-totales span {
+    color: grey;
 }
 
 /* Formulario: Subir Lista */
@@ -295,17 +299,17 @@ body {
     position: relative;
 }
 
-/* Encabezados & Contenido de Tarjetas */
-.lista .encabezado,
-.lista .contenido {
+/* Encabezados & Contenidos */
+.encabezados .encabezado,
+.tarjeta .contenido {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
 }
 
-.encabezado.seleccionar,
-.contenido.seleccionar {
+.encabezado.marcar,
+.contenido.marcar {
     width: 5%;
     justify-content: left;
 }
@@ -412,9 +416,8 @@ body {
 
 /* Tareas */
 .tareas {
-    height: 100%;
-    min-height: calc((70px * 7) - 5px);
-    max-height: calc((70px * 7) - 5px);
+    min-height: calc((65px * 7) + (5px * 6));
+    max-height: calc((65px * 7) + (5px * 6));
     margin-top: 8px;
     word-wrap: break-word;
     overflow: auto;
@@ -435,39 +438,24 @@ body {
     background-size: 40%;
 }
 
-/* Scrollbar */
+/* -------------------------------------------------- Scrollbar */
 .tareas::-webkit-scrollbar {
     display: none;
-    background: transparent;
-    width: 5px;
 }
 
-.tareas::-webkit-scrollbar-thumb {
-    background-color: #aaaaaa;
-    border-radius: 2.5px;
-}
-
-.tareas::-webkit-scrollbar-thumb:hover {
-    background-color: #8a8a8a;
-}
-
-.tareas::-webkit-scrollbar-track {
-    border-radius: 2.5px;
-}
-
-/* Tarjetas */
+/* -------------------------------------------------- Tarjeta */
 .tarjeta {
     height: 65px;
     padding: 0 25px;
     margin-bottom: 5px;
-    font-size: 1rem;
     text-align: center;
-    background-color: white;
-    border: thin solid #dddddd;
+    border: thin solid var(--light-grey);
     border-radius: 0.25rem;
+    background-color: white;
     display: flex;
     align-items: center;
-    transition: border 0.25s ease, background-color 0.25s ease;
+    transition: color 0.45s ease, border-color 0.45s ease,
+        background-color 0.45s ease, transform 0.45s ease;
 }
 
 .tarjeta:last-child {
@@ -479,28 +467,70 @@ body {
     font-weight: bold;
 }
 
-.tarjeta.select {
-    background-color: #f5f5f5;
-    transition: all 0.05s ease;
+/* -------------------------------------------------- Tarjeta: Estados */
+.tarjeta.state {
+    transition: none;
 }
 
-.tarjeta.edit,
-.tarjeta.select.edit {
-    background-color: rgba(255, 217, 0, 0.05);
-    border: thin solid rgba(255, 217, 0, 0.85);
-    transition: all 0.45s ease;
+.tarjeta.state.select {
+    color: white;
+    border-color: rgb(125, 125, 125);
+    background-color: rgb(125, 125, 125);
 }
 
-/* Checkboxes de Tarjetas */
-.tarjeta .checkbox + label.custom-checkbox:before {
-    border: thin solid rgb(200, 200, 200);
+.tarjeta.select .contenido.id {
+    color: white;
 }
 
-.tarjeta .checkbox:checked + label.custom-checkbox:before {
-    background-color: rgb(200, 200, 200);
+.tarjeta.edit {
+    color: black;
+    border-color: var(--warning);
+    background-color: var(--warning);
+    transition: color 0.45s ease, border-color 0.45s ease,
+        background-color 0.45s ease, transform 0.45s ease;
 }
 
-/* Botones Editar & Eliminar */
+.tarjeta.edit .contenido.id {
+    color: rgb(65, 65, 65);
+}
+
+.tarjeta.edit.select {
+    color: black;
+    background-color: var(--warning);
+    border-color: black;
+}
+
+.tarjeta.edit.select .contenido.id {
+    color: rgb(65, 65, 65);
+}
+
+/* -------------------------------------------------- Tarjeta: Checkboxes */
+.tarjeta .checkbox + .custom-checkbox:before {
+    border-color: var(--light-grey);
+}
+
+.tarjeta .checkbox:checked + .custom-checkbox:before {
+    background-color: var(--light-grey);
+}
+
+.tarjeta.select .checkbox + .custom-checkbox:before,
+.tarjeta.edit .checkbox + .custom-checkbox:before {
+    content: "\f067"; /* fas fa-plus */
+    border-color: transparent;
+    background-color: transparent;
+    transform: scale(1.6);
+}
+
+.tarjeta.select .checkbox:checked + .custom-checkbox:before,
+.tarjeta.edit .checkbox:checked + .custom-checkbox:before {
+    content: "\f00c"; /* fas fa-check */
+}
+
+.tarjeta.select.edit .checkbox + .custom-checkbox:before {
+    color: black;
+}
+
+/* -------------------------------------------------- Tarjeta: Botones Editar & Eliminar */
 .tarjeta .boton-editar,
 .tarjeta .boton-eliminar {
     color: transparent;
@@ -519,20 +549,30 @@ body {
     outline: none;
 }
 
-/* Tarjeta Hover */
+/* -------------------------------------------------- Tarjeta: Hover */
 .tarjeta:hover .boton-eliminar {
     color: var(--danger);
     transform: scale(1.2);
-    transition: all 0.25s ease;
+    transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .tarjeta:hover .boton-editar {
     color: var(--warning);
     transform: scale(1.2);
-    transition: all 0.25s ease;
+    transition: color 0.25s ease, transform 0.25s ease;
 }
 
-/* Tarjeta Final */
+.tarjeta.select:hover .boton-eliminar,
+.tarjeta.select:hover .boton-editar {
+    color: white;
+}
+
+.tarjeta.edit:hover .boton-eliminar,
+.tarjeta.edit:hover .boton-editar {
+    color: rgb(65, 65, 65);
+}
+
+/* -------------------------------------------------- Tarjeta Final */
 .tarjeta-final {
     padding: 20px 0;
     color: grey;
@@ -541,7 +581,7 @@ body {
     border-radius: 0.25rem;
 }
 
-/* Botón Mostrar */
+/* -------------------------------------------------- Botón Mostrar Más */
 .boton-mostrar {
     height: 55px;
     color: grey;
@@ -565,7 +605,7 @@ body {
     box-shadow: none;
 }
 
-/* Notificación */
+/* -------------------------------------------------- Notificación */
 .notificacion {
     width: calc(100% - 50px);
     height: 70px;
@@ -579,7 +619,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    z-index: 3;
 }
 
 .notificacion.success {
@@ -600,28 +640,26 @@ body {
     border: 1px solid var(--danger);
 }
 
-/* Botón Subir */
+/* -------------------------------------------------- Botón Inicio Lista */
 .boton-inicio-lista {
     width: 55px;
     height: 55px;
     color: black;
     text-decoration: none;
-    background-color: rgba(225, 225, 225, 0.35);
+    background-color: rgba(225, 225, 225, 0.45);
     border: 1px solid transparent;
-    border-radius: 100%;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 35px;
-    bottom: 35px;
-    transition: all 0.35s ease;
+    right: 30px;
+    bottom: 30px;
+    transition: all 0.25s ease;
 }
 
 .boton-inicio-lista:hover {
-    color: black;
-    text-decoration: none;
-    background-color: rgba(225, 225, 225, 0.75);
+    background-color: rgba(225, 225, 225, 0.85);
 }
 
 .boton-inicio-lista:focus {
@@ -635,7 +673,7 @@ body {
 }
 
 /* Icono Botón Eliminar */
-.formulario-eliminar .boton-eliminar i.icono {
+.formulario-eliminar .boton-eliminar .icono {
     margin-right: 5px;
     font-size: medium;
 }

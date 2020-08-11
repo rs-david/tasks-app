@@ -19,11 +19,10 @@
             <!-- CSS -->
             <link rel="stylesheet" href="css/custom.css">
             <link rel="stylesheet" href="css/login.css">
-            <link rel="stylesheet" href="css/styles.css">
         </head>
 
         <body>
-            <div class="contenedor">
+            <main class="contenedor">
                 <!-- Logo -->
                 <figure class="logo">
                     <i class="icono fas fa-address-book"></i>
@@ -56,9 +55,9 @@
 
                 </div>
 
-                <!-- Registro -->
+                <!-- Enlace: Página Registro -->
                 <a href="join.php" class="link-registrar" title="Crear Una Cuenta">Registrarme</a>
-            </div>
+            </main>
         </body>
 
         </html>

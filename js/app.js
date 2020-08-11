@@ -7,9 +7,9 @@ import { guardarTareas } from "./modules/guardarTareas.js";
 import { alternarEstadoEditar, desactivarEstadoEditar } from "./modules/estadoEditar.js";
 import { alternarEstadoSubir, subirLista } from "./modules/subirLista.js";
 import { limpiarFiltros } from "./modules/limpiarFiltros.js";
-import { mostrarNotificacion } from "./modules/mostrarNotificaciones.js";
+import { mostrarNotificacion } from "./modules/notificaciones.js";
 import { alternarEstadoEliminarVariasTareas } from "./modules/estadoEliminarVariasTareas.js";
-import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas } from "./modules/estadoSeleccionarTarjeta.js";
+import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas } from "./modules/seleccionarTarjetas.js";
 import { mostrarMasTareas } from "./modules/mostrarMasTareas.js";
 import { ordenarTareas } from "./modules/ordenarTareas.js";
 
@@ -64,10 +64,13 @@ cards_container.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Escape' && save.state == 'update' && !overlay.classList.contains('active')) {
-        e.preventDefault();
-        const editcard = document.querySelector(`.tarjeta.edit`);
-        if (editcard) desactivarEstadoEditar(editcard);
-        else desactivarEstadoEditar();
+        if (e.repeat) e.preventDefault();
+        else {
+            e.preventDefault();
+            const editcard = document.querySelector(`.tarjeta.edit`);
+            if (editcard) desactivarEstadoEditar(editcard);
+            else desactivarEstadoEditar();
+        }
     }
 });
 
@@ -79,8 +82,11 @@ delete_form.addEventListener('submit', e => {
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Enter' && delete_modal.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
-        e.preventDefault();
-        eliminarTareas();
+        if (e.repeat) e.preventDefault();
+        else {
+            e.preventDefault();
+            eliminarTareas();
+        }
     }
 });
 
@@ -108,8 +114,11 @@ overlay.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Escape' && overlay.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
-        e.preventDefault();
-        desactivarEstadoEliminar();
+        if (e.repeat) e.preventDefault();
+        else {
+            e.preventDefault();
+            desactivarEstadoEliminar();
+        }
     }
 });
 multiple_delete_form.addEventListener('submit', e => {
@@ -123,12 +132,15 @@ multiple_delete_form.addEventListener('submit', e => {
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Delete' && !overlay.classList.contains('active') && !multiple_delete_button.hasAttribute('disabled')) {
-        e.preventDefault();
-        const keys = obtenerClavesDeCasillasSeleccionadas();
-        if (keys) activarEstadoEliminar(keys);
+        if (e.repeat) e.preventDefault();
         else {
-            mostrarNotificacion('No Hay Casillas Seleccionadas', 'warning');
-            deshabilitarElemento(multiple_delete_button);
+            e.preventDefault();
+            const keys = obtenerClavesDeCasillasSeleccionadas();
+            if (keys) activarEstadoEliminar(keys);
+            else {
+                mostrarNotificacion('No Hay Casillas Seleccionadas', 'warning');
+                deshabilitarElemento(multiple_delete_button);
+            }
         }
     }
 });
@@ -148,12 +160,17 @@ cards_container.addEventListener('click', e => {
     }
 });
 document.addEventListener('keydown', e => {
-    const selectcard = document.querySelector('.tarjeta.select');
-    if (e.code == 'Space' && selectcard) {
-        e.preventDefault();
-        const checkbox = selectcard.children[0].children[0];
-        checkbox.checked = !checkbox.checked;
-        alternarEstadoEliminarVariasTareas();
+    if (e.code == 'Space') {
+        const selectcard = document.querySelector('.tarjeta.select');
+        if (selectcard) {
+            if (e.repeat) e.preventDefault();
+            else {
+                e.preventDefault();
+                const checkbox = selectcard.children[0].children[0];
+                checkbox.checked = !checkbox.checked;
+                alternarEstadoEliminarVariasTareas();
+            }
+        }
     }
 });
 
@@ -178,7 +195,7 @@ clean_button.addEventListener('click', () => limpiarFiltros());
 
 cards_container.addEventListener('click', e => {
     if (e.target.classList.contains('tarjeta') || e.target.classList.contains('contenido')) {
-        alternarEstadoSeleccionarTarjeta(e.target);
+        alternarEstadoSeleccionarTarjeta(e.target.dataset.id);
     }
 });
 document.addEventListener('keydown', e => desplazarseEntreTarjetas(e));

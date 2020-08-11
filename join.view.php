@@ -19,11 +19,10 @@
             <!-- CSS -->
             <link rel="stylesheet" href="css/custom.css">
             <link rel="stylesheet" href="css/join.css">
-            <link rel="stylesheet" href="css/styles.css">
         </head>
 
         <body>
-            <div class="contenedor">
+            <main class="contenedor">
                 <!-- Logo -->
                 <figure class="logo">
                     <i class="icono fas fa-address-book"></i>
@@ -60,9 +59,9 @@
 
                 </div>
 
-                <!-- Iniciar Sesión -->
+                <!-- Enlace: Iniciar Sesión -->
                 <a href="login.php" class="link-iniciar-sesion">Iniciar Sesión</a>
-            </div>
+            </main>
         </body>
 
         </html>

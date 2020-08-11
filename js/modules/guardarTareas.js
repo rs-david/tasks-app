@@ -2,7 +2,7 @@ import { save } from "./variablesInterfaz.js";
 import { save_name, save_button, save_id, save_form, save_description } from "./elementosInterfaz.js";
 import { cambiarIcono, deshabilitarElemento, habilitarElemento } from "./funcionesInterfaz.js";
 import { desactivarEstadoEditar } from "./estadoEditar.js";
-import { mostrarNotificacion } from "./mostrarNotificaciones.js";
+import { mostrarNotificacion } from "./notificaciones.js";
 import { listarTareas } from "./listarTareas.js";
 
 /* Guardar/Actualizar Tareas */

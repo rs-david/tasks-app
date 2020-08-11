@@ -8,16 +8,11 @@ _Lenguajes & Servers:_
 
 _Navegadores:_
 
--   Google Chrome 84.0.4147.89
--   Microsoft Edge 83.0.478.61
+-   Google Chrome 84.0.4147.105
 
 _Frameworks, Icons:_
 
 -   Font Awesome 5.14
-
-_Otros:_
-
--   https://unsplash.com/
 
 _Importar Base de Datos:_
 

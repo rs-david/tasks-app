@@ -1,8 +1,8 @@
 import { actual, save } from "./variablesInterfaz.js";
-import { search_id, search_name, search_description, cards_container, save_id, checkbox_master } from "./elementosInterfaz.js";
-import { agregarClase, agregarContenido, cambiarContenido, marcarCasillas } from "./funcionesInterfaz.js";
+import { search_id, search_name, search_description, cards_container, save_id, checkbox_master, multiple_delete_button } from "./elementosInterfaz.js";
+import { agregarClase, agregarContenido, cambiarContenido, deshabilitarElemento, marcarCasillas } from "./funcionesInterfaz.js";
 import { actualizarContadores } from "./actualizarContadores.js";
-import { mostrarNotificacion } from "./mostrarNotificaciones.js";
+import { mostrarNotificacion } from "./notificaciones.js";
 
 /* Listar Tareas */
 export async function listarTareas(limite, columna, orden) {
@@ -71,6 +71,7 @@ function crearListaTareas(tareas) {
     }
 
     const checkedcheckboxes = document.querySelectorAll('.tarjeta .checkbox:checked');
+    if (!multiple_delete_button.hasAttribute('disabled') && checkedcheckboxes.length < 1) deshabilitarElemento(multiple_delete_button);
     actualizarContadores(total, results, checkedcheckboxes.length);
 }
 
@@ -80,7 +81,7 @@ function crearTarjetas(tareas) {
     for (const tarea of tareas) {
         const card = `
             <div id="tarjeta-${tarea.id}" class="tarjeta" data-id="${tarea.id}">
-                <div class="contenido seleccionar" data-id="${tarea.id}">
+                <div class="contenido marcar" data-id="${tarea.id}">
                     <input id="checkbox-${tarea.id}" type="checkbox" class="checkbox" data-id="${tarea.id}">
                     <label for="checkbox-${tarea.id}" class="custom-checkbox" data-id="${tarea.id}"></label>
                 </div>

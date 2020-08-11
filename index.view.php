@@ -16,7 +16,6 @@
             <!-- CSS -->
             <link rel="stylesheet" href="css/custom.css">
             <link rel="stylesheet" href="css/app.css">
-            <link rel="stylesheet" href="css/styles.css">
 
             <!-- Scripts -->
             <script type="module" src="js/app.js"></script>
@@ -87,17 +86,17 @@
                         <!-- Contador: Resultados de Búsqueda -->
                         <div class="contador-busqueda">
                             <div>
-                                <span class="text-grey">Tareas</span> Encontradas
+                                <span>Tareas</span> Encontradas
                             </div>
-                            <span id="counter-results" class="resultados-busqueda"></span>
+                            <strong id="counter-results" class="resultados-busqueda"></strong>
                         </div>
 
                         <!-- Contador: Tareas Totales -->
                         <div class="contador-totales">
                             <div>
-                                <span class="text-grey">Tareas</span> Totales
+                                <span>Tareas</span> Totales
                             </div>
-                            <span id="counter-totals" class="total-tareas"></span>
+                            <strong id="counter-totals" class="total-tareas"></strong>
                         </div>
 
                         <!-- Formulario Subir Lista -->
@@ -117,8 +116,8 @@
                 <div class="lista">
                     <!-- Encabezados -->
                     <div class="encabezados">
-                        <div class="encabezado seleccionar">
-                            <input id="checkbox-master" type="checkbox" class="checkbox">
+                        <div class="encabezado marcar">
+                            <input id="checkbox-master" class="checkbox" type="checkbox" >
                             <label for="checkbox-master" class="custom-checkbox"></label>
                         </div>
                         <div class="encabezado id">
