@@ -646,7 +646,7 @@ body {
     height: 55px;
     color: black;
     text-decoration: none;
-    background-color: rgba(225, 225, 225, 0.45);
+    background-color: rgba(225, 225, 225, 0.25);
     border: 1px solid transparent;
     border-radius: 50%;
     display: flex;
@@ -655,11 +655,11 @@ body {
     position: absolute;
     right: 30px;
     bottom: 30px;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
 }
 
 .boton-inicio-lista:hover {
-    background-color: rgba(225, 225, 225, 0.85);
+    background-color: rgba(225, 225, 225, 0.75);
 }
 
 .boton-inicio-lista:focus {
