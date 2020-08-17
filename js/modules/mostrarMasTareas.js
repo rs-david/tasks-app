@@ -1,11 +1,11 @@
-import { actual } from "./variablesInterfaz.js";
-import { cambiarIcono } from "./funcionesInterfaz.js";
+import { actual } from "./variables.js";
+import { cambiarIcono } from "./funciones.js";
 import { listarTareas } from "./listarTareas.js";
 
 /* Mostrar Más Tareas */
 export function mostrarMasTareas() {
     agregarEstadoMostrando();
-    const limit = actual.limit + 100;
+    const limit = actual.limit + 50;
     listarTareas(limit);
 }
 

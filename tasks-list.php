@@ -12,7 +12,7 @@ $description = $data['description'] ? "$data[description]%" : '%';
 $user_id = $_SESSION["user"] ?? 0;
 $column = $data['column'] ?? "created";
 $sort = $data['sort'] ?? "DESC";
-$limit = $data['limit'] ?? 100;
+$limit = $data['limit'] ?? 50;
 
 try {
     include('connection.php');

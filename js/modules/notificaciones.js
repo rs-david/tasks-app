@@ -1,16 +1,15 @@
+import { list, headers } from "./elementos.js";
+
 /* Notificaciones */
 export function mostrarNotificacion(mensaje, tipo) {
     const notification = document.createElement("div");
     notification.className = `notificacion ${tipo}`;
-    const message = document.createTextNode(mensaje);
-    notification.appendChild(message);
+    notification.textContent = mensaje;
 
-    const lista = document.querySelector('.lista');
-    const encabezados = document.querySelector('.encabezados');
-    lista.insertBefore(notification, encabezados);
+    list.insertBefore(notification, headers);
     setTimeout(() => cerrarNotificacion(notification), 2500);
 }
 
-function cerrarNotificacion(notificacion) {
+export function cerrarNotificacion(notificacion) {
     notificacion.remove();
 }

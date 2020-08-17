@@ -1,10 +1,10 @@
-import { save } from "./modules/variablesInterfaz.js";
-import { search_id, search_name, search_description, cards_container, checkbox_master, top_list_button, sort_id, sort_name, sort_description, sort_date, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_modal, multiple_delete_form, multiple_delete_button, upload_input, upload_form, upload_button, clean_button, save_name } from "./modules/elementosInterfaz.js";
-import { deshabilitarElemento } from "./modules/funcionesInterfaz.js";
+import { save, _delete } from "./modules/variables.js";
+import { search_id, search_name, search_description, cards_container, checkbox_master, top_list_button, sort_id, sort_name, sort_description, sort_date, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_modal, multiple_delete_form, multiple_delete_button, upload_input, upload_form, upload_button, clean_button, save_name, list } from "./modules/elementos.js";
+import { deshabilitarElemento } from "./modules/funciones.js";
 import { listarTareas } from "./modules/listarTareas.js";
 import { activarEstadoEliminar, eliminarTareas, desactivarEstadoEliminar, obtenerClavesDeCasillasSeleccionadas } from "./modules/eliminarTareas.js";
 import { guardarTareas } from "./modules/guardarTareas.js";
-import { alternarEstadoEditar, desactivarEstadoEditar } from "./modules/estadoEditar.js";
+import { alternarEstadoEditar, desactivarEstadoEditar, modificarSimultaneamenteTarjeta } from "./modules/estadoEditar.js";
 import { alternarEstadoSubir, subirLista } from "./modules/subirLista.js";
 import { limpiarFiltros } from "./modules/limpiarFiltros.js";
 import { mostrarNotificacion } from "./modules/notificaciones.js";
@@ -12,6 +12,8 @@ import { alternarEstadoEliminarVariasTareas } from "./modules/estadoEliminarVari
 import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas } from "./modules/seleccionarTarjetas.js";
 import { mostrarMasTareas } from "./modules/mostrarMasTareas.js";
 import { ordenarTareas } from "./modules/ordenarTareas.js";
+import { cerrarNotificacion } from "./modules/notificaciones.js";
+
 
 //* -------------------------------------------------------------------------------------------------------------- FUNCIONES DE INICIO *//
 
@@ -64,13 +66,19 @@ cards_container.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Escape' && save.state == 'update' && !overlay.classList.contains('active')) {
-        if (e.repeat) e.preventDefault();
-        else {
-            e.preventDefault();
-            const editcard = document.querySelector(`.tarjeta.edit`);
-            if (editcard) desactivarEstadoEditar(editcard);
-            else desactivarEstadoEditar();
+        e.preventDefault();
+        if (!e.repeat) {
+            const editcard = document.querySelector('.tarjeta.edit');
+            desactivarEstadoEditar(editcard);
         }
+    }
+});
+
+//* ----------------------------------- MODIFICAR CONTENIDO DE TARJETA EN EDICIÓN *//
+
+save_form.addEventListener('keyup', e => {
+    if (save.state == 'update' && e.target.nodeName != 'BUTTON') {
+        modificarSimultaneamenteTarjeta(e);
     }
 });
 
@@ -82,11 +90,8 @@ delete_form.addEventListener('submit', e => {
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Enter' && delete_modal.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
-        if (e.repeat) e.preventDefault();
-        else {
-            e.preventDefault();
-            eliminarTareas();
-        }
+        e.preventDefault();
+        if (!e.repeat) eliminarTareas();
     }
 });
 
@@ -114,11 +119,8 @@ overlay.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Escape' && overlay.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
-        if (e.repeat) e.preventDefault();
-        else {
-            e.preventDefault();
-            desactivarEstadoEliminar();
-        }
+        e.preventDefault();
+        if (!e.repeat) desactivarEstadoEliminar();
     }
 });
 multiple_delete_form.addEventListener('submit', e => {
@@ -132,9 +134,8 @@ multiple_delete_form.addEventListener('submit', e => {
 });
 document.addEventListener('keydown', e => {
     if (e.key == 'Delete' && !overlay.classList.contains('active') && !multiple_delete_button.hasAttribute('disabled')) {
-        if (e.repeat) e.preventDefault();
-        else {
-            e.preventDefault();
+        e.preventDefault();
+        if (!e.repeat) {
             const keys = obtenerClavesDeCasillasSeleccionadas();
             if (keys) activarEstadoEliminar(keys);
             else {
@@ -163,9 +164,8 @@ document.addEventListener('keydown', e => {
     if (e.code == 'Space') {
         const selectcard = document.querySelector('.tarjeta.select');
         if (selectcard) {
-            if (e.repeat) e.preventDefault();
-            else {
-                e.preventDefault();
+            e.preventDefault();
+            if (!e.repeat) {
                 const checkbox = selectcard.children[0].children[0];
                 checkbox.checked = !checkbox.checked;
                 alternarEstadoEliminarVariasTareas();
@@ -211,4 +211,12 @@ top_list_button.addEventListener('click', e => {
 
 cards_container.addEventListener('click', e => {
     if (e.target.id == 'icon-show' || e.target.id == 'button-show') mostrarMasTareas();
+});
+
+//* -------------------------------------------------------------------------------------------------------------- CERRAR NOTIFICACIONES *//
+
+list.addEventListener('click', e => {
+    if (e.target.classList.contains('notificacion')) {
+        cerrarNotificacion(e.target);
+    }
 });

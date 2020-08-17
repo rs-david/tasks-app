@@ -7,17 +7,15 @@ body {
 }
 
 .contenedor {
-    margin-top: 25px;
+    margin-top: 50px;
     text-align: center;
 }
 
 .logo {
-    margin-top: 55px;
     font-size: 40px;
 }
 
 .logo .nombre {
-    color: white;
     background: linear-gradient(
         rgba(255, 255, 255, 0.8),
         rgba(255, 255, 255, 0.45)
@@ -32,7 +30,7 @@ body {
 
 .formulario-login {
     width: 220px;
-    margin: 22px auto;
+    margin: 25px auto;
     padding: 16px;
     border: 1px solid rgba(255, 255, 255, 0.55);
     background-color: rgba(255, 255, 255, 0.125);
@@ -41,7 +39,7 @@ body {
 
 .titulo-login {
     margin-bottom: 15px;
-    font-size: medium;
+    font-size: 1rem;
     font-weight: 500;
     text-align: left;
 }
@@ -59,11 +57,6 @@ body {
     font-size: 20px;
 }
 
-.boton-login.success:hover {
-    background-color: rgba(10, 150, 0, 0.85);
-    border-color: rgba(10, 150, 0, 0.85);
-}
-
 .notificaciones-login {
     text-align: center;
     margin-bottom: 15px;
@@ -71,15 +64,13 @@ body {
 
 .link-registrar {
     color: rgba(255, 255, 255, 0.75);
-    font-size: medium;
     font-weight: bold;
     text-decoration: none;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
 }
 
 .link-registrar:hover {
     color: rgba(255, 255, 255, 0.95);
-    text-decoration: none;
 }
 
 .link-registrar:focus {

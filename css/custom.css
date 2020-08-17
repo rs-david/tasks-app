@@ -1,18 +1,22 @@
 /*---------- VARIABLES ----------*/
 :root {
-    --success: rgb(10, 150, 0);
+    --success: rgb(10, 155, 0);
     --success-hover: rgb(10, 125, 0);
     --warning: rgb(250, 212, 0);
-    --warning-hover: rgb(230, 170, 19);
-    --danger: rgb(245, 0, 0);
+    --warning-hover: rgb(250, 179, 0);
+    --danger: rgb(250, 0, 0);
     --danger-hover: rgb(230, 0, 0);
-    --primary: rgb(0, 102, 255);
-    --primary-hover: rgb(0, 60, 224);
-    --secondary: grey;
+    --primary: rgb(0, 100, 255);
+    --primary-hover: rgb(0, 90, 215);
+    --secondary: rgb(125, 125, 125);
     --secondary-hover: rgb(100, 100, 100);
-    --info: rgb(0, 132, 255);
-    --light: #eeeeee;
-    --light-grey: rgb(220, 220, 220);
+    --info: rgb(0, 145, 230);
+    --info-hover: rgb(0, 108, 170);
+    --light: rgb(175, 175, 175);
+    --light-smooth: rgb(220, 220, 220);
+    --light-extra-smooth: rgb(250, 250, 250);
+    --dark: rgb(0, 0, 0);
+    --dark-smooth: rgb(50, 50, 50);
 }
 
 /*---------- ELEMENTOS ----------*/
@@ -65,7 +69,7 @@ a:focus {
     line-height: 1;
     color: rgb(100, 100, 100);
     background-color: white;
-    border: 1px solid var(--light-grey);
+    border: 1px solid var(--light-smooth);
     border-radius: 0.25rem;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -121,11 +125,11 @@ textarea.form-field {
 }
 
 /* Input File Personalizado */
-input[type="file"].file {
+.file {
     display: none;
 }
 
-input[type="file"].file + label.custom-file {
+.file + .custom-file {
     height: 40px;
     padding: 0 20px;
     color: var(--warning);
@@ -138,7 +142,7 @@ input[type="file"].file + label.custom-file {
     transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
-input[type="file"].file + label.custom-file span.file-name {
+.file + .custom-file .file-name {
     line-height: 1.5;
     max-height: calc(1rem * 1.5); /* Valor del "line-height" */
     overflow: hidden;
@@ -191,7 +195,7 @@ input[type="file"].file + label.custom-file span.file-name {
 
 /* Botón Warning */
 .boton.warning {
-    color: #212529;
+    color: var(--dark);
     background-color: var(--warning);
     border-color: var(--warning);
 }
@@ -243,9 +247,9 @@ input[type="file"].file + label.custom-file span.file-name {
     align-items: center;
     position: fixed;
     top: 0;
-    bottom: 0;
     left: 0;
-    right: 0;
+    width: 100%;
+    height: 100%;
     opacity: 0;
     visibility: hidden;
     transition: visibility 0.5s ease, background-color 0.5s ease,
@@ -258,12 +262,12 @@ input[type="file"].file + label.custom-file span.file-name {
 }
 
 /* Modals Personalizados */
-div.modal {
+.modal {
     width: 380px;
     height: 195px;
     padding: 1rem;
     background-color: white;
-    border: 1px solid var(--light-grey);
+    border: 1px solid var(--light-smooth);
     border-radius: 0.25rem;
     display: flex;
     flex-direction: column;
@@ -273,20 +277,20 @@ div.modal {
     transition: all 0.5s ease;
 }
 
-div.modal.active {
+.modal.active {
     opacity: 1;
     visibility: visible;
     transform: scale(1);
 }
 
-div.cabecera-modal {
+.cabecera-modal {
     height: fit-content;
     line-height: 1;
     text-align: right;
 }
 
-div.cabecera-modal button.boton-cerrar-modal {
-    color: #bdbdbd;
+.cabecera-modal .boton-cerrar-modal {
+    color: var(--light-smooth);
     font-size: 20px;
     font-weight: bold;
     background-color: transparent;
@@ -294,22 +298,22 @@ div.cabecera-modal button.boton-cerrar-modal {
     transition: all 0.25s ease;
 }
 
-div.cabecera-modal button.boton-cerrar-modal:disabled {
+.cabecera-modal .boton-cerrar-modal:disabled {
     pointer-events: none;
     opacity: 0.5;
 }
 
-div.cabecera-modal button.boton-cerrar-modal:focus {
+.cabecera-modal .boton-cerrar-modal:focus {
     outline: none;
 }
 
-div.cabecera-modal button.boton-cerrar-modal:hover {
-    color: #a0a0a0;
+.cabecera-modal .boton-cerrar-modal:hover {
+    color: var(--light);
 }
 
-div.cuerpo-modal {
+.cuerpo-modal {
     height: 100%;
-    color: #757575;
+    color: var(--secondary);
     font-size: 20px;
     font-weight: 700;
     display: flex;
@@ -317,27 +321,7 @@ div.cuerpo-modal {
     align-items: center;
 }
 
-div.pie-modal {
+.pie-modal {
     height: fit-content;
     text-align: right;
-}
-
-div.pie-modal button.boton-eliminar,
-div.pie-modal button.boton-cancelar {
-    width: auto;
-    height: 38px;
-    padding: 0 10px;
-    font-size: medium;
-    line-height: 1.5;
-}
-
-div.pie-modal button.boton-eliminar {
-    margin-right: 10px;
-    color: red;
-    background-color: white;
-}
-
-div.pie-modal button.boton-eliminar:hover {
-    color: white;
-    background-color: red;
 }

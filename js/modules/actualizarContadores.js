@@ -1,5 +1,5 @@
-import { counter_selection, counter_results, counter_totals } from "./elementosInterfaz.js";
-import { cambiarContenido } from "./funcionesInterfaz.js";
+import { counter_selection, counter_results, counter_totals } from "./elementos.js";
+import { cambiarContenido } from "./funciones.js";
 
 /* Actualizar Contadores */
 export function actualizarContadores(total, resultados, seleccion) {

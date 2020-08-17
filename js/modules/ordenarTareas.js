@@ -1,4 +1,4 @@
-import { actual } from "./variablesInterfaz.js";
+import { actual } from "./variables.js";
 import { listarTareas } from "./listarTareas.js";
 
 /* Ordenar Tareas */

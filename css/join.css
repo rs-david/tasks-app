@@ -16,7 +16,6 @@ body {
 }
 
 .logo .nombre {
-    color: white;
     background: linear-gradient(
         rgba(255, 255, 255, 0.85),
         rgba(225, 225, 225, 0.4)
@@ -33,15 +32,14 @@ body {
     width: 230px;
     margin: 22px auto;
     padding: 16px;
-    border: 1px solid rgba(115, 0, 115, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.55);
     background-color: rgba(255, 255, 255, 0.125);
     border-radius: 0.25rem;
 }
 
 .titulo-join {
-    color: white;
     margin-bottom: 15px;
-    font-size: medium;
+    font-size: 1rem;
     font-weight: 500;
     text-align: left;
 }
@@ -54,21 +52,6 @@ body {
 
 .confirmacion-join {
     margin-bottom: 30px;
-}
-
-.correo-join:valid,
-.usuario-join:valid,
-.contrasena-join:valid,
-.confirmacion-join:valid {
-    border: 1px solid rgba(0, 200, 0, 0.9);
-}
-
-.correo-join:valid:focus,
-.usuario-join:valid:focus,
-.contrasena-join:valid:focus,
-.confirmacion-join:valid:focus {
-    border: 1px solid rgba(0, 200, 0, 0.9);
-    box-shadow: 0 0 0 0.2rem rgba(8, 235, 0, 0.35);
 }
 
 /* Botón Registro */
@@ -85,18 +68,16 @@ body {
 }
 
 .boton-join:focus {
-    box-shadow: 0 0 0 0.2rem rgba(152, 47, 184, 0.5);
+    box-shadow: 0 0 0 0.2rem rgba(141, 36, 173, 0.65);
 }
 
 .notificaciones-join {
-    color: white;
     text-align: center;
     margin-bottom: 15px;
 }
 
 .link-iniciar-sesion {
     color: rgba(255, 255, 255, 0.75);
-    font-size: medium;
     font-weight: bold;
     text-decoration: none;
     transition: color 0.3s ease;
@@ -104,7 +85,6 @@ body {
 
 .link-iniciar-sesion:hover {
     color: rgba(255, 255, 255, 0.95);
-    text-decoration: none;
 }
 
 .link-iniciar-sesion:focus {

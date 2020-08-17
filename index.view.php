@@ -22,10 +22,9 @@
         </head>
 
         <body>
-
             <!-- Navegación -->
             <nav class="navegacion">
-                <div class="contenedor-navegacion">
+                <div class="contenedor">
                     <!-- Logo -->
                     <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" class="logo" title="Home">
                         <i class="icono fas fa-address-book"></i>
@@ -53,9 +52,9 @@
             </nav>
 
             <!-- Formulario & Lista Tareas -->
-            <main class="main">
+            <main class="principal">
                 <!-- Formulario Guardar & Contadores -->
-                <div class="formulario">
+                <div class="formulario-y-contadores">
                     <!-- Formulario Guardar -->
                     <form id="save-form" class="formulario-guardar">
                         <!-- Campo: ID -->
@@ -76,7 +75,7 @@
                         <form id="form-multiple-delete" class="formulario-eliminacion-multiple">
                             <div class="contador-seleccion">
                                 <span>Seleccionadas</span>
-                                <span id="counter-selection" class="tareas-seleccionadas"></span>
+                                <strong id="counter-selection" class="tareas-seleccionadas"></strong>
                             </div>
                             <button id='button-multiple-delete' class="boton-eliminacion-multiple boton danger" type="submit" title="Eliminar Tareas | Delete" disabled>
                                 <i id='icon-multiple-delete' class="fas fa-trash-alt"></i>
@@ -113,11 +112,11 @@
                 </div>
 
                 <!-- Lista Tareas -->
-                <div class="lista">
+                <div id="list" class="lista">
                     <!-- Encabezados -->
-                    <div class="encabezados">
+                    <div id="headers" class="encabezados">
                         <div class="encabezado marcar">
-                            <input id="checkbox-master" class="checkbox" type="checkbox" >
+                            <input id="checkbox-master" class="checkbox" type="checkbox">
                             <label for="checkbox-master" class="custom-checkbox"></label>
                         </div>
                         <div class="encabezado id">
@@ -185,7 +184,6 @@
                     </div>
                 </div>
             </div>
-
         </body>
 
         </html>

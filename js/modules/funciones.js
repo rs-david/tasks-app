@@ -34,3 +34,7 @@ export function cambiarContenido(contenedor, contenido) {
 export function agregarContenido(contenedor, contenido) {
     contenedor.innerHTML += contenido;
 }
+
+export function enfocarElemento(elemento) {
+    elemento.focus();
+}

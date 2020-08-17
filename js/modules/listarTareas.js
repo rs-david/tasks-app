@@ -1,23 +1,16 @@
-import { actual, save } from "./variablesInterfaz.js";
-import { search_id, search_name, search_description, cards_container, save_id, checkbox_master, multiple_delete_button } from "./elementosInterfaz.js";
-import { agregarClase, agregarContenido, cambiarContenido, deshabilitarElemento, marcarCasillas } from "./funcionesInterfaz.js";
+import { actual, save } from "./variables.js";
+import { search_id, search_name, search_description, cards_container, save_id, checkbox_master, multiple_delete_button } from "./elementos.js";
+import { agregarClase, agregarContenido, cambiarContenido, deshabilitarElemento, marcarCasillas } from "./funciones.js";
 import { actualizarContadores } from "./actualizarContadores.js";
 import { mostrarNotificacion } from "./notificaciones.js";
 
 /* Listar Tareas */
 export async function listarTareas(limite, columna, orden) {
-    const id = search_id.value;
-    const name = search_name.value;
-    const description = search_description.value;
-    const limit = limite ? limite : actual.limit;
-    const column = columna ? columna : actual.column;
-    const sort = orden ? orden : actual.sort;
-
-    const data = JSON.stringify({ id, name, description, limit, column, sort });
-    const tasks = await traerTareas(data);
+    const data = generarDatos(limite, columna, orden); 
+    const tasks = await obtenerTareas(JSON.stringify(data));
     
     if (!tasks.error) {
-        actualizarVariables(limit, column, sort);
+        actualizarVariables(data.limit, data.column, data.sort);
         crearListaTareas(tasks);
     }
     else {
@@ -26,7 +19,18 @@ export async function listarTareas(limite, columna, orden) {
     }
 }
 
-async function traerTareas(datos) {
+function generarDatos(limite, columna, orden) {
+    const id = search_id.value;
+    const name = search_name.value;
+    const description = search_description.value;
+    const limit = limite ? limite : actual.limit;
+    const column = columna ? columna : actual.column;
+    const sort = orden ? orden : actual.sort;
+    const data = { id, name, description, limit, column, sort }
+    return data;
+}
+
+async function obtenerTareas(datos) {
     const data = new FormData();
     data.append('data', datos);
     const response = await fetch('tasks-list.php', { method: 'post', body: data });

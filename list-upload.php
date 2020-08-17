@@ -10,17 +10,17 @@ if ($_SESSION["user"] && $_FILES['file']['type'] == 'application/json') {
 
     if (!json_last_error()) {
         $user_id = $_SESSION["user"];
-
+        
         for ($i = 0; $i < 1000; $i++) {
             $task = $tasks[$i];
             $name = $task['name'];
             $description = $task['description'];
             $created = $task['created'];
-
+            
             $values .= "($user_id, '$name', '$description', '$created')";
             if ($i < 1000 - 1) $values .= ",";
         }
-
+        
         try {
             include('connection.php');
 
@@ -33,10 +33,11 @@ if ($_SESSION["user"] && $_FILES['file']['type'] == 'application/json') {
             $response = ['content' => 'Error En El Servidor', 'type' => 'danger', 'error' => $error];
         }
     } else {
-        $response = ['content' => 'Archivo No Válido', 'type' => 'danger'];
+        $response = ['content' => 'Archivo No Válido', 'type' => 'danger', 'error' => json_last_error_msg()];
     }
 } else {
-    $response = ['content' => 'Archivo No Admitido', 'type' => 'warning'];
+    $file_type = $_FILES['file']['type'];
+    $response = ['content' => 'Archivo No Admitido', 'type' => 'warning', 'error' => "File Type: $file_type"];
 }
 
 echo json_encode($response);

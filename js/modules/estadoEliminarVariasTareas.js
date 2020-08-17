@@ -1,5 +1,5 @@
-import { multiple_delete_button } from "./elementosInterfaz.js";
-import { deshabilitarElemento, habilitarElemento } from "./funcionesInterfaz.js";
+import { multiple_delete_button } from "./elementos.js";
+import { deshabilitarElemento, habilitarElemento } from "./funciones.js";
 import { actualizarContadorTareasSeleccionadas } from "./actualizarContadores.js";
 
 /* Manipular Estado "Eliminar Múltiples Tareas" */

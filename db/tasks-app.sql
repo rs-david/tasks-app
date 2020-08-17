@@ -1,10 +1,8 @@
 /*
- Navicat Premium Data Transfer
-
  Source Server         : Local
  Source Server Type    : MySQL
  Source Server Version : 50724
- Source Host           : localhost:3306
+ Source Host           : localhost
  Source Schema         : tasks-app
 
  Target Server Type    : MySQL

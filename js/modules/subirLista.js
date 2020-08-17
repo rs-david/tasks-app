@@ -1,12 +1,11 @@
-import { upload_input, upload_form, upload_button, upload_field, upload_fieldtext, upload_icon } from "./elementosInterfaz.js";
-import { cambiarIcono, deshabilitarElemento, habilitarElemento } from "./funcionesInterfaz.js";
+import { upload_input, upload_form, upload_button, upload_field, upload_fieldtext, upload_icon } from "./elementos.js";
+import { cambiarIcono, deshabilitarElemento, habilitarElemento } from "./funciones.js";
 import { listarTareas } from "./listarTareas.js";
 import { mostrarNotificacion } from "./notificaciones.js";
 
 /* Subir Lista */
 export function alternarEstadoSubir() {
-    const file = upload_input.files[0] ? upload_input.files[0] : false;
-
+    const file = upload_input.files[0];
     if (file) activarEstadoSubir(file);
     else {
         if (!upload_button.hasAttribute('disabled')) desactivarEstadoSubir(true);
@@ -15,18 +14,18 @@ export function alternarEstadoSubir() {
 }
 
 export async function subirLista(lista) {
-    activarEstadoSubiendo();
+    iniciarEstadoSubiendo();
 
-    const message = await guardarLista(lista);
-    if (message.content == '¡Lista Guardada!') await listarTareas();
-    else if (message.error) console.log(message.error);
+    const message = await subir(lista);
+    if (!message.error) await listarTareas();
+    else console.log(message.error);
 
-    desactivarEstadoSubiendo();
+    terminarEstadoSubiendo();
     desactivarEstadoSubir();
     mostrarNotificacion(message.content, message.type);
 }
 
-async function guardarLista(lista) {
+async function subir(lista) {
     const data = new FormData();
     data.append('file', lista);
     const response = await fetch('list-upload.php', { method: 'post', body: data });
@@ -51,7 +50,7 @@ function desactivarEstadoSubir(boton) {
     upload_fieldtext.textContent = 'Buscar Lista';
 }
 
-function activarEstadoSubiendo() {
+function iniciarEstadoSubiendo() {
     deshabilitarElemento(upload_button);
     upload_button.classList.add('uploading');
     cambiarIcono(upload_icon, 'fa-paper-plane', ['fa-cog', 'fa-spin']);
@@ -59,7 +58,7 @@ function activarEstadoSubiendo() {
     upload_fieldtext.textContent = 'Subiendo...';
 }
 
-function desactivarEstadoSubiendo() {
+function terminarEstadoSubiendo() {
     upload_form.reset();
     upload_field.classList.remove('uploading');
     upload_button.classList.remove('uploading');

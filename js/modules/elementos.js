@@ -4,6 +4,8 @@ import { $ } from "./selectores.js";
 export const overlay = $('#overlay');
 export const checkbox_master = $('#checkbox-master');
 export const cards_container = $('#cards-container');
+export const list = $('#list');
+export const headers = $('#headers');
 /* Contadores */
 export const counter_selection = $('#counter-selection');
 export const counter_results = $('#counter-results');

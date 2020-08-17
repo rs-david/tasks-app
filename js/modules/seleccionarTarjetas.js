@@ -1,16 +1,14 @@
-import { cards_container, overlay } from "./elementosInterfaz.js";
+import { cards_container, overlay } from "./elementos.js";
 
-/* Seleccionar Tarjetas */
+/* Seleccionar Tarjetas & Desplazarse */
 export function alternarEstadoSeleccionarTarjeta(id) {
     const card = document.querySelector(`#tarjeta-${id}`);
 
-    if (card.classList.contains('select')) {
-        deseleccionarTarjeta(card);
-    }
+    if (card.classList.contains('select')) deseleccionarTarjeta(card);
     else {
         const selectcard = document.querySelector('.tarjeta.select');
         if (selectcard) deseleccionarTarjeta(selectcard);
-        card.classList.add('state', 'select');
+        seleccionarTarjeta(card);
     }
 }
 
@@ -21,49 +19,39 @@ export function desplazarseEntreTarjetas(e) {
             if (selectcard) {
                 e.preventDefault();
                 if (!e.repeat) {
-                    if (e.key == 'ArrowUp') desplazarse('up');
-                    else desplazarse('down');
+                    if (e.key == 'ArrowUp') desplazarseTarjetaSiguiente('up');
+                    else desplazarseTarjetaSiguiente('down');
                 }
             }
         }
     }
 }
 
-function desplazarse(direccion) {
-    const cards = document.querySelectorAll('.tarjeta');
-
-    for (let i = 0; i < cards.length; i++) {
-        if (cards[i].classList.contains('select')) {
-            if (direccion == 'up') {
-                if (i > 0) desplazarseTarjetaSiguiente(cards[i], cards[i - 1]);
-                return;
-            }
-            if (direccion == 'down') {
-                if (i < cards.length - 1) desplazarseTarjetaSiguiente(cards[i], cards[i + 1]);
-                return;
-            }
-        }
+function desplazarseTarjetaSiguiente(posicion) {
+    const selectcard = document.querySelector('.tarjeta.select');
+    const nextcard = posicion == 'up' ? selectcard.previousElementSibling : selectcard.nextElementSibling;
+    if (nextcard && nextcard.classList.contains('tarjeta')) {
+        deseleccionarTarjeta(selectcard);
+        seleccionarTarjeta(nextcard);
+        desplazarse(nextcard);
     }
 }
 
-function desplazarseTarjetaSiguiente(actual, siguiente) {
-    deseleccionarTarjeta(actual);
-    seleccionarTarjeta(siguiente);
+function seleccionarTarjeta(tarjeta) {
+    tarjeta.classList.add('avoid', 'select');
 }
 
-function seleccionarTarjeta(tarjeta) {
-    tarjeta.classList.add('state', 'select');
+function deseleccionarTarjeta(tarjeta) {
+    tarjeta.classList.remove('select');
+    setTimeout(() => tarjeta.classList.remove('avoid'), 1);
+}
 
+function desplazarse(tarjeta) {
     const cardcoord = tarjeta.getBoundingClientRect();
     const containercoord = cards_container.getBoundingClientRect();
     const distancetop = cardcoord.top - containercoord.top;
     const distancebottom = cardcoord.bottom - containercoord.bottom;
 
-    if (distancetop < 0) cards_container.scrollTop += distancetop;
+    if (distancetop < 0) return cards_container.scrollTop += distancetop;
     if (distancebottom > 0) cards_container.scrollTop += distancebottom;
-}
-
-function deseleccionarTarjeta(tarjeta) {
-    tarjeta.classList.remove('select');
-    setTimeout(() => tarjeta.classList.remove('state'), 1);
 }

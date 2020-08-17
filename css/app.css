@@ -1,6 +1,6 @@
 /*********** APLICACIÓN ***********/
 
-/*---------- BODY ----------*/
+/* -------------------------------------------------- Body */
 body {
     background-image: url("../img/background.jpg"); /* Photo by Austin Distel on Unsplash: https://unsplash.com/photos/gUIJ0YszPig */
     background-repeat: no-repeat;
@@ -8,15 +8,14 @@ body {
     background-size: cover;
 }
 
-/*---------- NAVEGACIÓN ----------*/
+/* -------------------------------------------------- Navegación */
 .navegacion {
     width: 100%;
     height: 75px;
     background-color: rgba(240, 240, 240, 0.65);
 }
 
-/* Contenedor Navegación */
-.contenedor-navegacion {
+.navegacion .contenedor {
     width: 95%;
     height: 100%;
     max-width: 1280px;
@@ -25,28 +24,27 @@ body {
     align-items: center;
 }
 
-/* Logo */
+/* -------------------------------------------------- Logo */
 .logo {
     color: black;
     font-size: 28px;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.25s ease;
 }
 
 .logo:hover {
-    color: grey;
-    text-decoration: none;
+    color: var(--secondary);
 }
 
 .logo:focus {
     outline: none;
 }
 
-.logo i.icono {
+.logo .icono {
     color: var(--primary);
 }
 
-/* Formulario Buscar */
+/* -------------------------------------------------- Formulario Buscar */
 .formulario-buscar {
     height: 40px;
     margin-left: auto;
@@ -57,9 +55,10 @@ body {
 .formulario-buscar input[class^="buscar"] {
     height: 100%;
     margin-right: 10px;
-    border-color: whitesmoke;
+    border-color: var(--light-extra-smooth);
 }
 
+/* -------------------------------------------------- Campos Búsqueda */
 .buscar-nombre,
 .buscar-descripcion {
     width: 225px;
@@ -74,23 +73,23 @@ body {
     -webkit-appearance: none;
 }
 
-/* Botón Limpiar */
+/* -------------------------------------------------- Botón Limpiar Filtros */
 .boton-limpiar {
     width: 40px;
 }
 
-/* Boton: Logout */
+/* -------------------------------------------------- Boton Logout */
 .boton-logout {
     width: 40px;
     height: 40px;
     color: orangered;
     border-color: orangered;
     background-color: transparent;
+    text-decoration: none;
 }
 
 .boton-logout:hover {
     color: white;
-    text-decoration: none;
     border-color: orangered;
     background-color: orangered;
 }
@@ -99,8 +98,8 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(255, 94, 0, 0.5);
 }
 
-/*---------- MAIN ----------*/
-.main {
+/* -------------------------------------------------- Principal */
+.principal {
     width: 95%;
     max-width: 1280px;
     height: fit-content;
@@ -111,19 +110,19 @@ body {
     position: relative;
 }
 
-/* Formulario*/
-.formulario {
+/* -------------------------------------------------- Formulario Guardar & Contadores */
+.formulario-y-contadores {
     width: 25%;
     padding: 25px;
     background-color: white;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--light-extra-smooth);
     border-radius: 0.25rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-/* Formulario Guardar */
+/* -------------------------------------------------- Campos Guardar */
 .formulario-guardar input[class^="guardar"] {
     margin-bottom: 10px;
 }
@@ -133,15 +132,14 @@ body {
 }
 
 .guardar-descripcion {
-    height: 225px;
-    min-height: 225px;
-    max-height: 225px;
+    min-height: 220px;
+    max-height: 220px;
     max-width: 100%;
     min-width: 100%;
     margin-bottom: 10px;
 }
 
-/* Botón Guardar */
+/* -------------------------------------------------- Botón Guardar */
 .boton-guardar {
     height: 50px;
     font-size: 25px;
@@ -149,46 +147,31 @@ body {
         border-color 0.45s ease;
 }
 
-.boton-guardar.edit {
-    color: #212529;
-    border-color: var(--warning);
-    background-color: var(--warning);
+.boton-guardar.warning {
+    color: var(--dark-smooth);
 }
 
-.boton-guardar.edit:hover {
-    border-color: var(--warning-hover);
-    background-color: var(--warning-hover);
-}
-
-.boton-guardar.edit:focus {
-    box-shadow: 0 0 0 0.2rem rgba(255, 196, 0, 0.5);
-}
-
-/* Formulario Eliminación Múltiple */
+/* -------------------------------------------------- Formulario Eliminación Múltiple */
 .formulario-eliminacion-multiple {
     margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
 }
 
-/* Contador Eliminación Múltiple */
+/* -------------------------------------------------- Contador Eliminación Múltiple */
 .contador-seleccion {
     width: 80%;
     height: 40px;
     padding: 0 20px;
-    color: red;
-    border: 1px solid red;
+    color: var(--danger);
+    border: 1px solid var(--danger);
     border-radius: 0.25em;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.contador-seleccion span:last-child {
-    font-weight: bold;
-}
-
-/* Botón Eliminación Múltiple */
+/* -------------------------------------------------- Botón Eliminación Múltiple */
 .boton-eliminacion-multiple {
     width: 40px;
 }
@@ -219,7 +202,7 @@ body {
 }
 
 .contador-busqueda span {
-    color: grey;
+    color: var(--secondary);
 }
 
 /* -------------------------------------------------- Contador Totales */
@@ -227,8 +210,8 @@ body {
     height: 40px;
     margin-bottom: 15px;
     padding: 0 20px;
-    color: #a1a1a1;
-    border: 1px solid #bbbaba;
+    color: var(--light);
+    border: 1px solid var(--light);
     border-radius: 0.25em;
     display: flex;
     justify-content: space-between;
@@ -236,20 +219,22 @@ body {
 }
 
 .contador-totales span {
-    color: grey;
+    color: var(--secondary);
 }
 
-/* Formulario: Subir Lista */
+/* -------------------------------------------------- Formulario Subir Lista */
 .formulario-subir-lista {
     display: flex;
     justify-content: space-between;
 }
 
+/* -------------------------------------------------- Campo Subir Lista */
 .campo-subir-lista {
     width: 80%;
 }
 
 .campo-subir-lista.active {
+    color: var(--dark);
     background-color: var(--warning);
 }
 
@@ -258,11 +243,7 @@ body {
     pointer-events: none;
 }
 
-.campo-subir-lista.active .file-name {
-    color: #212529;
-}
-
-/* Botón Subir Lista */
+/* -------------------------------------------------- Botón Subir Lista */
 .boton-subir-lista {
     width: 40px;
 }
@@ -273,20 +254,20 @@ body {
     opacity: 1;
 }
 
-.boton-subir-lista:disabled.uploading {
-    color: black;
-    background-color: var(--warning);
-    pointer-events: none;
-    opacity: 0.5;
-}
-
 .boton-subir-lista:disabled:hover {
     color: var(--warning);
     background-color: white;
     border-color: var(--warning);
 }
 
-/* Lista */
+.boton-subir-lista:disabled.uploading {
+    color: var(--dark);
+    background-color: var(--warning);
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* -------------------------------------------------- Lista */
 .lista {
     width: 72.5%;
     height: fit-content;
@@ -299,9 +280,10 @@ body {
     position: relative;
 }
 
-/* Encabezados & Contenidos */
-.encabezados .encabezado,
-.tarjeta .contenido {
+/* -------------------------------------------------- Encabezados & Contenidos */
+.encabezado,
+.contenido {
+    height: calc(1rem * 2);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -317,6 +299,16 @@ body {
 .encabezado.id,
 .contenido.id {
     width: 10%;
+}
+
+.encabezado.id {
+    font-size: large;
+    font-weight: 800;
+}
+
+.contenido.id {
+    color: var(--secondary);
+    font-weight: bold;
 }
 
 .encabezado.name,
@@ -346,29 +338,24 @@ body {
     justify-content: space-between;
 }
 
-/* Encabezados */
+/* -------------------------------------------------- Encabezados(Contenedor) */
 .encabezados {
     height: 70px;
     padding: 0 25px;
-    font-size: medium;
+    margin-bottom: 5px;
     font-weight: bold;
     text-align: center;
-    background-color: #fafafa;
-    border: 1px solid var(--light-grey);
+    background-color: var(--light-extra-smooth);
+    border: 1px solid var(--light-smooth);
     border-radius: 0.25rem;
     word-wrap: break-word;
     display: flex;
     align-items: center;
 }
 
-.encabezados .encabezado {
-    height: calc(1rem * 2);
-}
-
-.encabezados .encabezado[class~="ascendente"]::before {
+/* -------------------------------------------------- Encabezados */
+.encabezado[class~="ascendente"]::before {
     content: "";
-    width: 0;
-    height: 0;
     display: block;
     border-right: 5px solid transparent;
     border-top: 5px solid transparent;
@@ -378,47 +365,39 @@ body {
     top: -10px;
 }
 
-.encabezados .encabezado[class~="descendente"]::after {
+.encabezado[class~="descendente"]::after {
     content: "";
-    width: 0;
-    height: 0;
     display: block;
     border-right: 5px solid transparent;
     border-top: 5px solid var(--success);
     border-left: 5px solid transparent;
     border-bottom: 5px solid transparent;
     position: absolute;
-    top: 100%;
+    bottom: -10px;
 }
 
-.encabezados .encabezado.id {
-    font-size: large;
-    font-weight: 800;
-}
-
-.encabezados a.active {
-    color: var(--success);
-}
-
-.encabezados a {
+.encabezado a {
     color: var(--primary);
     text-decoration: none;
 }
 
-.encabezados a:hover {
-    color: grey;
+.encabezado a.active {
+    color: var(--success);
+}
+
+.encabezado a:hover {
+    color: var(--secondary);
     text-decoration: none;
 }
 
-.encabezados a:focus {
+.encabezado a:focus {
     outline: none;
 }
 
-/* Tareas */
+/* -------------------------------------------------- Tareas */
 .tareas {
     min-height: calc((65px * 7) + (5px * 6));
     max-height: calc((65px * 7) + (5px * 6));
-    margin-top: 8px;
     word-wrap: break-word;
     overflow: auto;
     scroll-behavior: smooth;
@@ -438,44 +417,39 @@ body {
     background-size: 40%;
 }
 
-/* -------------------------------------------------- Scrollbar */
+/* -------------------------------------------------- Tareas: Scrollbar */
 .tareas::-webkit-scrollbar {
     display: none;
 }
 
-/* -------------------------------------------------- Tarjeta */
+/* -------------------------------------------------- Tarjetas */
 .tarjeta {
     height: 65px;
     padding: 0 25px;
     margin-bottom: 5px;
     text-align: center;
-    border: thin solid var(--light-grey);
+    border: thin solid var(--light-smooth);
     border-radius: 0.25rem;
     background-color: white;
     display: flex;
     align-items: center;
-    transition: color 0.45s ease, border-color 0.45s ease,
-        background-color 0.45s ease, transform 0.45s ease;
+    transition: color 0.45s ease, border 0.45s ease, background 0.45s ease,
+        transform 0.45s ease;
 }
 
 .tarjeta:last-child {
     margin-bottom: 0;
 }
 
-.tarjeta .contenido.id {
-    color: grey;
-    font-weight: bold;
-}
-
 /* -------------------------------------------------- Tarjeta: Estados */
-.tarjeta.state {
+.tarjeta.avoid {
     transition: none;
 }
 
-.tarjeta.state.select {
+.tarjeta.avoid.select {
     color: white;
-    border-color: rgb(125, 125, 125);
-    background-color: rgb(125, 125, 125);
+    border-color: var(--secondary);
+    background-color: var(--secondary);
 }
 
 .tarjeta.select .contenido.id {
@@ -491,26 +465,26 @@ body {
 }
 
 .tarjeta.edit .contenido.id {
-    color: rgb(65, 65, 65);
+    color: var(--dark-smooth);
 }
 
 .tarjeta.edit.select {
-    color: black;
+    color: var(--dark);
     background-color: var(--warning);
-    border-color: black;
+    border-color: var(--dark);
 }
 
 .tarjeta.edit.select .contenido.id {
-    color: rgb(65, 65, 65);
+    color: var(--dark-smooth);
 }
 
 /* -------------------------------------------------- Tarjeta: Checkboxes */
 .tarjeta .checkbox + .custom-checkbox:before {
-    border-color: var(--light-grey);
+    border-color: var(--light-smooth);
 }
 
 .tarjeta .checkbox:checked + .custom-checkbox:before {
-    background-color: var(--light-grey);
+    background-color: var(--light-smooth);
 }
 
 .tarjeta.select .checkbox + .custom-checkbox:before,
@@ -518,7 +492,7 @@ body {
     content: "\f067"; /* fas fa-plus */
     border-color: transparent;
     background-color: transparent;
-    transform: scale(1.6);
+    transform: scale(1.5);
 }
 
 .tarjeta.select .checkbox:checked + .custom-checkbox:before,
@@ -527,7 +501,7 @@ body {
 }
 
 .tarjeta.select.edit .checkbox + .custom-checkbox:before {
-    color: black;
+    color: var(--dark);
 }
 
 /* -------------------------------------------------- Tarjeta: Botones Editar & Eliminar */
@@ -536,12 +510,7 @@ body {
     color: transparent;
     text-decoration: none;
     transform: scale(0.5);
-    transition: all 0.3s ease;
-}
-
-.tarjeta .boton-editar:hover,
-.tarjeta .boton-eliminar:hover {
-    text-decoration: none;
+    transition: all 0.25s ease;
 }
 
 .tarjeta .boton-editar:focus,
@@ -549,17 +518,15 @@ body {
     outline: none;
 }
 
-/* -------------------------------------------------- Tarjeta: Hover */
+/* -------------------------------------------------- Tarjeta Hover: Botones Editar & Eliminar */
 .tarjeta:hover .boton-eliminar {
     color: var(--danger);
     transform: scale(1.2);
-    transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .tarjeta:hover .boton-editar {
     color: var(--warning);
     transform: scale(1.2);
-    transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .tarjeta.select:hover .boton-eliminar,
@@ -569,25 +536,25 @@ body {
 
 .tarjeta.edit:hover .boton-eliminar,
 .tarjeta.edit:hover .boton-editar {
-    color: rgb(65, 65, 65);
+    color: var(--dark-smooth);
 }
 
 /* -------------------------------------------------- Tarjeta Final */
 .tarjeta-final {
     padding: 20px 0;
-    color: grey;
+    color: var(--secondary);
     font-weight: bold;
     text-align: center;
     border-radius: 0.25rem;
 }
 
-/* -------------------------------------------------- Botón Mostrar Más */
+/* -------------------------------------------------- Botón Mostrar Más Tarjetas */
 .boton-mostrar {
     height: 55px;
-    color: grey;
+    color: var(--secondary);
     font-size: 20px;
-    background-color: #f8f9fa;
-    border-color: #f8f9fa;
+    background-color: var(--light-extra-smooth);
+    border-color: var(--light-extra-smooth);
     pointer-events: none;
 }
 
@@ -596,48 +563,51 @@ body {
 }
 
 .boton-mostrar:hover {
-    color: #212529;
-    background-color: #e2e6ea;
-    border-color: #dae0e5;
+    color: var(--dark-smooth);
+    background-color: rgb(226, 230, 234);
+    border-color: rgb(226, 230, 234);
 }
 
 .boton-mostrar:focus {
     box-shadow: none;
 }
 
-/* -------------------------------------------------- Notificación */
+/* -------------------------------------------------- Notificaciones */
 .notificacion {
     width: calc(100% - 50px);
     height: 70px;
     color: white;
-    font-size: medium;
     font-weight: bold;
     background-color: var(--info);
     border: 1px solid var(--info);
     border-radius: 0.25rem;
-    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
     z-index: 3;
+    cursor: pointer;
 }
 
 .notificacion.success {
-    color: white;
     background-color: var(--success);
-    border: 1px solid var(--success);
+    border-color: var(--success);
 }
 
 .notificacion.warning {
-    color: rgb(50, 50, 50);
+    color: var(--dark);
     background-color: var(--warning);
-    border: 1px solid var(--warning);
+    border-color: var(--warning);
 }
 
 .notificacion.danger {
-    color: white;
     background-color: var(--danger);
-    border: 1px solid var(--danger);
+    border-color: var(--danger);
+}
+
+.notificacion.info {
+    background-color: var(--info);
+    border-color: var(--info);
 }
 
 /* -------------------------------------------------- Botón Inicio Lista */
@@ -666,13 +636,33 @@ body {
     outline: none;
 }
 
-/* Formulario Eliminar */
+/* -------------------------------------------------- Formulario Eliminar */
 .formulario-eliminar {
     display: flex;
     justify-content: flex-end;
 }
 
-/* Icono Botón Eliminar */
+/* -------------------------------------------------- Formulario Eliminar: Botón Eliminar & Cancelar */
+.formulario-eliminar .boton-eliminar,
+.formulario-eliminar .boton-cancelar {
+    width: auto;
+    height: 38px;
+    padding: 0 10px;
+    font-size: medium;
+    line-height: 1.5;
+}
+
+.formulario-eliminar .boton-eliminar {
+    margin-right: 10px;
+    color: var(--danger);
+    background-color: white;
+}
+
+.formulario-eliminar .boton-eliminar:hover {
+    color: white;
+    background-color: var(--danger);
+}
+
 .formulario-eliminar .boton-eliminar .icono {
     margin-right: 5px;
     font-size: medium;
