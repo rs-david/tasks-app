@@ -1,4 +1,4 @@
 /* Vatiables Interfaz */
-export const actual = { limit: 50, sort: 'DESC', column: 'created' }
-export const _delete = { keys: [] }
-export const save = { state: 'save' }
+export const _list = { limit: 50, sort: 'DESC', column: 'created' }
+export const _delete = { type: 'list', keys: { memory: [], list: [], individual: [] } }
+export const _save = { type: 'add', key: 0 }

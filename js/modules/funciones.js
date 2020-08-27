@@ -15,10 +15,6 @@ export function deshabilitarElemento(elemento) {
     elemento.setAttribute('disabled', true);
 }
 
-export function marcarCasillas(elementos) {
-    for (const elemento of elementos) elemento.checked = true;
-}
-
 export function cambiarIcono(elemento, quitar, agregar) {
     if (typeof quitar == 'object') for (const clase of quitar) elemento.classList.remove(clase);
     else elemento.classList.remove(quitar);

@@ -1,9 +1,9 @@
-import { save } from "./variables.js";
+import { _save } from "./variables.js";
 import { save_id, save_name, save_description, save_form, save_button } from "./elementos.js";
 
-/* Manipular Estado "Editar Tarea" */
+/* Estado Editar Tareas */
 export function alternarEstadoEditar(tarjeta) {
-    if (save.state == 'save') activarEstadoEditar(tarjeta, true);
+    if (_save.type == 'add') activarEstadoEditar(tarjeta, true);
     else {
         if (tarjeta.classList.contains('edit')) desactivarEstadoEditar(tarjeta);
         else {
@@ -19,14 +19,16 @@ export function activarEstadoEditar(tarjeta, boton) {
     tarjeta.classList.add('edit');
     llenarFormulario(tarjeta);
     save_name.focus();
-    save.state = 'update';
+    _save.type = 'update';
+    _save.key = tarjeta.dataset.id;
 }
 
 export function desactivarEstadoEditar(tarjeta) {
     desactivarEstadoEditarTarjeta(tarjeta);
     desactivarEstadoEditarBoton();
     save_form.reset();
-    save.state = 'save';
+    _save.type = 'add';
+    _save.key = 0;
 }
 
 function llenarFormulario(tarjeta) {
@@ -52,9 +54,7 @@ function desactivarEstadoEditarTarjeta(tarjeta) {
 }
 
 export function modificarSimultaneamenteTarjeta(e) {
-    const id = save_id.value;
-    const part = e.target.name;
-    const element = document.querySelector(`#tarjeta-${id} .contenido.${part}`);
+    const cardpart = document.querySelector(`#tarjeta-${_save.key} .contenido.${e.target.name}`);
     const content = e.target.value;
-    if (element) element.textContent = content;
+    if (cardpart) cardpart.textContent = content;
 }

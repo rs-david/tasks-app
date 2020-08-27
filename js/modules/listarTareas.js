@@ -1,48 +1,51 @@
-import { actual, save } from "./variables.js";
-import { search_id, search_name, search_description, cards_container, save_id, checkbox_master, multiple_delete_button } from "./elementos.js";
-import { agregarClase, agregarContenido, cambiarContenido, deshabilitarElemento, marcarCasillas } from "./funciones.js";
-import { actualizarContadores } from "./actualizarContadores.js";
+import { _list, _save, _delete } from "./variables.js";
+import { search_id, search_name, search_description, cards_container, counter_results, counter_totals } from "./elementos.js";
+import { agregarClase, agregarContenido, cambiarContenido } from "./funciones.js";
 import { mostrarNotificacion } from "./notificaciones.js";
+import { actualizarEstadoEliminarVariasTareas } from "./estadoEliminarVariasTareas.js";
 
 /* Listar Tareas */
 export async function listarTareas(limite, columna, orden) {
-    const data = generarDatos(limite, columna, orden); 
-    const tasks = await obtenerTareas(JSON.stringify(data));
-    
+    const request = generarPeticion(limite, columna, orden);
+    const tasks = await obtenerTareas(request);
+
     if (!tasks.error) {
-        actualizarVariables(data.limit, data.column, data.sort);
-        crearListaTareas(tasks);
+        actualizarVariables(request.limit, request.column, request.sort);
+        const response = crearListaTareas(tasks);
+        actualizarEstadoEliminarVariasTareas();
+        actualizarContadorTareasTotales(response.total);
+        actualizarContadorTareasEncontradas(response.results);
     }
     else {
-        mostrarNotificacion(tasks.message, tasks.type);
         console.log(tasks.error);
+        mostrarNotificacion(tasks.message, tasks.type);
     }
 }
 
-function generarDatos(limite, columna, orden) {
+function generarPeticion(limite, columna, orden) {
     const id = search_id.value;
     const name = search_name.value;
     const description = search_description.value;
-    const limit = limite ? limite : actual.limit;
-    const column = columna ? columna : actual.column;
-    const sort = orden ? orden : actual.sort;
-    const data = { id, name, description, limit, column, sort }
-    return data;
+
+    const limit = limite ? limite : _list.limit;
+    const column = columna ? columna : _list.column;
+    const sort = orden ? orden : _list.sort;
+
+    return { id, name, description, limit, column, sort }
 }
 
-async function obtenerTareas(datos) {
+async function obtenerTareas(peticion) {
     const data = new FormData();
-    data.append('data', datos);
+    data.append('data', JSON.stringify(peticion));
     const response = await fetch('tasks-list.php', { method: 'post', body: data });
     const tasks = await response.json();
     return tasks;
 }
 
 function actualizarVariables(limite, columna, orden) {
-    actual.limit = limite;
-    actual.column = columna;
-    actual.sort = orden;
-    return actual;
+    _list.limit = limite;
+    _list.column = columna;
+    _list.sort = orden;
 }
 
 function crearListaTareas(tareas) {
@@ -60,33 +63,24 @@ function crearListaTareas(tareas) {
         const cards = crearTarjetas(tareas);
         cambiarContenido(cards_container, cards);
 
-        const finalcard = actual.limit >= results && results > 7 ? crearTarjetaFinal() : actual.limit <= results ? crearBotonMostrarMas() : false;
+        const finalcard = _list.limit >= results && results > 7 ? crearTarjetaFinal() : _list.limit <= results ? crearBotonMostrarMas() : false;
         if (finalcard) agregarContenido(cards_container, finalcard);
-
-        if (save.state == 'update') {
-            const editcard = document.querySelector(`#tarjeta-${save_id.value}`);
-            if (editcard) editcard.classList.add('edit');
-        }
-
-        if (checkbox_master.checked) {
-            const checkboxes = document.querySelectorAll('.tarjeta .checkbox');
-            marcarCasillas(checkboxes);
-        }
     }
 
-    const checkedcheckboxes = document.querySelectorAll('.tarjeta .checkbox:checked');
-    if (!multiple_delete_button.hasAttribute('disabled') && checkedcheckboxes.length < 1) deshabilitarElemento(multiple_delete_button);
-    actualizarContadores(total, results, checkedcheckboxes.length);
+    return { total, results }
 }
 
 function crearTarjetas(tareas) {
     let cards = '';
 
     for (const tarea of tareas) {
+        const checked = _delete.keys.memory.length > 0 && _delete.keys.memory.includes(tarea.id) ? 'checked' : '';
+        const edit = _save.type == 'update' && _save.key == tarea.id ? 'edit' : '';
+        
         const card = `
-            <div id="tarjeta-${tarea.id}" class="tarjeta" data-id="${tarea.id}">
+            <div id="tarjeta-${tarea.id}" class="tarjeta ${edit}" data-id="${tarea.id}">
                 <div class="contenido marcar" data-id="${tarea.id}">
-                    <input id="checkbox-${tarea.id}" type="checkbox" class="checkbox" data-id="${tarea.id}">
+                    <input id="checkbox-${tarea.id}" type="checkbox" class="checkbox" data-id="${tarea.id}" ${checked}>
                     <label for="checkbox-${tarea.id}" class="custom-checkbox" data-id="${tarea.id}"></label>
                 </div>
                 <div class="contenido id" data-id="${tarea.id}">${tarea.id}</div>
@@ -127,4 +121,12 @@ function crearBotonMostrarMas() {
         </button>
     `;
     return showbutton;
+}
+
+function actualizarContadorTareasEncontradas(resultados) {
+    cambiarContenido(counter_results, resultados);
+}
+
+function actualizarContadorTareasTotales(total) {
+    cambiarContenido(counter_totals, total);
 }

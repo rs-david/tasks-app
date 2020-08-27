@@ -159,7 +159,7 @@ body {
 }
 
 /* -------------------------------------------------- Contador Eliminación Múltiple */
-.contador-seleccion {
+.contadores-seleccion {
     width: 80%;
     height: 40px;
     padding: 0 20px;
@@ -171,6 +171,20 @@ body {
     align-items: center;
 }
 
+/* -------------------------------------------------- Radios Selección */
+.radios-seleccion input[type="radio"] {
+    display: none;
+}
+
+.radios-seleccion input[type="radio"] + label {
+    color: var(--light);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.radios-seleccion input[type="radio"]:checked + label {
+    color: var(--danger);
+}
 /* -------------------------------------------------- Botón Eliminación Múltiple */
 .boton-eliminacion-multiple {
     width: 40px;
@@ -394,6 +408,13 @@ body {
     outline: none;
 }
 
+/* -------------------------------------------------- Encabezados: Checkbox Master */
+.encabezado.marcar .checkbox.minus:checked + .custom-checkbox:before {
+    content: "\f068"; /* Icon: "minus" */
+    color: var(--primary);
+    background-color: transparent;
+}
+
 /* -------------------------------------------------- Tareas */
 .tareas {
     min-height: calc((65px * 7) + (5px * 6));
@@ -595,7 +616,7 @@ body {
 }
 
 .notificacion.warning {
-    color: var(--dark);
+    color: var(--dark-smooth);
     background-color: var(--warning);
     border-color: var(--warning);
 }
@@ -634,6 +655,12 @@ body {
 
 .boton-inicio-lista:focus {
     outline: none;
+}
+
+/* -------------------------------------------------- Cantidad Eliminar */
+.cantidad-eliminar {
+    font-size: 18px;
+    text-decoration: underline;
 }
 
 /* -------------------------------------------------- Formulario Eliminar */

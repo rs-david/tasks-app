@@ -1,5 +1,5 @@
-import { save_id, multiple_delete_button, checkbox_master, delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, overlay, delete_modal } from "./elementos.js";
-import { _delete, save } from "./variables.js";
+import { delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, overlay, delete_modal, multiple_delete_button, delete_quantity } from "./elementos.js";
+import { _save, _delete } from "./variables.js";
 import { cambiarIcono, habilitarElemento, deshabilitarElemento } from "./funciones.js";
 import { listarTareas } from "./listarTareas.js";
 import { mostrarNotificacion } from "./notificaciones.js";
@@ -9,41 +9,81 @@ import { desactivarEstadoEditar } from "./estadoEditar.js";
 export async function eliminarTareas() {
     iniciarEstadoEliminando();
 
-    if (save.state == 'update' && _delete.keys.includes(save_id.value)) {
-        const editcard = document.querySelector('.tarjeta.edit');
-        desactivarEstadoEditar(editcard);
-    }
-    
-    const message = await eliminarRegistros();
-    
-    if (!multiple_delete_button.hasAttribute('disabled')) deshabilitarElemento(multiple_delete_button);
-    if (checkbox_master.checked) checkbox_master.checked = false;
-    
+    const keys = _delete.type == 'list' ? _delete.keys.list : _delete.type == 'memory' ? _delete.keys.memory : _delete.keys.individual;
+    if (_save.type == 'update' && keys.includes(_save.key)) desactivarEstadoEditar();
+    const message = await eliminar(keys);
+
     if (message.error) console.log(message.error);
-    else await listarTareas();
 
     terminarEstadoEliminando();
     desactivarEstadoEliminar();
+    listarTareas(50);
     mostrarNotificacion(message.content, message.type);
 }
 
-async function eliminarRegistros() {
-    const json = JSON.stringify(_delete.keys);
+async function eliminar(claves) {
     const data = new FormData();
-    data.append('data', json);
+    data.append('data', JSON.stringify(claves));
     const response = await fetch('tasks-delete.php', { method: 'post', body: data });
     const message = await response.json();
     return message;
 }
 
-export function activarEstadoEliminar(claves) {
-    abrirAlertaEliminar();
-    _delete.keys = claves;
+export function activarEstadoEliminar(tipo, clave) {
+    _delete.type = tipo;
+    const keys = agregarClaves(tipo, clave);
+    if (keys.error) {
+        deshabilitarElemento(multiple_delete_button);
+        mostrarNotificacion(keys.message, 'warning');
+    }
+    else {
+        delete_quantity.textContent = keys.length;
+        abrirAlertaEliminar();
+    }
 }
 
-export function desactivarEstadoEliminar() {
+export function desactivarEstadoEliminar(origen) {
+    removerClaves(origen);
     cerrarAlertaEliminar();
-    _delete.keys = [];
+}
+
+function agregarClaves(tipo, clave) {
+    if (tipo == 'individual') {
+        _delete.keys.individual = clave;
+        return _delete.keys.individual;
+    }
+    else if (tipo == 'list') {
+        const checkedcheckboxes = [...document.querySelectorAll('.tarjeta .checkbox:checked')];
+        if (checkedcheckboxes.length > 0) {
+            _delete.keys.list = checkedcheckboxes.map(checkbox => checkbox.dataset.id);
+            return _delete.keys.list;
+        }
+        else return { error: true, message: 'No Hay Tareas Seleccionadas' };
+    }
+    else if (tipo == 'memory') {
+        if (_delete.keys.memory.length > 0) {
+            return _delete.keys.memory;
+        }
+        else return { error: true, message: 'No Hay Tareas En Memoria' };
+    }
+}
+
+function removerClaves(origen) {
+    if (origen == 'UI') {
+        if (_delete.type == 'list') _delete.keys.list = [];
+        else if (_delete.type == 'individual') _delete.keys.individual = [];
+    }
+    else {
+        if (_delete.type == 'list') {
+            for (const listkey of _delete.keys.list) _delete.keys.memory = _delete.keys.memory.filter(memorykey => memorykey != listkey);
+            _delete.keys.list = [];
+        }
+        else if (_delete.type == 'individual') {
+            _delete.keys.memory = _delete.keys.memory.filter(memorykey => memorykey != _delete.keys.individual[0]);
+            _delete.keys.individual = [];
+        }
+        else _delete.keys.memory = [];
+    }
 }
 
 function iniciarEstadoEliminando() {
@@ -68,13 +108,4 @@ function abrirAlertaEliminar() {
 function cerrarAlertaEliminar() {
     overlay.classList.remove('active');
     delete_modal.classList.remove('active');
-}
-
-export function obtenerClavesDeCasillasSeleccionadas() {
-    const checkboxes = document.querySelectorAll('.tareas .checkbox:checked');
-    if (checkboxes.length > 0) {
-        const keys = [];
-        for (const checkbox of checkboxes) keys.push(checkbox.dataset.id);
-        return keys;
-    }
 }

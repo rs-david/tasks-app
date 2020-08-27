@@ -23,11 +23,11 @@ function filtrarDatos($datos)
 
 function verificarUsuario($conexion, $usuario)
 {
-    $exists = $conexion->prepare('SELECT user FROM users WHERE user=:user');
-    $exists->execute([':user' => $usuario]);
-    $exists = $exists->fetch();
+    $user_exists = $conexion->prepare('SELECT user FROM users WHERE user=:user');
+    $user_exists->execute([':user' => $usuario]);
+    $user_exists = $user_exists->fetch();
 
-    return $exists == false ? false : true;
+    return $user_exists == false ? false : true;
 }
 
 function obtenerClaveDeUsuario($conexion, $usuario)
@@ -42,11 +42,11 @@ function obtenerClaveDeUsuario($conexion, $usuario)
 
 function verificarEmail($conexion, $correo)
 {
-    $exists = $conexion->prepare('SELECT email FROM users WHERE email=:email');
-    $exists->execute([':email' => $correo]);
-    $exists = $exists->fetch();
+    $email_exists = $conexion->prepare('SELECT email FROM users WHERE email=:email');
+    $email_exists->execute([':email' => $correo]);
+    $email_exists = $email_exists->fetch();
 
-    return $exists == false ? false : true;
+    return $email_exists == false ? false : true;
 }
 
 function verificarContraseña($conexion, $usuario, $password)
@@ -56,8 +56,8 @@ function verificarContraseña($conexion, $usuario, $password)
     $hash = $hash->fetch();
     $hash = $hash['password'];
 
-    $correct = password_verify($password, $hash);
-    return $correct;
+    $correct_password = password_verify($password, $hash);
+    return $correct_password;
 }
 
 function registrarUsuario($conexion, $usuario, $correo, $contrasena)

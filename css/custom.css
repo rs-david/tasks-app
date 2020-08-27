@@ -102,8 +102,8 @@ textarea.form-field {
 }
 
 .checkbox + .custom-checkbox:before {
-    content: "";
     font-family: 'Font Awesome 5 Free';
+    content: "";
     color: white;
     font-size: 9px;
     font-weight: bold;
@@ -111,7 +111,7 @@ textarea.form-field {
     height: 18px;
     width: 18px;
     background-color: white;
-    border: thin solid var(--primary);
+    border: 1px solid var(--primary);
     border-radius: 0.25rem;
     position: absolute;
     display: flex;
@@ -120,7 +120,7 @@ textarea.form-field {
 }
 
 .checkbox:checked + .custom-checkbox:before {
-    content: "\f00c";
+    content: "\f00c"; /* Icon: "check" */
     background-color: var(--primary);
 }
 

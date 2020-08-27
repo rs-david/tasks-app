@@ -44,6 +44,7 @@
                             <i id="icon-clean" class="fas fa-eraser"></i>
                         </button>
                     </form>
+
                     <!-- Botón: Cerrar Sesión -->
                     <a id="button-logout" href="logout.php" class="boton boton-logout" title="Cerrar Sesión">
                         <i class="fas fa-user-alt-slash"></i>
@@ -73,9 +74,15 @@
                     <div class="contadores">
                         <!-- Formulario Eliminación Multiple -->
                         <form id="form-multiple-delete" class="formulario-eliminacion-multiple">
-                            <div class="contador-seleccion">
-                                <span>Seleccionadas</span>
-                                <strong id="counter-selection" class="tareas-seleccionadas"></strong>
+                            <div class="contadores-seleccion">
+                                <span>Selección</span>
+                                <div class="radios-seleccion">
+                                    <input id="memory-selection" type="radio" name="multiple-delete-selection">
+                                    <label id="counter-memory-selection" for="memory-selection" class="" title="En Memoria"></label>
+                                    <span>l</span>
+                                    <input id="list-selection" type="radio" name="multiple-delete-selection" checked>
+                                    <label id="counter-list-selection" for="list-selection" class="" title="En Lista"></label>
+                                </div>
                             </div>
                             <button id='button-multiple-delete' class="boton-eliminacion-multiple boton danger" type="submit" title="Eliminar Tareas | Delete" disabled>
                                 <i id='icon-multiple-delete' class="fas fa-trash-alt"></i>
@@ -168,7 +175,7 @@
                     </div>
                     <!-- Body -->
                     <div class="cuerpo-modal">
-                        <span>¿Eliminar Tareas?</span>
+                        <span>¿Eliminar <span id="quantity-delete" class="cantidad-eliminar"></span> tareas?</span>
                     </div>
                     <!-- Footer -->
                     <div class="pie-modal">

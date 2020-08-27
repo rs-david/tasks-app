@@ -1,19 +1,17 @@
-import { save, _delete } from "./modules/variables.js";
-import { search_id, search_name, search_description, cards_container, checkbox_master, top_list_button, sort_id, sort_name, sort_description, sort_date, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_modal, multiple_delete_form, multiple_delete_button, upload_input, upload_form, upload_button, clean_button, save_name, list } from "./modules/elementos.js";
+import { _save, _delete } from "./modules/variables.js";
 import { deshabilitarElemento } from "./modules/funciones.js";
+import { cards_container, checkbox_master, top_list_button, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_modal, multiple_delete_form, multiple_delete_button, upload_input, upload_form, upload_button, clean_button, save_name, list, search_form, headers, multiple_delete_listselection, multiple_delete_memoryselection } from "./modules/elementos.js";
 import { listarTareas } from "./modules/listarTareas.js";
-import { activarEstadoEliminar, eliminarTareas, desactivarEstadoEliminar, obtenerClavesDeCasillasSeleccionadas } from "./modules/eliminarTareas.js";
+import { activarEstadoEliminar, eliminarTareas, desactivarEstadoEliminar } from "./modules/eliminarTareas.js";
 import { guardarTareas } from "./modules/guardarTareas.js";
 import { alternarEstadoEditar, desactivarEstadoEditar, modificarSimultaneamenteTarjeta } from "./modules/estadoEditar.js";
 import { alternarEstadoSubir, subirLista } from "./modules/subirLista.js";
 import { limpiarFiltros } from "./modules/limpiarFiltros.js";
-import { mostrarNotificacion } from "./modules/notificaciones.js";
-import { alternarEstadoEliminarVariasTareas } from "./modules/estadoEliminarVariasTareas.js";
+import { mostrarNotificacion, cerrarNotificacion } from "./modules/notificaciones.js";
+import { alternarEstadoBotonEliminarVariasTareas, actualizarEstadoEliminarVariasTareas } from "./modules/estadoEliminarVariasTareas.js";
 import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas } from "./modules/seleccionarTarjetas.js";
-import { mostrarMasTareas } from "./modules/mostrarMasTareas.js";
 import { ordenarTareas } from "./modules/ordenarTareas.js";
-import { cerrarNotificacion } from "./modules/notificaciones.js";
-
+import { mostrarMasTareas } from "./modules/mostrarMasTareas.js";
 
 //* -------------------------------------------------------------------------------------------------------------- FUNCIONES DE INICIO *//
 
@@ -22,31 +20,19 @@ save_name.focus();
 
 //* -------------------------------------------------------------------------------------------------------------- FILTRAR/BUSCAR TAREAS *//
 
-search_id.addEventListener('keyup', () => listarTareas());
-search_name.addEventListener('keyup', () => listarTareas());
-search_description.addEventListener('keyup', () => listarTareas());
-search_id.addEventListener('search', () => listarTareas());
-search_name.addEventListener('search', () => listarTareas());
-search_description.addEventListener('search', () => listarTareas());
+search_form.addEventListener('search', () => listarTareas());
+search_form.addEventListener('keyup', e => {
+    if (e.target.nodeName == 'INPUT') listarTareas();
+});
 
 //* -------------------------------------------------------------------------------------------------------------- ORDENAR TAREAS *//
 
-sort_id.addEventListener('click', e => {
-    ordenarTareas(e);
-    e.preventDefault();
-})
-sort_name.addEventListener('click', e => {
-    ordenarTareas(e);
-    e.preventDefault();
-})
-sort_description.addEventListener('click', e => {
-    ordenarTareas(e);
-    e.preventDefault();
-})
-sort_date.addEventListener('click', e => {
-    ordenarTareas(e);
-    e.preventDefault();
-})
+headers.addEventListener('click', e => {
+    if (e.target.nodeName == 'A') {
+        ordenarTareas(e);
+        e.preventDefault();
+    }
+});
 
 //* -------------------------------------------------------------------------------------------------------------- GUARDAR/EDITAR TAREAS *//
 
@@ -65,7 +51,7 @@ cards_container.addEventListener('click', e => {
     }
 });
 document.addEventListener('keydown', e => {
-    if (e.key == 'Escape' && save.state == 'update' && !overlay.classList.contains('active')) {
+    if (e.key == 'Escape' && _save.type == 'update' && !overlay.classList.contains('active')) {
         e.preventDefault();
         if (!e.repeat) {
             const editcard = document.querySelector('.tarjeta.edit');
@@ -77,7 +63,7 @@ document.addEventListener('keydown', e => {
 //* ----------------------------------- MODIFICAR CONTENIDO DE TARJETA EN EDICIÓN *//
 
 save_form.addEventListener('keyup', e => {
-    if (save.state == 'update' && e.target.nodeName != 'BUTTON') {
+    if (_save.type == 'update' && e.target.nodeName != 'BUTTON') {
         modificarSimultaneamenteTarjeta(e);
     }
 });
@@ -97,38 +83,20 @@ document.addEventListener('keydown', e => {
 
 //* ----------------------------------- ACTIVAR/DESACTIVAR ESTADO ELIMINAR TAREAS *//
 
+/* Activar: Abrir Modal */
 cards_container.addEventListener('click', e => {
     if (e.target.classList.contains('boton-eliminar') || e.target.classList.contains('icono-eliminar')) {
         const key = [e.target.dataset.id];
-        activarEstadoEliminar(key);
+        activarEstadoEliminar('individual', key);
         e.preventDefault();
-    }
-});
-delete_buttonclose.addEventListener('click', e => {
-    desactivarEstadoEliminar();
-    e.preventDefault();
-});
-delete_buttoncancel.addEventListener('click', e => {
-    desactivarEstadoEliminar();
-    e.preventDefault();
-});
-overlay.addEventListener('click', e => {
-    if (e.target.id == 'overlay' && !delete_button.hasAttribute('disabled')) {
-        desactivarEstadoEliminar();
-    }
-});
-document.addEventListener('keydown', e => {
-    if (e.key == 'Escape' && overlay.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
-        e.preventDefault();
-        if (!e.repeat) desactivarEstadoEliminar();
     }
 });
 multiple_delete_form.addEventListener('submit', e => {
-    const keys = obtenerClavesDeCasillasSeleccionadas();
-    if (keys) activarEstadoEliminar(keys);
+    if (multiple_delete_listselection.checked) activarEstadoEliminar('list');
+    else if (multiple_delete_memoryselection.checked) activarEstadoEliminar('memory');
     else {
-        mostrarNotificacion('No Hay Casillas Seleccionadas', 'warning');
         deshabilitarElemento(multiple_delete_button);
+        multiple_delete_listselection.checked = true;
     }
     e.preventDefault();
 });
@@ -136,28 +104,49 @@ document.addEventListener('keydown', e => {
     if (e.key == 'Delete' && !overlay.classList.contains('active') && !multiple_delete_button.hasAttribute('disabled')) {
         e.preventDefault();
         if (!e.repeat) {
-            const keys = obtenerClavesDeCasillasSeleccionadas();
-            if (keys) activarEstadoEliminar(keys);
+            if (multiple_delete_listselection.checked) activarEstadoEliminar('list');
+            else if (multiple_delete_memoryselection.checked) activarEstadoEliminar('memory');
             else {
-                mostrarNotificacion('No Hay Casillas Seleccionadas', 'warning');
                 deshabilitarElemento(multiple_delete_button);
+                multiple_delete_listselection.checked = true;
             }
         }
     }
 });
 
-//* ----------------------------------- ACTIVAR/DESACTIVAR ESTADO ELIMINAR VARIAS TAREAS *//
+/* Desactivar: Cerrar Modal */
+delete_buttonclose.addEventListener('click', e => {
+    desactivarEstadoEliminar('UI');
+    e.preventDefault();
+});
+delete_buttoncancel.addEventListener('click', e => {
+    desactivarEstadoEliminar('UI');
+    e.preventDefault();
+});
+overlay.addEventListener('click', e => {
+    if (e.target.id == 'overlay' && !delete_button.hasAttribute('disabled')) {
+        desactivarEstadoEliminar('UI');
+    }
+});
+document.addEventListener('keydown', e => {
+    if (e.key == 'Escape' && overlay.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
+        e.preventDefault();
+        if (!e.repeat) desactivarEstadoEliminar('UI');
+    }
+});
+
+//* ----------------------------------- ACTUALIZAR ESTADO ELIMINAR VARIAS TAREAS *//
 
 checkbox_master.addEventListener('change', () => {
     const checkboxes = document.querySelectorAll('.tarjeta .checkbox');
     if (checkboxes.length > 0) {
-        for (const checkbox of checkboxes) checkbox.checked = checkbox_master.checked;
-        alternarEstadoEliminarVariasTareas();
+        actualizarEstadoEliminarVariasTareas(checkbox_master, checkboxes);
     }
 });
-cards_container.addEventListener('click', e => {
-    if (e.target.classList.contains('checkbox') || e.target.classList.contains('custom-checkbox')) {
-        alternarEstadoEliminarVariasTareas();
+cards_container.addEventListener('change', e => {
+    if (e.target.classList.contains('checkbox')) {
+        const checkbox = e.target;
+        actualizarEstadoEliminarVariasTareas(checkbox);
     }
 });
 document.addEventListener('keydown', e => {
@@ -168,10 +157,19 @@ document.addEventListener('keydown', e => {
             if (!e.repeat) {
                 const checkbox = selectcard.children[0].children[0];
                 checkbox.checked = !checkbox.checked;
-                alternarEstadoEliminarVariasTareas();
+                actualizarEstadoEliminarVariasTareas(checkbox);
             }
         }
     }
+});
+
+//* ----------------------------------- ACTUALIZAR ESTADO BOTON ELIMINAR VARIAS TAREAS *//
+
+multiple_delete_listselection.addEventListener('change', () => {
+    alternarEstadoBotonEliminarVariasTareas();
+});
+multiple_delete_memoryselection.addEventListener('change', () => {
+    alternarEstadoBotonEliminarVariasTareas();
 });
 
 //* -------------------------------------------------------------------------------------------------------------- SUBIR LISTA *//
