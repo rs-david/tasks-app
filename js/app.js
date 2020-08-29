@@ -1,10 +1,10 @@
 import { _save, _delete } from "./modules/variables.js";
-import { deshabilitarElemento } from "./modules/funciones.js";
+import { deshabilitarElemento, enfocarElemento } from "./modules/funciones.js";
 import { cards_container, checkbox_master, top_list_button, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_modal, multiple_delete_form, multiple_delete_button, upload_input, upload_form, upload_button, clean_button, save_name, list, search_form, headers, multiple_delete_listselection, multiple_delete_memoryselection } from "./modules/elementos.js";
 import { listarTareas } from "./modules/listarTareas.js";
 import { activarEstadoEliminar, eliminarTareas, desactivarEstadoEliminar } from "./modules/eliminarTareas.js";
 import { guardarTareas } from "./modules/guardarTareas.js";
-import { alternarEstadoEditar, desactivarEstadoEditar, modificarSimultaneamenteTarjeta } from "./modules/estadoEditar.js";
+import { alternarEstadoEditar, desactivarEstadoEditar, modificarSimultaneamenteTarjeta } from "./modules/estadoEditarTareas.js";
 import { alternarEstadoSubir, subirLista } from "./modules/subirLista.js";
 import { limpiarFiltros } from "./modules/limpiarFiltros.js";
 import { mostrarNotificacion, cerrarNotificacion } from "./modules/notificaciones.js";
@@ -16,7 +16,7 @@ import { mostrarMasTareas } from "./modules/mostrarMasTareas.js";
 //* -------------------------------------------------------------------------------------------------------------- FUNCIONES DE INICIO *//
 
 listarTareas();
-save_name.focus();
+enfocarElemento(save_name);
 
 //* -------------------------------------------------------------------------------------------------------------- FILTRAR/BUSCAR TAREAS *//
 
@@ -53,10 +53,7 @@ cards_container.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
     if (e.key == 'Escape' && _save.type == 'update' && !overlay.classList.contains('active')) {
         e.preventDefault();
-        if (!e.repeat) {
-            const editcard = document.querySelector('.tarjeta.edit');
-            desactivarEstadoEditar(editcard);
-        }
+        if (!e.repeat) desactivarEstadoEditar('UI');
     }
 });
 
@@ -83,7 +80,7 @@ document.addEventListener('keydown', e => {
 
 //* ----------------------------------- ACTIVAR/DESACTIVAR ESTADO ELIMINAR TAREAS *//
 
-/* Activar: Abrir Modal */
+/* Activar */
 cards_container.addEventListener('click', e => {
     if (e.target.classList.contains('boton-eliminar') || e.target.classList.contains('icono-eliminar')) {
         const key = [e.target.dataset.id];
@@ -114,7 +111,7 @@ document.addEventListener('keydown', e => {
     }
 });
 
-/* Desactivar: Cerrar Modal */
+/* Desactivar */
 delete_buttonclose.addEventListener('click', e => {
     desactivarEstadoEliminar('UI');
     e.preventDefault();
@@ -149,6 +146,9 @@ cards_container.addEventListener('change', e => {
         actualizarEstadoEliminarVariasTareas(checkbox);
     }
 });
+
+//* ----------------------------------- MARCAR CHECKBOXES DE LISTA CON TECLA "ESPACE" *//
+
 document.addEventListener('keydown', e => {
     if (e.code == 'Space') {
         const selectcard = document.querySelector('.tarjeta.select');
@@ -163,7 +163,7 @@ document.addEventListener('keydown', e => {
     }
 });
 
-//* ----------------------------------- ACTUALIZAR ESTADO BOTON ELIMINAR VARIAS TAREAS *//
+//* ----------------------------------- ALTERNAR ESTADO BOTON ELIMINAR VARIAS TAREAS *//
 
 multiple_delete_listselection.addEventListener('change', () => {
     alternarEstadoBotonEliminarVariasTareas();
@@ -198,7 +198,7 @@ cards_container.addEventListener('click', e => {
 });
 document.addEventListener('keydown', e => desplazarseEntreTarjetas(e));
 
-//* -------------------------------------------------------------------------------------------------------------- SCROLL TOP *//
+//* -------------------------------------------------------------------------------------------------------------- SCROLL TOP LIST *//
 
 top_list_button.addEventListener('click', e => {
     cards_container.scrollTop = 0;

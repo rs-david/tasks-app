@@ -1,5 +1,5 @@
 import { _list, _save, _delete } from "./variables.js";
-import { search_id, search_name, search_description, cards_container, counter_results, counter_totals } from "./elementos.js";
+import { search_id, search_name, search_description, cards_container, counter_results, counter_totals, save_name, save_description } from "./elementos.js";
 import { agregarClase, agregarContenido, cambiarContenido } from "./funciones.js";
 import { mostrarNotificacion } from "./notificaciones.js";
 import { actualizarEstadoEliminarVariasTareas } from "./estadoEliminarVariasTareas.js";
@@ -74,18 +74,21 @@ function crearTarjetas(tareas) {
     let cards = '';
 
     for (const tarea of tareas) {
-        const checked = _delete.keys.memory.length > 0 && _delete.keys.memory.includes(tarea.id) ? 'checked' : '';
-        const edit = _save.type == 'update' && _save.key == tarea.id ? 'edit' : '';
-        
+        const checkedattribute = _delete.keys.memory.length > 0 && _delete.keys.memory.includes(tarea.id) ? 'checked' : '';
+
+        const editclass = _save.type == 'update' && _save.id == tarea.id ? 'edit' : '';
+        const taskname = _save.type == 'update' && _save.id == tarea.id ? save_name.value : tarea.name;
+        const taskdescription = _save.type == 'update' && _save.id == tarea.id ? save_description.value : tarea.description;
+
         const card = `
-            <div id="tarjeta-${tarea.id}" class="tarjeta ${edit}" data-id="${tarea.id}">
+            <div id="tarjeta-${tarea.id}" class="tarjeta ${editclass}" data-id="${tarea.id}">
                 <div class="contenido marcar" data-id="${tarea.id}">
-                    <input id="checkbox-${tarea.id}" type="checkbox" class="checkbox" data-id="${tarea.id}" ${checked}>
+                    <input id="checkbox-${tarea.id}" type="checkbox" class="checkbox" data-id="${tarea.id}" ${checkedattribute}>
                     <label for="checkbox-${tarea.id}" class="custom-checkbox" data-id="${tarea.id}"></label>
                 </div>
                 <div class="contenido id" data-id="${tarea.id}">${tarea.id}</div>
-                <div class="contenido name" data-id="${tarea.id}">${tarea.name}</div>
-                <div class="contenido description" data-id="${tarea.id}">${tarea.description}</div>
+                <div class="contenido name" data-id="${tarea.id}">${taskname}</div>
+                <div class="contenido description" data-id="${tarea.id}">${taskdescription}</div>
                 <div class="contenido date" data-id="${tarea.id}">${tarea.date}</div>
                 <div class="contenido actions" data-id="${tarea.id}">
                     <a id="button-edit-${tarea.id}" href="" class="boton-editar" title="Editar" data-id="${tarea.id}">

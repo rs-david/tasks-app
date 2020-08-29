@@ -34,6 +34,7 @@ export const upload_button = $('#button-upload-list');
 export const upload_icon = $('#icon-upload-list');
 /* Eliminar Tareas */
 export const delete_modal = $('#modal-delete');
+export const delete_modaltitle = $('#title-modal-delete');
 export const delete_form = $('#form-delete');
 export const delete_button = $('#button-delete');
 export const delete_icon = $('#icon-delete');

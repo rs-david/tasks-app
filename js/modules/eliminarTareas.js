@@ -1,16 +1,16 @@
-import { delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, overlay, delete_modal, multiple_delete_button, delete_quantity } from "./elementos.js";
+import { delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, overlay, delete_modal, multiple_delete_button, delete_quantity, delete_modaltitle } from "./elementos.js";
 import { _save, _delete } from "./variables.js";
 import { cambiarIcono, habilitarElemento, deshabilitarElemento } from "./funciones.js";
 import { listarTareas } from "./listarTareas.js";
 import { mostrarNotificacion } from "./notificaciones.js";
-import { desactivarEstadoEditar } from "./estadoEditar.js";
+import { desactivarEstadoEditar } from "./estadoEditarTareas.js";
 
 /* Eliminar Tareas */
 export async function eliminarTareas() {
     iniciarEstadoEliminando();
 
     const keys = _delete.type == 'list' ? _delete.keys.list : _delete.type == 'memory' ? _delete.keys.memory : _delete.keys.individual;
-    if (_save.type == 'update' && keys.includes(_save.key)) desactivarEstadoEditar();
+    if (_save.type == 'update' && keys.includes(_save.id)) desactivarEstadoEditar();
     const message = await eliminar(keys);
 
     if (message.error) console.log(message.error);
@@ -37,14 +37,14 @@ export function activarEstadoEliminar(tipo, clave) {
         mostrarNotificacion(keys.message, 'warning');
     }
     else {
-        delete_quantity.textContent = keys.length;
-        abrirAlertaEliminar();
+        prepararModal(keys, tipo);
+        abrirModal();
     }
 }
 
 export function desactivarEstadoEliminar(origen) {
     removerClaves(origen);
-    cerrarAlertaEliminar();
+    cerrarModal();
 }
 
 function agregarClaves(tipo, clave) {
@@ -100,12 +100,17 @@ function terminarEstadoEliminando() {
     cambiarIcono(delete_icon, ['fa-cog', 'fa-spin'], 'fa-trash');
 }
 
-function abrirAlertaEliminar() {
+function prepararModal(claves, tipo) {
+    delete_quantity.textContent = claves.length;
+    delete_modaltitle.textContent = tipo == 'list' ? 'Lista' : tipo == 'memory' ? 'Memoria' : tipo == 'individual' ? 'Individual' : false;
+}
+
+function abrirModal() {
     overlay.classList.add('active');
     delete_modal.classList.add('active');
 }
 
-function cerrarAlertaEliminar() {
+function cerrarModal() {
     overlay.classList.remove('active');
     delete_modal.classList.remove('active');
 }

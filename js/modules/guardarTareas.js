@@ -1,7 +1,7 @@
 import { _save } from "./variables.js";
 import { save_name, save_button, save_id, save_form, save_description } from "./elementos.js";
 import { cambiarIcono, deshabilitarElemento, habilitarElemento, enfocarElemento } from "./funciones.js";
-import { desactivarEstadoEditar } from "./estadoEditar.js";
+import { desactivarEstadoEditar } from "./estadoEditarTareas.js";
 import { mostrarNotificacion } from "./notificaciones.js";
 import { listarTareas } from "./listarTareas.js";
 
@@ -51,9 +51,6 @@ function terminarEstadoGuardando() {
 }
 
 function desactivarEstadoGuardar() {
-    if (_save.type == 'update') {
-        const editcard = document.querySelector('.tarjeta.edit');
-        desactivarEstadoEditar(editcard);
-    }
+    if (_save.type == 'update') desactivarEstadoEditar();
     else save_form.reset();
 }

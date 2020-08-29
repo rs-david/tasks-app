@@ -28,8 +28,9 @@ textarea {
 }
 
 body,
-figure,
-h1 {
+p,
+h1,
+figure {
     margin: 0;
 }
 
@@ -37,6 +38,9 @@ button {
     padding: 0;
 }
 
+header,
+main,
+section,
 a,
 div,
 input,
@@ -284,15 +288,23 @@ textarea.form-field {
 }
 
 .cabecera-modal {
-    height: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cabecera-modal .titulo-modal {
+    color: var(--light);
+    font-size: 12px;
+    text-transform: uppercase;
     line-height: 1;
-    text-align: right;
 }
 
 .cabecera-modal .boton-cerrar-modal {
     color: var(--light-smooth);
     font-size: 20px;
     font-weight: bold;
+    line-height: 1;
     background-color: transparent;
     border: hidden;
     transition: all 0.25s ease;

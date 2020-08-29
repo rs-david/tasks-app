@@ -53,9 +53,9 @@
             </nav>
 
             <!-- Formulario & Lista Tareas -->
-            <main class="principal">
+            <main>
                 <!-- Formulario Guardar & Contadores -->
-                <div class="formulario-y-contadores">
+                <section class="formulario-y-contadores">
                     <!-- Formulario Guardar -->
                     <form id="save-form" class="formulario-guardar">
                         <!-- Campo: ID -->
@@ -116,10 +116,10 @@
                             </button>
                         </form>
                     </div>
-                </div>
+                </section>
 
                 <!-- Lista Tareas -->
-                <div id="list" class="lista">
+                <section id="list" class="lista">
                     <!-- Encabezados -->
                     <div id="headers" class="encabezados">
                         <div class="encabezado marcar">
@@ -160,7 +160,7 @@
                     <a id="button-top-list" href="" class="boton-inicio-lista" title="Arriba">
                         <i class="fas fa-chevron-up fa-lg"></i>
                     </a>
-                </div>
+                </section>
             </main>
 
             <!-- Overlay -->
@@ -168,17 +168,18 @@
                 <!-- Modal: Eliminar Tareas -->
                 <div id="modal-delete" class="modal">
                     <!-- Header -->
-                    <div class="cabecera-modal">
+                    <header class="cabecera-modal">
+                        <h1 id="title-modal-delete" class="titulo-modal"></h1>
                         <button id="button-close-modal" class="boton-cerrar-modal" title="Cerrar">
                             <i class="fas fa-times"></i>
                         </button>
-                    </div>
+                    </header>
                     <!-- Body -->
                     <div class="cuerpo-modal">
-                        <span>¿Eliminar <span id="quantity-delete" class="cantidad-eliminar"></span> tareas?</span>
+                        <p>¿Eliminar <span id="quantity-delete" class="cantidad-eliminar"></span> tareas?</p>
                     </div>
                     <!-- Footer -->
-                    <div class="pie-modal">
+                    <footer class="pie-modal">
                         <!-- Formulario Eliminar -->
                         <form id="form-delete" class="formulario-eliminar">
                             <button id="button-delete" class="boton-eliminar boton danger" type="submit">
@@ -188,7 +189,7 @@
                                 Cancelar
                             </button>
                         </form>
-                    </div>
+                    </footer>
                 </div>
             </div>
         </body>

@@ -98,8 +98,8 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(255, 94, 0, 0.5);
 }
 
-/* -------------------------------------------------- Principal */
-.principal {
+/* -------------------------------------------------- Main */
+main {
     width: 95%;
     max-width: 1280px;
     height: fit-content;
@@ -143,8 +143,8 @@ body {
 .boton-guardar {
     height: 50px;
     font-size: 25px;
-    transition: color 0.45s ease, background-color 0.45s ease,
-        border-color 0.45s ease;
+    transition: color 0.4s ease, background-color 0.4s ease,
+        border-color 0.4s ease;
 }
 
 .boton-guardar.warning {
@@ -454,8 +454,8 @@ body {
     background-color: white;
     display: flex;
     align-items: center;
-    transition: color 0.45s ease, border 0.45s ease, background 0.45s ease,
-        transform 0.45s ease;
+    transition: color 0.4s ease, border 0.4s ease, background 0.4s ease,
+        transform 0.4s ease;
 }
 
 .tarjeta:last-child {
@@ -530,7 +530,7 @@ body {
 .tarjeta .boton-eliminar {
     color: transparent;
     text-decoration: none;
-    transform: scale(0.5);
+    transform: scale(0.35);
     transition: all 0.25s ease;
 }
 
@@ -658,9 +658,12 @@ body {
 }
 
 /* -------------------------------------------------- Cantidad Eliminar */
-.cantidad-eliminar {
-    font-size: 18px;
-    text-decoration: underline;
+.cuerpo-modal .cantidad-eliminar {
+    padding: 0 1px;
+    font-size: large;
+    line-height: 1.125;
+    border-bottom: 1px solid var(--danger);
+    display: inline-block;
 }
 
 /* -------------------------------------------------- Formulario Eliminar */
