@@ -8,7 +8,7 @@ _Funciones:_
 -   Eliminar Tareas.
 -   Buscar Tareas.
 -   Ordenar Tareas.
-+   Funcionalidades.
++   Más Funciones.
 
 _Lenguajes & Servidores:_
 
