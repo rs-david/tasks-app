@@ -1,7 +1,18 @@
 "Tasks App" By David 2020
 
-_Lenguajes & Servers:_
+_Funciones:_
 
+-   Sesiones.
+-   Agregar Tareas.
+-   Actualizar Tareas.
+-   Eliminar Tareas.
+-   Buscar Tareas.
+-   Ordenar Tareas.
++   Funcionalidades.
+
+_Lenguajes & Servidores:_
+
+-   HTML, CSS & JS
 -   PHP 7.4.5
 -   MySQL 5.7.24
 -   Apache 2.2.31
@@ -10,7 +21,7 @@ _Navegadores:_
 
 -   Google Chrome 85.0.4183.83
 
-_Frameworks, Icons:_
+_Frameworks, Iconos & Otros:_
 
 -   Font Awesome 5.14
 
