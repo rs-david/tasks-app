@@ -55,3 +55,7 @@ function desplazarse(tarjeta) {
     if (distancetop < 0) return cards_container.scrollTop += distancetop;
     if (distancebottom > 0) cards_container.scrollTop += distancebottom;
 }
+
+export function desplazarseInicioDeLista() {
+    cards_container.scrollTop = 0;
+}

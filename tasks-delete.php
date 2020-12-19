@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 $data = json_decode($_POST['data'], true);
 

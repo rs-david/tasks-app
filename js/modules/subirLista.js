@@ -16,7 +16,7 @@ export function alternarEstadoSubir() {
 export async function subirLista(lista) {
     iniciarEstadoSubiendo();
 
-    const message = await subir(lista);
+    const message = await cargar(lista);
     if (!message.error) await listarTareas();
     else console.log(message.error);
 
@@ -25,7 +25,7 @@ export async function subirLista(lista) {
     mostrarNotificacion(message.content, message.type);
 }
 
-async function subir(lista) {
+async function cargar(lista) {
     const data = new FormData();
     data.append('file', lista);
     const response = await fetch('list-upload.php', { method: 'post', body: data });

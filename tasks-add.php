@@ -10,8 +10,8 @@ $user_id = $_SESSION['user'];
 try {
     include('connection.php');
 
-    $statement = $conn->prepare("INSERT INTO tasks(user_id, name, description) VALUES(:user_id, :name, :description)");
-    $statement->execute([':user_id' => $user_id, ':name' => $name, ':description' => $description]);
+    $add = $conn->prepare("INSERT INTO tasks(user_id, name, description) VALUES(:user_id, :name, :description)");
+    $add->execute([':user_id' => $user_id, ':name' => $name, ':description' => $description]);
 
     $response = ['content' => "¡Tarea Guardada!", 'type' => 'success'];
 } catch (PDOException $e) {

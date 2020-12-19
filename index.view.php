@@ -72,7 +72,7 @@
 
                     <!-- Contadores -->
                     <div class="contadores">
-                        <!-- Formulario Eliminación Multiple -->
+                        <!-- Formulario Eliminación Múltiple -->
                         <form id="form-multiple-delete" class="formulario-eliminacion-multiple">
                             <div class="contadores-seleccion">
                                 <span>Selección</span>

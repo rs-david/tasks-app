@@ -9,7 +9,7 @@ import { alternarEstadoSubir, subirLista } from "./modules/subirLista.js";
 import { limpiarFiltros } from "./modules/limpiarFiltros.js";
 import { mostrarNotificacion, cerrarNotificacion } from "./modules/notificaciones.js";
 import { alternarEstadoBotonEliminarVariasTareas, actualizarEstadoEliminarVariasTareas } from "./modules/estadoEliminarVariasTareas.js";
-import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas } from "./modules/seleccionarTarjetas.js";
+import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas, desplazarseInicioDeLista } from "./modules/seleccionarTarjetas.js";
 import { ordenarTareas } from "./modules/ordenarTareas.js";
 import { mostrarMasTareas } from "./modules/mostrarMasTareas.js";
 
@@ -201,14 +201,16 @@ document.addEventListener('keydown', e => desplazarseEntreTarjetas(e));
 //* -------------------------------------------------------------------------------------------------------------- SCROLL TOP LIST *//
 
 top_list_button.addEventListener('click', e => {
-    cards_container.scrollTop = 0;
+    desplazarseInicioDeLista();
     e.preventDefault();
 });
 
 //* -------------------------------------------------------------------------------------------------------------- MOSTRAR MÁS TAREAS *//
 
 cards_container.addEventListener('click', e => {
-    if (e.target.id == 'icon-show' || e.target.id == 'button-show') mostrarMasTareas();
+    if (e.target.id == 'icon-show' || e.target.id == 'button-show') {
+        mostrarMasTareas();
+    }
 });
 
 //* -------------------------------------------------------------------------------------------------------------- CERRAR NOTIFICACIONES *//
