@@ -26,25 +26,18 @@ async function enviarListaAlServidor(lista) {
 }
 
 /* Estado Subir:
-    - Campo "Buscar Lista" Cambia De Color (Amarillo).
-    - Se Muestra El Nombre Del Archivo A Subir.
-    - Botón "Subir Lista" Cambia De Color (Amarillo) & Puede Ser Clickeado.
+    - "Campo" Buscar Lista "Cambia de Apariencia".
+    - Se Muestra el "Nombre del Archivo" a Subir.
+    - "Botón" Subir Lista "Cambia de Apariencia" y se "Activa".
 */
 
-export function alternarEstadoSubir(fileinput) {
-    const file = fileinput.files[0];
-
-    if (file) activarEstadoSubir(file);
-    else desactivarEstadoSubir();
-}
-
-function activarEstadoSubir(file) {
+export function activarEstadoSubir(file) {
     upload_field.classList.add('active');
     upload_fieldtext.textContent = file.name;
     if (upload_button.hasAttribute('disabled')) habilitarElemento(upload_button);
 }
 
-function desactivarEstadoSubir() {
+export function desactivarEstadoSubir() {
     upload_field.classList.remove('active');
     upload_fieldtext.textContent = 'Buscar Lista';
     if (!upload_button.hasAttribute('disabled')) deshabilitarElemento(upload_button);

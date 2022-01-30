@@ -107,11 +107,11 @@
 
                         <!-- Formulario Subir Lista -->
                         <form id="form-upload-list" class="formulario-subir-lista">
-                            <input id="input-upload-list" type="file" class="file" accept="application/json">
-                            <label id="field-upload-list" for="input-upload-list" class="campo-subir-lista custom-file" title="Buscar Lista">
-                                <span class="file-name">Buscar Lista</span>
+                            <input id="input-upload-list" type="file" class="custom-file" accept="application/json">
+                            <label id="field-upload-list" for="input-upload-list" class="custom-label" title="Buscar Lista">
+                                <span id="filename-upload-list" class="file-name">Buscar Lista</span>
                             </label>
-                            <button id='button-upload-list' class="boton-subir-lista boton warning" type="submit" title="Subir Lista" disabled>
+                            <button id='button-upload-list' class="boton warning" type="submit" title="Subir Lista" disabled>
                                 <i id="icon-upload-list" class="fas fa-paper-plane"></i>
                             </button>
                         </form>

@@ -240,48 +240,45 @@ main {
 }
 
 /* -------------------------------------------------- Formulario Subir Lista */
-.formulario-subir-lista {
+#form-upload-list {
     display: flex;
     justify-content: space-between;
 }
 
 /* -------------------------------------------------- Campo Subir Lista */
-.campo-subir-lista {
+#field-upload-list {
     width: 80%;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
-.campo-subir-lista:hover {
+#field-upload-list:hover {
     font-style: italic;
 }
 
-.campo-subir-lista.active {
+#field-upload-list.active {
     color: var(--dark);
     background-color: var(--warning);
 }
 
-.campo-subir-lista.active.uploading {
+#field-upload-list.active.uploading {
     opacity: 0.5;
     pointer-events: none;
 }
 
 /* -------------------------------------------------- Botón Subir Lista */
-.boton-subir-lista {
+#button-upload-list {
     width: 40px;
 }
 
-.boton-subir-lista:disabled {
-    color: var(--warning);
-    background-color: transparent;
-    opacity: 1;
-}
-
-.boton-subir-lista:disabled:hover {
+#button-upload-list:disabled,
+#button-upload-list:disabled:hover {
     color: var(--warning);
     background-color: transparent;
     border-color: var(--warning);
+    opacity: 1;
 }
 
-.boton-subir-lista:disabled.uploading {
+#button-upload-list:disabled.uploading {
     color: var(--dark);
     background-color: var(--warning);
     pointer-events: none;

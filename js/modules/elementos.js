@@ -29,7 +29,7 @@ export const save_button = $('#button-save');
 export const upload_form = $('#form-upload-list');
 export const upload_input = $('#input-upload-list');
 export const upload_field = $('#field-upload-list');
-export const upload_fieldtext = $('#field-upload-list span');
+export const upload_fieldtext = $('#filename-upload-list');
 export const upload_button = $('#button-upload-list');
 export const upload_icon = $('#icon-upload-list');
 /* Eliminar Tareas */

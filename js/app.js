@@ -5,7 +5,7 @@ import { listarTareas } from "./modules/listarTareas.js";
 import { activarEstadoEliminar, eliminarTareas, desactivarEstadoEliminar } from "./modules/eliminarTareas.js";
 import { guardarTareas } from "./modules/guardarTareas.js";
 import { alternarEstadoEditar, desactivarEstadoEditar, modificarSimultaneamenteTarjeta } from "./modules/estadoEditarTareas.js";
-import { alternarEstadoSubir, subirLista } from "./modules/subirLista.js";
+import { activarEstadoSubir, desactivarEstadoSubir, subirLista } from "./modules/subirLista.js";
 import { limpiarFiltros } from "./modules/limpiarFiltros.js";
 import { mostrarNotificacion, cerrarNotificacion } from "./modules/notificaciones.js";
 import { alternarEstadoBotonEliminarVariasTareas, actualizarEstadoEliminarVariasTareas } from "./modules/estadoEliminarVariasTareas.js";
@@ -175,11 +175,13 @@ multiple_delete_memoryselection.addEventListener('change', () => {
     alternarEstadoBotonEliminarVariasTareas();
 });
 
-//* -------------------------------------------------------------------------------------------------------------- SUBIR LISTA *//
+//* -------------------------------------------------------------------------------------------------------------- SUBIR (CARGAR) LISTA *//
 
 upload_input.addEventListener('change', e => {
     const fileinput = e.target;
-    alternarEstadoSubir(fileinput);
+    const file = fileinput.files[0];
+    if (file) activarEstadoSubir(file);
+    else desactivarEstadoSubir();
 });
 upload_form.addEventListener('submit', e => {
     const file = upload_input.files[0];

@@ -59,7 +59,8 @@ button,
 figure,
 textarea,
 label,
-label:before {
+label:before,
+span {
     position: relative;
     box-sizing: border-box;
 }
@@ -139,12 +140,12 @@ textarea.form-field {
     background-color: var(--primary);
 }
 
-/* -------------------------------------------------- Input File Personalizado */
-.file {
+/* -------------------------------------------------- Input File Personalizados */
+input[type="file"].custom-file {
     display: none;
 }
 
-.file + .custom-file {
+input[type="file"].custom-file + label.custom-label {
     height: 40px;
     padding: 0 20px;
     color: var(--warning);
@@ -154,12 +155,12 @@ textarea.form-field {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
-.file + .custom-file .file-name {
-    line-height: 1.5;
-    max-height: calc(1rem * 1.5); /* Valor del "line-height" */
+input[type="file"].custom-file + label.custom-label span.file-name {
+    text-align: center;
+    line-height: 1.5;               /* Se Multiplica el valor de "font-size" * valor de "line-height" */
+    max-height: calc(1rem * 1.5);   /* Valor del "line-height" */
     overflow: hidden;
 }
 
