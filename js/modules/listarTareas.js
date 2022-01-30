@@ -11,11 +11,12 @@ import { actualizarEstadoEliminarVariasTareas } from "./estadoEliminarVariasTare
 export async function listarTareas(listdata, searchdata) {
     const requestdata = generarDatosDePeticion(listdata, searchdata);
     const json = await obtenerTareasDelServidor(requestdata);
-
+    
     if (!json.error) {
         actualizarVariables(requestdata.limit, requestdata.column, requestdata.sort);
         crearListaDeTareas(json);
-
+        
+        // console.log(); return
         actualizarEstadoEliminarVariasTareas();
         actualizarContadorTareasTotales(json.total);
         actualizarContadorTareasEncontradas(json.results);
@@ -82,7 +83,8 @@ function crearTarjetas(tasks) {
 
     for (const task of tasks) {
         /* Atributos */
-        const checkedattribute = _delete.keys.memory.length > 0 && _delete.keys.memory.includes(task.id) ? 'checked' : '';
+        // const taskidstring = String(task.id);
+        const checkedattribute = _delete.keys.memory.length > 0 && _delete.keys.memory.includes(String(task.id)) ? 'checked' : '';
         const editclass = _save.type == 'update' && _save.id == task.id ? 'edit' : '';
         /* Contenido */
         const taskname = _save.type == 'update' && _save.id == task.id ? save_name.value : task.name;

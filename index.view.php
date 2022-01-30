@@ -123,7 +123,7 @@
                     <!-- Encabezados -->
                     <div id="headers" class="encabezados">
                         <div class="encabezado marcar">
-                            <input id="checkbox-master" class="checkbox" type="checkbox" checked>
+                            <input id="checkbox-master" class="checkbox" type="checkbox">
                             <label for="checkbox-master" class="custom-checkbox"></label>
                         </div>
                         <div class="encabezado id">
