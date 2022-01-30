@@ -9,27 +9,32 @@ import { alternarEstadoSubir, subirLista } from "./modules/subirLista.js";
 import { limpiarFiltros } from "./modules/limpiarFiltros.js";
 import { mostrarNotificacion, cerrarNotificacion } from "./modules/notificaciones.js";
 import { alternarEstadoBotonEliminarVariasTareas, actualizarEstadoEliminarVariasTareas } from "./modules/estadoEliminarVariasTareas.js";
-import { alternarEstadoSeleccionarTarjeta, desplazarseEntreTarjetas, desplazarseInicioDeLista } from "./modules/seleccionarTarjetas.js";
+import { alternarEstadoSeleccionarTarjeta } from "./modules/seleccionarTarjetas.js";
 import { ordenarTareas } from "./modules/ordenarTareas.js";
 import { mostrarMasTareas } from "./modules/mostrarMasTareas.js";
+import { buscarTareas } from "./modules/buscarTareas.js";
+import { desplazarseAlPrincipioDeLaLista, desplazarseALaTarjetaSiguiente } from "./modules/desplazarseEntreTarjetas.js";
 
 //* -------------------------------------------------------------------------------------------------------------- FUNCIONES DE INICIO *//
 
 listarTareas();
 enfocarElemento(save_name);
 
-//* -------------------------------------------------------------------------------------------------------------- FILTRAR/BUSCAR TAREAS *//
+//* -------------------------------------------------------------------------------------------------------------- ***FILTRAR/BUSCAR TAREAS *//
 
-search_form.addEventListener('search', () => listarTareas());
+search_form.addEventListener('search', () => buscarTareas());
 search_form.addEventListener('keyup', e => {
-    if (e.target.nodeName == 'INPUT') listarTareas();
+    if (e.target.nodeName == 'INPUT') buscarTareas();
 });
 
-//* -------------------------------------------------------------------------------------------------------------- ORDENAR TAREAS *//
+//* -------------------------------------------------------------------------------------------------------------- ***ORDENAR TAREAS *//
 
 headers.addEventListener('click', e => {
     if (e.target.nodeName == 'A') {
-        ordenarTareas(e);
+        const link = e.target;
+        const header = link.parentElement;
+
+        ordenarTareas(link, header);
         e.preventDefault();
     }
 });
@@ -65,22 +70,21 @@ save_form.addEventListener('keyup', e => {
     }
 });
 
-//* -------------------------------------------------------------------------------------------------------------- ELIMINAR TAREAS *//
+//* -------------------------------------------------------------------------------------------------------------- ELIMINAR TAREAS (UNA & VARIAS) *//
 
 delete_form.addEventListener('submit', e => {
     eliminarTareas();
     e.preventDefault();
 });
 document.addEventListener('keydown', e => {
-    if (e.key == 'Enter' && delete_modal.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
+    if (e.key == 'Enter' && !e.repeat && delete_modal.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
         e.preventDefault();
-        if (!e.repeat) eliminarTareas();
+        eliminarTareas();
     }
 });
 
-//* ----------------------------------- ACTIVAR/DESACTIVAR ESTADO ELIMINAR TAREAS *//
+//* ----------------------------------- ACTIVAR ESTADO ELIMINAR TAREAS *//
 
-/* Activar */
 cards_container.addEventListener('click', e => {
     if (e.target.classList.contains('boton-eliminar') || e.target.classList.contains('icono-eliminar')) {
         const key = [e.target.dataset.id];
@@ -89,29 +93,28 @@ cards_container.addEventListener('click', e => {
     }
 });
 multiple_delete_form.addEventListener('submit', e => {
+    evaluarEliminacionMultiple();
+    e.preventDefault();
+});
+document.addEventListener('keydown', e => {
+    if (e.key == 'Delete' && !overlay.classList.contains('active') && !multiple_delete_button.hasAttribute('disabled') && !e.repeat) {
+        e.preventDefault();
+        evaluarEliminacionMultiple();
+    }
+});
+
+function evaluarEliminacionMultiple() {
     if (multiple_delete_listselection.checked) activarEstadoEliminar('list');
     else if (multiple_delete_memoryselection.checked) activarEstadoEliminar('memory');
     else {
         deshabilitarElemento(multiple_delete_button);
         multiple_delete_listselection.checked = true;
     }
-    e.preventDefault();
-});
-document.addEventListener('keydown', e => {
-    if (e.key == 'Delete' && !overlay.classList.contains('active') && !multiple_delete_button.hasAttribute('disabled')) {
-        e.preventDefault();
-        if (!e.repeat) {
-            if (multiple_delete_listselection.checked) activarEstadoEliminar('list');
-            else if (multiple_delete_memoryselection.checked) activarEstadoEliminar('memory');
-            else {
-                deshabilitarElemento(multiple_delete_button);
-                multiple_delete_listselection.checked = true;
-            }
-        }
-    }
-});
+}
 
-/* Desactivar */
+
+//* ----------------------------------- DESACTIVAR ESTADO ELIMINAR TAREAS *//
+
 delete_buttonclose.addEventListener('click', e => {
     desactivarEstadoEliminar('UI');
     e.preventDefault();
@@ -163,7 +166,7 @@ document.addEventListener('keydown', e => {
     }
 });
 
-//* ----------------------------------- ALTERNAR ESTADO BOTON ELIMINAR VARIAS TAREAS *//
+//* ----------------------------------- ALTERNAR ESTADO DE BOTÓN ELIMINAR VARIAS TAREAS *//
 
 multiple_delete_listselection.addEventListener('change', () => {
     alternarEstadoBotonEliminarVariasTareas();
@@ -174,7 +177,10 @@ multiple_delete_memoryselection.addEventListener('change', () => {
 
 //* -------------------------------------------------------------------------------------------------------------- SUBIR LISTA *//
 
-upload_input.addEventListener('change', () => alternarEstadoSubir());
+upload_input.addEventListener('change', e => {
+    const fileinput = e.target;
+    alternarEstadoSubir(fileinput);
+});
 upload_form.addEventListener('submit', e => {
     const file = upload_input.files[0];
     if (file) subirLista(file);
@@ -185,23 +191,40 @@ upload_form.addEventListener('submit', e => {
     e.preventDefault();
 });
 
-//* -------------------------------------------------------------------------------------------------------------- LIMPIAR FILTROS *//
+//* -------------------------------------------------------------------------------------------------------------- ***LIMPIAR FILTROS *//
 
 clean_button.addEventListener('click', () => limpiarFiltros());
 
-//* -------------------------------------------------------------------------------------------------------------- SELECCIONAR TARJETAS *//
+//* -------------------------------------------------------------------------------------------------------------- ***SELECCIONAR TARJETAS *//
 
 cards_container.addEventListener('click', e => {
     if (e.target.classList.contains('tarjeta') || e.target.classList.contains('contenido')) {
-        alternarEstadoSeleccionarTarjeta(e.target.dataset.id);
+        const id = e.target.dataset.id;
+        const card = document.querySelector(`#tarjeta-${id}`);
+        alternarEstadoSeleccionarTarjeta(card);
     }
 });
-document.addEventListener('keydown', e => desplazarseEntreTarjetas(e));
+//* -------------------------------------------------------------------------------------------------------------- ***DESPLAZARSE ENTRE TARJETAS *//
 
-//* -------------------------------------------------------------------------------------------------------------- SCROLL TOP LIST *//
+document.addEventListener('keydown', e => {
+    if (e.key == 'ArrowUp' || e.key == 'ArrowDown') {
+        if (!e.repeat) {
+            if (!overlay.classList.contains('active')) {
+                const selectedcard = document.querySelector('.tarjeta.select');
+                if (selectedcard) {
+                    e.preventDefault();
+                    const direction = e.key == 'ArrowUp' ? 'up' : e.key == 'ArrowDown' ? 'down' : false;
+                    if (direction) desplazarseALaTarjetaSiguiente(direction, selectedcard);
+                }
+            }
+        }
+    }
+});
+
+//* -------------------------------------------------------------------------------------------------------------- ***SCROLL TOP LIST *//
 
 top_list_button.addEventListener('click', e => {
-    desplazarseInicioDeLista();
+    desplazarseAlPrincipioDeLaLista();
     e.preventDefault();
 });
 

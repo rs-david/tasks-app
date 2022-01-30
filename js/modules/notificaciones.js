@@ -5,7 +5,7 @@ function crearNotificacion(mensaje, tipo) {
     const notification = document.createElement("div");
     notification.className = `notificacion ${tipo}`;
     notification.textContent = mensaje;
-    notification.title = 'Cerrar';
+    // notification.title = 'Cerrar';
     return notification;
 }
 

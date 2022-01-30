@@ -9,7 +9,7 @@ if ($_SESSION["user"]) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
         try {
             require 'connection.php';
-            require 'functions/functions.php';
+            require 'functions/sessions.php';
 
             $user = filtrarDatos($_POST['user']);
             $email = filtrarDatos($_POST['email']);
@@ -26,7 +26,7 @@ if ($_SESSION["user"]) {
 
             // Validar Email.
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Formato De Correo Inválido';
-            if (strlen($email) > 255) $errors[] = 'No Se Admiten Emails Con Longitud Mayor A 255 Caracteres';
+            if (strlen($email) > 255) $errors[] = 'No Se Admiten Emails Con Longitud Mayor A 255 Carácteres';
 
             // Validar Contraseña
             $password_spaces = preg_match('/[\s]/', $password);

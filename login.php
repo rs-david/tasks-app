@@ -9,7 +9,7 @@ if ($_SESSION["user"]) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST) {
         try {
             require 'connection.php';
-            require 'functions/functions.php';
+            require 'functions/sessions.php';
 
             $user = filtrarDatos($_POST['user']);
             $password = filtrarDatos($_POST['password']);

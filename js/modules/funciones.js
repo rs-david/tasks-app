@@ -1,5 +1,5 @@
 /* Funciones Interfaz */
-export function agregarClase(elemento, clase) {
+export function agregarClaseCSS(elemento, clase) {
     elemento.classList.add(clase);
 }
 
@@ -16,10 +16,10 @@ export function deshabilitarElemento(elemento) {
 }
 
 export function cambiarIcono(elemento, quitar, agregar) {
-    if (typeof quitar == 'object') for (const clase of quitar) elemento.classList.remove(clase);
+    if (typeof quitar == 'object') for (const icono of quitar) elemento.classList.remove(icono);
     else elemento.classList.remove(quitar);
 
-    if (typeof agregar == 'object') for (const clase of agregar) elemento.classList.add(clase);
+    if (typeof agregar == 'object') for (const icono of agregar) elemento.classList.add(icono);
     else elemento.classList.add(agregar);
 }
 

@@ -118,12 +118,12 @@
                     </div>
                 </section>
 
-                <!-- Lista Tareas -->
+                <!-- Lista De Tareas -->
                 <section id="list" class="lista">
                     <!-- Encabezados -->
                     <div id="headers" class="encabezados">
                         <div class="encabezado marcar">
-                            <input id="checkbox-master" class="checkbox" type="checkbox">
+                            <input id="checkbox-master" class="checkbox" type="checkbox" checked>
                             <label for="checkbox-master" class="custom-checkbox"></label>
                         </div>
                         <div class="encabezado id">
@@ -148,7 +148,7 @@
                         </div>
                         <div class="encabezado actions">
                             <span id="column-actions" class="">
-                                Acciones
+                                
                             </span>
                         </div>
                     </div>
@@ -157,7 +157,7 @@
                     <div id="cards-container" class="tareas"></div>
 
                     <!-- Botón Subir -->
-                    <a id="button-top-list" href="" class="boton-inicio-lista" title="Arriba">
+                    <a id="button-top-list" href="" class="boton-inicio-lista" title="Principio">
                         <i class="fas fa-chevron-up fa-lg"></i>
                     </a>
                 </section>

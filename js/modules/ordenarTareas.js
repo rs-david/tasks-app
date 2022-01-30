@@ -1,29 +1,33 @@
 import { _list } from "./variables.js";
-import { listarTareas } from "./listarTareas.js";
+import { buscarTareas } from "./buscarTareas.js";
 
 /* Ordenar Tareas */
-export async function ordenarTareas(e) {
+export async function ordenarTareas(link, header) {
     quitarEstadoOrdenar();
 
-    const column = e.target.name;
+    const column = link.name;
     const sort = _list.sort == 'DESC' ? 'ASC' : 'DESC';
-    await listarTareas(false, column, sort);
+    const listdata = { column, sort };
 
-    agregarEstadoOrdenar(e);
+    await buscarTareas(listdata);
+    agregarEstadoOrdenar(link, header);
 }
 
-function agregarEstadoOrdenar(e) {
-    const link = e.target;
-    const header = link.parentElement;
-    const indicador = _list.sort == 'ASC' ? 'ascendente' : 'descendente';
+/* Estado Ordenar:
+    - Link De Encabezado Resaltado (color verde).
+    - Encabezado Con Indicador De Orden (triángulo verde).
+*/
 
+function agregarEstadoOrdenar(link, header) {
+    const indicador = _list.sort == 'ASC' ? 'ascendente' : 'descendente';
+    
     link.classList.add('active');
     header.classList.add(`${indicador}`);
 }
 
 function quitarEstadoOrdenar() {
-    const activelink = document.querySelector('.encabezado a.active');
     const indicador = _list.sort == 'ASC' ? 'ascendente' : 'descendente';
+    const activelink = document.querySelector('.encabezado a.active');
     const activeheader = document.querySelector(`.encabezado.${indicador}`);
 
     activelink.classList.remove('active');

@@ -1,12 +1,13 @@
 import { _list } from "./variables.js";
 import { cambiarIcono } from "./funciones.js";
-import { listarTareas } from "./listarTareas.js";
+import { buscarTareas } from "./buscarTareas.js";
 
 /* Mostrar Más Tareas */
 export function mostrarMasTareas() {
     agregarEstadoMostrando();
     const limit = _list.limit + 50;
-    listarTareas(limit);
+    const listdata = { limit };
+    buscarTareas(listdata);
 }
 
 function agregarEstadoMostrando() {

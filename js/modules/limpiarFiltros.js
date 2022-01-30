@@ -5,9 +5,10 @@ import { listarTareas } from "./listarTareas.js";
 /* Limpiar Filtros */
 export async function limpiarFiltros() {
     activarEstadoLimpiando();
-
     search_form.reset();
-    await listarTareas(50);
+
+    const listdata = { limit: 50 };
+    await listarTareas(listdata);
 
     desactivarEstadoLimpiando();
     search_name.focus();

@@ -4,6 +4,7 @@ import { multiple_delete_button, multiple_delete_listselection, multiple_delete_
 
 /* Actualizar Estado "Eliminar Múltiples Tareas" */
 export function actualizarEstadoEliminarVariasTareas(checkbox, checkboxes) {
+    // console.log('checkbox:' ,checkbox, 'checkboxes:', checkboxes);
     if (checkbox) {
         if (checkbox.id == 'checkbox-master') {
             checkbox.classList.remove('minus');
@@ -27,6 +28,7 @@ function alternarEstadoCheckboxesLista(checkboxes) {
 }
 
 function actualizarDatosEnMemoria(checkbox, checkboxes) {
+    // console.log('Estado: Actualizar Memoria', 'checkbox:', checkbox, 'checkboxes:', checkboxes);
     if (checkbox.id == 'checkbox-master') {
         if (checkbox_master.checked) agregarClaves(checkboxes);
         else removerClaves(checkboxes);

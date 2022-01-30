@@ -1,9 +1,9 @@
 import { delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, overlay, delete_modal, multiple_delete_button, delete_quantity, delete_modaltitle } from "./elementos.js";
 import { _save, _delete } from "./variables.js";
 import { cambiarIcono, habilitarElemento, deshabilitarElemento } from "./funciones.js";
-import { listarTareas } from "./listarTareas.js";
 import { mostrarNotificacion } from "./notificaciones.js";
 import { desactivarEstadoEditar } from "./estadoEditarTareas.js";
+import { buscarTareas } from "./buscarTareas.js";
 
 /* Eliminar Tareas */
 export async function eliminarTareas() {
@@ -17,7 +17,9 @@ export async function eliminarTareas() {
 
     terminarEstadoEliminando();
     desactivarEstadoEliminar();
-    listarTareas(50);
+
+    await buscarTareas();
+
     mostrarNotificacion(message.content, message.type);
 }
 
@@ -29,15 +31,15 @@ async function eliminar(claves) {
     return message;
 }
 
-export function activarEstadoEliminar(tipo, clave) {
-    _delete.type = tipo;
-    const keys = agregarClaves(tipo, clave);
-    if (keys.error) {
+export function activarEstadoEliminar(tipo, claves) {
+    actualizarTipoEliminacion(tipo);
+    const save = guardarClaves(tipo, claves);
+    if (save.error) {
         deshabilitarElemento(multiple_delete_button);
-        mostrarNotificacion(keys.message, 'warning');
+        mostrarNotificacion(save.message, 'warning');
     }
     else {
-        prepararModal(keys, tipo);
+        prepararModal(save, tipo);
         abrirModal();
     }
 }
@@ -47,9 +49,13 @@ export function desactivarEstadoEliminar(origen) {
     cerrarModal();
 }
 
-function agregarClaves(tipo, clave) {
+function actualizarTipoEliminacion(tipo) {
+    _delete.type = tipo;
+}
+
+function guardarClaves(tipo, claves) {
     if (tipo == 'individual') {
-        _delete.keys.individual = clave;
+        _delete.keys.individual = claves;
         return _delete.keys.individual;
     }
     else if (tipo == 'list') {

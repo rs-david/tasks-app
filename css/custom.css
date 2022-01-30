@@ -1,13 +1,15 @@
 /*---------- VARIABLES ----------*/
 :root {
+
+    /*----------------------------- Colores */
     --success: rgb(10, 155, 0);
-    --success-hover: rgb(10, 125, 0);
+    --success-hover: rgba(10, 155, 0, 0.85);
     --warning: rgb(250, 212, 0);
     --warning-hover: rgb(250, 179, 0);
     --danger: rgb(250, 0, 0);
     --danger-hover: rgb(230, 0, 0);
     --primary: rgb(0, 100, 255);
-    --primary-hover: rgb(0, 90, 215);
+    --primary-hover: rgba(0, 102, 255, 0.85);
     --secondary: rgb(125, 125, 125);
     --secondary-hover: rgb(100, 100, 100);
     --info: rgb(0, 145, 230);
@@ -17,6 +19,14 @@
     --light-extra-smooth: rgb(250, 250, 250);
     --dark: rgb(0, 0, 0);
     --dark-smooth: rgb(50, 50, 50);
+    
+    /*----------------------------- Medidas Para Encabezados */
+    --headers-height: 70px;
+    
+    /*----------------------------- Medidas Para Tarjetas */
+    --card-height: 65px;
+    --card-margin-bottom: 8px;
+    --cards-number: 7;
 }
 
 /*---------- ELEMENTOS ----------*/
@@ -50,6 +60,7 @@ figure,
 textarea,
 label,
 label:before {
+    position: relative;
     box-sizing: border-box;
 }
 
@@ -64,7 +75,7 @@ a:focus {
 
 /*---------- ELEMENTOS PERSONALIZADOS ----------*/
 
-/* Campos de Formulario Personalizados */
+/* -------------------------------------------------- Campos De Formulario Personalizados */
 .form-field {
     width: 100%;
     height: 40px;
@@ -91,7 +102,7 @@ textarea.form-field {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Checkbox Personalizado */
+/* -------------------------------------------------- Checkbox Personalizados */
 .checkbox {
     display: none;
 }
@@ -114,7 +125,7 @@ textarea.form-field {
     line-height: 1;
     height: 18px;
     width: 18px;
-    background-color: white;
+    background-color: transparent;
     border: 1px solid var(--primary);
     border-radius: 0.25rem;
     position: absolute;
@@ -128,7 +139,7 @@ textarea.form-field {
     background-color: var(--primary);
 }
 
-/* Input File Personalizado */
+/* -------------------------------------------------- Input File Personalizado */
 .file {
     display: none;
 }

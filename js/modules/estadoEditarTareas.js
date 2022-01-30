@@ -25,7 +25,7 @@ export function activarEstadoEditar(tarjeta, boton) {
 export function desactivarEstadoEditar(origen) {
     desactivarEstadoEditarTarjeta(origen);
     desactivarEstadoEditarBoton();
-    restablecerVariables();
+    restablecerVariablesDeGuardado();
     save_form.reset();
 }
 
@@ -36,7 +36,7 @@ function modificarVariables(tarjeta) {
     _save.description = tarjeta.children[3].textContent;
 }
 
-function restablecerVariables() {
+function restablecerVariablesDeGuardado() {
     _save.type = 'add';
     _save.id = 0;
     _save.name = '';
