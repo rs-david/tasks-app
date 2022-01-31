@@ -1,28 +1,28 @@
+import { buscarTareas } from "./buscarTareas.js";
 import { upload_form, upload_button, upload_field, upload_fieldtext, upload_icon } from "./elementos.js";
 import { cambiarIcono, deshabilitarElemento, habilitarElemento } from "./funciones.js";
-import { listarTareas } from "./listarTareas.js";
 import { mostrarNotificacion } from "./notificaciones.js";
 
 /* Subir Lista */
 export async function subirLista(lista) {
     iniciarEstadoSubiendo();
     
-    const message = await enviarListaAlServidor(lista);
-    if (!message.error) await listarTareas();
-    else console.log(message.error);
+    const response = await enviarListaAlServidor(lista);
+    if (!response.error) await buscarTareas();
+    else console.log(response.error);
 
     terminarEstadoSubiendo();
     desactivarEstadoSubir();
-    mostrarNotificacion(message.content, message.type);
+    mostrarNotificacion(response.content, response.type, 3500);
 }
 
 async function enviarListaAlServidor(lista) {
     const data = new FormData();
     data.append('file', lista);
-    const response = await fetch('list-upload.php', { method: 'post', body: data });
-    const message = await response.json();
+    let response = await fetch('list-upload.php', { method: 'post', body: data });
+        response = await response.json();
 
-    return message;
+    return response;
 }
 
 /* Estado Subir:

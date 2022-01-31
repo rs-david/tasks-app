@@ -187,8 +187,8 @@ upload_form.addEventListener('submit', e => {
     const file = upload_input.files[0];
     if (file) subirLista(file);
     else {
-        mostrarNotificacion('Selecciona Antes Un Archivo', 'warning');
-        deshabilitarElemento(upload_button);
+        mostrarNotificacion('Selecciona Antes Un Archivo', 'warning', 3500);
+        if (!upload_button.hasAttribute('disabled')) deshabilitarElemento(upload_button);
     }
     e.preventDefault();
 });

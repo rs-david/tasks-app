@@ -6,8 +6,8 @@ import { actualizarEstadoEliminarVariasTareas } from "./estadoEliminarVariasTare
 
 /* Funciones Para Listar Tareas */
 
-// (object) listdata = { limit, column, sort }
-// (object) searchdata = { id, name, description }
+// Formato: listdata = { limit, column, sort }
+// Formato: searchdata = { id, name, description }
 export async function listarTareas(listdata, searchdata) {
     const requestdata = generarDatosDePeticion(listdata, searchdata);
     const json = await obtenerTareasDelServidor(requestdata);
@@ -16,7 +16,6 @@ export async function listarTareas(listdata, searchdata) {
         actualizarVariables(requestdata.limit, requestdata.column, requestdata.sort);
         crearListaDeTareas(json);
         
-        // console.log(); return
         actualizarEstadoEliminarVariasTareas();
         actualizarContadorTareasTotales(json.total);
         actualizarContadorTareasEncontradas(json.results);
@@ -83,7 +82,6 @@ function crearTarjetas(tasks) {
 
     for (const task of tasks) {
         /* Atributos */
-        // const taskidstring = String(task.id);
         const checkedattribute = _delete.keys.memory.length > 0 && _delete.keys.memory.includes(String(task.id)) ? 'checked' : '';
         const editclass = _save.type == 'update' && _save.id == task.id ? 'edit' : '';
         /* Contenido */

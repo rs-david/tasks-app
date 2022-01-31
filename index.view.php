@@ -157,7 +157,7 @@
                     <div id="cards-container" class="tareas"></div>
 
                     <!-- Botón Subir -->
-                    <a id="button-top-list" href="" class="boton-inicio-lista" title="Principio">
+                    <a id="button-top-list" href="" class="boton-inicio-lista" title="Al Principio">
                         <i class="fas fa-chevron-up fa-lg"></i>
                     </a>
                 </section>

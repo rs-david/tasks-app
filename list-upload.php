@@ -19,9 +19,11 @@ if ($_SESSION["user"] && $file['type'] == 'application/json') {
     if ($total_tasks <= $limit) {
         // Válidamos El Archivo JSON.
         if (!json_last_error()) {
+            // Construimos Una Consulta SQL Para Insertar Los Registros Del Array en la Base de Datos.
+            $table = 'tasks';
             $user_id = $_SESSION["user"];
 
-            // Construimos Una Consulta SQL Para Insertar Los Registros Del Array En La BD.
+            // Creamos la lista de Valores a Insertar.
             for ($i = 0; $i < $total_tasks; $i++) {
                 $task = $tasks[$i];
                 $name = $task['name'];
@@ -35,7 +37,7 @@ if ($_SESSION["user"] && $file['type'] == 'application/json') {
             try {
                 include('connection.php');
 
-                $statement = $conn->prepare("INSERT INTO tasks(user_id, name, description, created) VALUES$values");
+                $statement = $conn->prepare("INSERT INTO $table(user_id, name, description, created) VALUES$values");
                 $statement->execute();
 
                 $response = ['content' => '¡Lista Guardada!', 'type' => 'success'];
