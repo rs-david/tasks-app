@@ -30,6 +30,10 @@
 }
 
 /*---------- ELEMENTOS ----------*/
+a {
+    text-decoration: none;
+}
+
 body,
 input,
 button,
@@ -40,11 +44,15 @@ textarea {
 body,
 p,
 h1,
-figure {
+figure,
+ul,
+li {
     margin: 0;
 }
 
-button {
+button,
+ul,
+li {
     padding: 0;
 }
 
@@ -60,7 +68,9 @@ figure,
 textarea,
 label,
 label:before,
-span {
+span,
+ul,
+li {
     position: relative;
     box-sizing: border-box;
 }

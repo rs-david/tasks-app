@@ -2,7 +2,7 @@
 
 /* -------------------------------------------------- Body */
 body {
-    background-image: url("../img/background.jpg"); /* Photo by Austin Distel on Unsplash: https://unsplash.com/photos/gUIJ0YszPig */
+    background-image: url("../img/background.jpg");
     background-repeat: no-repeat;
     background-position: fixed;
     background-size: cover;
@@ -11,16 +11,12 @@ body {
 /* -------------------------------------------------- Navegación */
 .navegacion {
     width: 100%;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    /* height: 60px; */
-    /* background-color: rgba(240, 240, 240, 0.65); */
+    margin: 25px 0;
 }
 
 .navegacion .contenedor {
-    width: 95%;
+    width: 90%;
     height: 100%;
-    max-width: 1280px;
     margin: auto;
     display: flex;
     align-items: center;
@@ -103,14 +99,11 @@ body {
 
 /* -------------------------------------------------- Main */
 main {
-    width: 95%;
-    max-width: 1280px;
+    width: 90%;
     height: fit-content;
     margin: auto;
-    /* margin-top: 25px; */
     display: flex;
     justify-content: space-between;
-    position: relative;
 }
 
 /* -------------------------------------------------- Formulario Guardar & Contadores */
@@ -292,12 +285,29 @@ main {
     padding: 25px;
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.75);
+    border-right: none;
     border-radius: 0.25rem;
+    border-top-right-radius: 0;
     display: flex;
     flex-direction: column;
 }
 
-/* -------------------------------------------------- Encabezados & Contenidos */
+/* -------------------------------------------------- Encabezados (Contenedor) */
+.encabezados {
+    color: var(--primary);
+    height: var(--headers-height);
+    padding: 0 25px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(0, 102, 255, 0.85);
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+}
+
+/* -------------------------------------------------- Encabezados & Contenidos: Tarjeta */
 .encabezado,
 .contenido {
     height: calc(1rem * 2);
@@ -307,7 +317,7 @@ main {
 }
 
 .contenido {
-    font-family: 'HK Grotesk';
+    font-family: 'HK Grotesk', 'Segoe UI';
 }
 
 .encabezado.marcar,
@@ -362,21 +372,6 @@ main {
 .contenido.actions {
     padding: 0 10px;
     justify-content: space-between;
-}
-
-/* -------------------------------------------------- Encabezados (Contenedor) */
-.encabezados {
-    color: var(--primary);
-    height: var(--headers-height);
-    padding: 0 25px;
-    margin-bottom: 10px;
-    font-weight: bold;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.95);
-    border: 2px solid rgba(0, 102, 255, 0.85);
-    border-radius: 0.25rem;
-    display: flex;
-    align-items: center;
 }
 
 /* -------------------------------------------------- Indicador De Orden */
@@ -555,7 +550,6 @@ main {
 /* -------------------------------------------------- Tarjeta Hover: Botones Editar & Eliminar */
 .tarjeta:hover {
     transform: translateY(-2.5px);
-    /* box-shadow: 0 12px 9px -5px rgb(0 0 0 / 12%), 0 10px 32px 0 rgb(0 29 124 / 12%); */
 }
 
 .tarjeta:hover .boton-eliminar {
@@ -617,6 +611,121 @@ main {
 
 .boton-mostrar:focus {
     box-shadow: none;
+}
+
+
+/* -------------------------------------------------- Tabs */
+nav#table-tabs {
+    height: 100%;
+    position: absolute;
+    left: 100%;
+}
+
+nav#table-tabs ul {
+    height: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+nav#table-tabs li {
+    display: inline-flex;
+}
+
+a.table-tab {
+    font-family: 'Molly Lips', 'Freestyle Script';
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+    color: transparent;
+    text-align: center;
+    writing-mode: vertical-lr;
+    background-color: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.65rem;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .35s ease-in-out;
+}
+
+a.table-tab span.tab-text {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* -------------------------------------------------- Tab Icon */
+a.table-tab:after {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: bold; /* Nesesario para Font Awesome */
+    font-size: 15px;
+    color: white;
+    min-width: 20px;
+    min-height: 20px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(1);
+    transition: color .7s ease-in-out;
+}
+
+a.table-tab#tasks-tab:after {
+    content: "\f0ae"; /* Icon: "tasks" */
+}
+
+a.table-tab#products-tab:after {
+    content: "\f5d1"; /* Icon: "apple" */
+}
+
+a.table-tab#customers-tab:after {
+    content: "\f0c0"; /* Icon: "users" */
+}
+
+/* -------------------------------------------------- Extra Tab Border */
+a.table-tab:before {
+    content: "";
+    width: 100%;
+    min-height: 10px;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: calc(0% - 1px);
+    display: flex;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(255, 255, 255, 0.75);
+    pointer-events: none;
+}
+
+/* -------------------------------------------------- Extra Tab Border */
+a.table-tab:focus {
+    color: white;
+    width: 45px;
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left-color: transparent;
+    transition: all .35s ease-in-out, border .15s ease-in-out;
+}
+
+a.table-tab:focus:after {
+    color: transparent;
+    transform: scale(.35);
+    transition: all .3s ease;
+}
+
+/* -------------------------------------------------- Complementary Border Of Tabs */
+li#tabs-border {
+    height: 100%;
+    width: 5px;
+    border-right: 1px solid rgba(255, 255, 255, 0.75);
+    border-bottom-right-radius: .25rem;
+    display: inline-flex;
+    left: calc(0% - 4px);
 }
 
 /* -------------------------------------------------- Notificaciones */
