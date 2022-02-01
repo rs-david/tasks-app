@@ -1,5 +1,23 @@
 /*********** APLICACIÓN ***********/
 
+/* -------------------------------------------------- VARIABLES */
+
+:root {
+
+    /*----------------------------- Propiedades Para Tabla */
+    --table-border-color: rgba(255, 255, 255, 0.75);
+    --table-background-color: rgba(255, 255, 255, 0.15);
+    --table-border-radius: 0.25rem;
+    
+    /*----------------------------- Medidas Para Encabezados */
+    --headers-height: 70px;
+    
+    /*----------------------------- Medidas Para Tarjetas */
+    --card-height: 65px;
+    --card-margin-bottom: 8px;
+    --cards-number: 7;
+}
+
 /* -------------------------------------------------- Body */
 body {
     background-image: url("../img/background.jpg");
@@ -283,10 +301,10 @@ main {
     width: 72.5%;
     height: fit-content;
     padding: 25px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.75);
+    background-color: var(--table-background-color);
+    border: 1px solid var(--table-border-color);
     border-right: none;
-    border-radius: 0.25rem;
+    border-radius: var(--table-border-radius);
     border-top-right-radius: 0;
     display: flex;
     flex-direction: column;
@@ -614,24 +632,25 @@ main {
 }
 
 
-/* -------------------------------------------------- Tabs */
-nav#table-tabs {
+/* -------------------------------------------------- TABS */
+nav.table-tabs {
     height: 100%;
     position: absolute;
     left: 100%;
 }
 
-nav#table-tabs ul {
+nav.table-tabs ul {
     height: 100%;
     list-style: none;
     display: flex;
     flex-direction: column;
 }
 
-nav#table-tabs li {
+nav.table-tabs li {
     display: inline-flex;
 }
 
+/* ------------------------------ Tab */
 a.table-tab {
     font-family: 'Molly Lips', 'Freestyle Script';
     font-size: 18px;
@@ -639,10 +658,9 @@ a.table-tab {
     height: 40px;
     margin-bottom: 10px;
     color: transparent;
-    text-align: center;
     writing-mode: vertical-lr;
+    border: 1px solid var(--table-border-color);
     background-color: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.75);
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.65rem;
     outline: none;
@@ -660,7 +678,7 @@ a.table-tab span.tab-text {
     overflow: hidden;
 }
 
-/* -------------------------------------------------- Tab Icon */
+/* ------------------------------ Tab Icon */
 a.table-tab:after {
     font-family: 'Font Awesome 5 Free';
     font-weight: bold; /* Nesesario para Font Awesome */
@@ -687,8 +705,7 @@ a.table-tab#products-tab:after {
 a.table-tab#customers-tab:after {
     content: "\f0c0"; /* Icon: "users" */
 }
-
-/* -------------------------------------------------- Extra Tab Border */
+/* ------------------------------ Extra Tab Border  */
 a.table-tab:before {
     content: "";
     width: 100%;
@@ -698,16 +715,16 @@ a.table-tab:before {
     left: calc(0% - 1px);
     display: flex;
     box-sizing: border-box;
-    border-left: 1px solid rgba(255, 255, 255, 0.75);
+    border-left: 1px solid var(--table-border-color);
     pointer-events: none;
 }
 
-/* -------------------------------------------------- Extra Tab Border */
+/* ------------------------------ Tab Events */
 a.table-tab:focus {
     color: white;
     width: 45px;
     height: 150px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--table-background-color);
     border-left-color: transparent;
     transition: all .35s ease-in-out, border .15s ease-in-out;
 }
@@ -718,14 +735,16 @@ a.table-tab:focus:after {
     transition: all .3s ease;
 }
 
-/* -------------------------------------------------- Complementary Border Of Tabs */
-li#tabs-border {
+/* ------------------------------ Complementary Border Of Tabs */
+li.complementary-border {
     height: 100%;
-    width: 5px;
-    border-right: 1px solid rgba(255, 255, 255, 0.75);
-    border-bottom-right-radius: .25rem;
-    display: inline-flex;
-    left: calc(0% - 4px);
+    width: 10px;
+    overflow: hidden;
+    border-right: 1px solid var(--table-border-color);
+    border-bottom-right-radius: var(--table-border-radius);
+    display: flex;
+    left: calc(0% - 9px);
+    pointer-events: none;
 }
 
 /* -------------------------------------------------- Notificaciones */

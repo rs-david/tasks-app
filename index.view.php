@@ -163,12 +163,12 @@
                 </section>
 
                 <!-- Pestañas -->
-                <nav id="table-tabs">
+                <nav class="table-tabs">
                     <ul>
                         <li><a id="tasks-tab" class="table-tab" href="#" title="Tareas"><span class="tab-text">Tareas</span></a></li>
                         <li><a id="products-tab" class="table-tab" href="#" title="Productos"><span class="tab-text">Productos</span></a></li>
                         <li><a id="customers-tab" class="table-tab" href="#" title="Clientes"><span class="tab-text">Clientes</span></a></li>
-                        <li id="tabs-border"></li>
+                        <li class="complementary-border"></li>
                     </ul>
                 </nav>
             </main>

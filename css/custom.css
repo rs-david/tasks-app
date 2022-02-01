@@ -19,14 +19,6 @@
     --light-extra-smooth: rgb(250, 250, 250);
     --dark: rgb(0, 0, 0);
     --dark-smooth: rgb(50, 50, 50);
-    
-    /*----------------------------- Medidas Para Encabezados */
-    --headers-height: 70px;
-    
-    /*----------------------------- Medidas Para Tarjetas */
-    --card-height: 65px;
-    --card-margin-bottom: 8px;
-    --cards-number: 7;
 }
 
 /*---------- ELEMENTOS ----------*/
