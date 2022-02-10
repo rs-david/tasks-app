@@ -1,17 +1,24 @@
-import { search_name, clean_button, search_form, clean_icon } from "./elementos.js";
+import { clean_button, search_form, clean_icon } from "./elementos.js";
 import { cambiarIcono, deshabilitarElemento, habilitarElemento } from "./funciones.js";
-import { listarTareas } from "./listarTareas.js";
+import { listarRegistros } from "./listarRegistros.js";
+import { _actualtable, _tables } from "./variables.js";
 
 /* Limpiar Filtros */
 export async function limpiarFiltros() {
     activarEstadoLimpiando();
     search_form.reset();
+    vaciarSearchData();
 
     const listdata = { limit: 50 };
-    await listarTareas(listdata);
+    await listarRegistros(listdata);
 
     desactivarEstadoLimpiando();
-    search_name.focus();
+}
+
+function vaciarSearchData() {
+    const table = _actualtable.name;
+    const searchdata = _tables[table].searchdata;
+    for (const key in searchdata) searchdata[key] = '';
 }
 
 function activarEstadoLimpiando() {

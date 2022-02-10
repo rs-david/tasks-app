@@ -2,7 +2,7 @@
 export function alternarEstadoSeleccionarTarjeta(card) {
     if (card.classList.contains('select')) deseleccionarTarjeta(card);
     else {
-        const selectedcard = document.querySelector('.tarjeta.select');
+        const selectedcard = document.querySelector('.card.select');
         if (selectedcard) deseleccionarTarjeta(selectedcard);
 
         seleccionarTarjeta(card);

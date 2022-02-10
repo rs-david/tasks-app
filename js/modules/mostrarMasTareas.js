@@ -1,13 +1,14 @@
-import { _list } from "./variables.js";
+import { _actualtable, _tables } from "./variables.js";
 import { cambiarIcono } from "./funciones.js";
-import { buscarTareas } from "./buscarTareas.js";
+import { listarRegistros } from "./listarRegistros.js";
 
 /* Mostrar Más Tareas */
 export function mostrarMasTareas() {
+    const table = _actualtable.name;
     agregarEstadoMostrando();
-    const limit = _list.limit + 50;
+    const limit = _tables[table].list.limit + 50;
     const listdata = { limit };
-    buscarTareas(listdata);
+    listarRegistros(listdata);
 }
 
 function agregarEstadoMostrando() {

@@ -9,35 +9,49 @@ if ($_SESSION["user"] && $file['type'] == 'application/json') {
     $file_location = almacenarArchivo($file);
     // Obtenemos El Archivo Ya Almacenado.
     $data = file_get_contents($file_location);
-    // Convertimos El Archivo En Array.
-    $tasks = json_decode($data, true);
-    // Obtenemos La Cantidad De Tareas & Creamos Un Límite.
-    $total_tasks = count($tasks);
+    // Convertimos El Archivo En Array Asociativo.
+    $records = json_decode($data, true);
+    // Obtenemos La Cantidad De Registros & Creamos Un Límite.
+    $total_records = count($records);
     $limit = 1000;
 
     // Verificamos La Cantidad De Registros.
-    if ($total_tasks <= $limit) {
+    if ($total_records <= $limit) {
         // Válidamos El Archivo JSON.
         if (!json_last_error()) {
             // Construimos Una Consulta SQL Para Insertar Los Registros Del Array en la Base de Datos.
-            $table = 'tasks';
+            $table = $_POST['table'];
             $user_id = $_SESSION["user"];
 
-            // Creamos la lista de Valores a Insertar.
-            for ($i = 0; $i < $total_tasks; $i++) {
-                $task = $tasks[$i];
-                $name = $task['name'];
-                $description = $task['description'];
-                $created = $task['created'];
-
-                $values .= "($user_id, '$name', '$description', '$created')";
-                if ($i < $total_tasks - 1) $values .= ",";
+            function agregarComillasANoNumeros($value)
+            {
+                if (!is_integer($value) && !is_float(($value))) {
+                    return "'$value'";
+                } else {
+                    return $value;
+                }
             }
+
+            // Creamos la Query de Valores.
+            foreach ($records as $record) {
+                $values = array_values($record);
+                $values = array_map('agregarComillasANoNumeros', $values);
+                $values = implode(',', $values);
+                $values = "($user_id,$values),";
+                $values_query .= $values;
+            }
+
+            $values_query = substr($values_query, 0, -1);
+
+            // Creamos la Query de Columnas.
+            $columns_query = array_keys($records[0]);
+            $columns_query = implode(', ', $columns_query);
+            $columns_query = "user_id, $columns_query";
 
             try {
                 include('connection.php');
 
-                $statement = $conn->prepare("INSERT INTO $table(user_id, name, description, created) VALUES$values");
+                $statement = $conn->prepare("INSERT INTO $table($columns_query) VALUES$values_query");
                 $statement->execute();
 
                 $response = ['content' => '¡Lista Guardada!', 'type' => 'success'];
@@ -53,7 +67,7 @@ if ($_SESSION["user"] && $file['type'] == 'application/json') {
         }
     } else {
         // Manejamos El Error De Límite De Registros.
-        $response = ['content' => "Máximo $limit Registros A La Vez", 'type' => 'warning', 'error' => "Limit Exceeded: $total_tasks"];
+        $response = ['content' => "Máximo $limit Registros A La Vez", 'type' => 'warning', 'error' => "Limit Exceeded: $total_records"];
     }
 } else {
     // Manejamos Los Errores De Archivo No Admitido.

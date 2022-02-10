@@ -1,14 +1,17 @@
-import { buscarTareas } from "./buscarTareas.js";
 import { upload_form, upload_button, upload_field, upload_fieldtext, upload_icon } from "./elementos.js";
 import { cambiarIcono, deshabilitarElemento, habilitarElemento } from "./funciones.js";
+import { listarRegistros } from "./listarRegistros.js";
 import { mostrarNotificacion } from "./notificaciones.js";
+import { _actualtable } from "./variables.js";
 
 /* Subir Lista */
 export async function subirLista(lista) {
     iniciarEstadoSubiendo();
-    
-    const response = await enviarListaAlServidor(lista);
-    if (!response.error) await buscarTareas();
+    const table = _actualtable.name;
+    const response = await enviarListaAlServidor(lista, table);
+
+    // console.log(response);return;
+    if (!response.error) await listarRegistros();
     else console.log(response.error);
 
     terminarEstadoSubiendo();
@@ -16,11 +19,12 @@ export async function subirLista(lista) {
     mostrarNotificacion(response.content, response.type, 3500);
 }
 
-async function enviarListaAlServidor(lista) {
+async function enviarListaAlServidor(lista, table) {
     const data = new FormData();
     data.append('file', lista);
+    data.append('table', table);
     let response = await fetch('list-upload.php', { method: 'post', body: data });
-        response = await response.json();
+    response = await response.json();
 
     return response;
 }

@@ -32,23 +32,23 @@
                     </a>
 
                     <!-- Formulario Búsqueda -->
-                    <form id="search-form" class="formulario-buscar">
+                    <form id="search-form" class="search-form">
                         <!-- Filtro: ID -->
-                        <input id="search-id" class="buscar-id form-field" type="number" placeholder="Buscar: Clave" min="1">
+                        <input name="id" id="search-id" class="search-id form-input" type="number" placeholder="Buscar: Clave" min="1">
                         <!-- Filtro: Nombre -->
-                        <input id="search-name" class="buscar-nombre form-field" type="search" placeholder="Buscar: Nombre">
+                        <input name="name" id="search-name" class="search-name form-input" type="search" placeholder="Buscar: Nombre">
                         <!-- Filtro: Descripción -->
-                        <input id="search-description" class="buscar-descripcion form-field" type="search" placeholder="Buscar: Descripción">
+                        <input name="description" id="search-description" class="search-description form-input" type="search" placeholder="Buscar: Descripción">
                         <!-- Botón: Limpiar -->
-                        <button id='button-clean' class="boton-limpiar boton primary" title="Limpiar Filtros">
-                            <i id="icon-clean" class="fas fa-eraser"></i>
+                        <button id='clean-button' class="clean-button boton primary" title="Limpiar Filtros">
+                            <i id="clean-icon" class="fas fa-eraser"></i>
                         </button>
-                    </form>
 
-                    <!-- Botón: Cerrar Sesión -->
-                    <a id="button-logout" href="logout.php" class="boton boton-logout" title="Cerrar Sesión">
-                        <i class="fas fa-user-alt-slash"></i>
-                    </a>
+                        <!-- Botón: Cerrar Sesión (Ubicación Temporal) -->
+                        <a id="button-logout" href="logout.php" class="boton boton-logout" title="Cerrar Sesión">
+                            <i class="fas fa-user-alt-slash"></i>
+                        </a>
+                    </form>
                 </div>
             </nav>
 
@@ -57,15 +57,16 @@
                 <!-- Formulario Guardar & Contadores -->
                 <section class="formulario-y-contadores">
                     <!-- Formulario Guardar -->
-                    <form id="save-form" class="formulario-guardar">
-                        <!-- Campo: ID -->
-                        <input id="save-id" class="guardar-id form-field" type="number" placeholder="Clave:" name="id" disabled>
-                        <!-- Campo: Nombre -->
-                        <input id="save-name" class="guardar-nombre form-field" type="text" placeholder="Nombre:" name="name" required>
-                        <!-- Campo: Descripción -->
-                        <textarea id="save-description" class="guardar-descripcion form-field" placeholder="Descripción:" name="description" required></textarea>
+                    <form id="save-form" class="save-form">
+                        <!-- Save Input: ID -->
+                        <input id="save-id" class="save-id form-input" type="number" placeholder="Clave:" name="id" disabled>
+                        <!-- Save Input: Nombre -->
+                        <input id="save-name" class="save-name form-input" type="text" placeholder="Nombre:" name="name" required>
+                        <!-- Save Input: Descripción -->
+                        <input id="save-description" class="save-description form-input" placeholder="Descripción:" name="description" required></input>
+
                         <!-- Botón: Guardar -->
-                        <button id="button-save" type="submit" class="boton-guardar boton success" title="Guardar">
+                        <button id="save-button" type="submit" class="save-button boton success" title="Guardar">
                             <i id="icon-save" class="fas fa-save"></i>
                         </button>
                     </form>
@@ -77,11 +78,11 @@
                             <div class="contadores-seleccion">
                                 <span>Selección</span>
                                 <div class="radios-seleccion">
-                                    <input id="memory-selection" type="radio" name="multiple-delete-selection">
-                                    <label id="counter-memory-selection" for="memory-selection" class="" title="En Memoria"></label>
+                                    <input id="memory-selection" type="radio" name="multiple-delete-selection" data-deletetype="memory">
+                                    <label id="counter-memory-selection" for="memory-selection" class="" title="Selección En Memoria"></label>
                                     <span>l</span>
-                                    <input id="list-selection" type="radio" name="multiple-delete-selection" checked>
-                                    <label id="counter-list-selection" for="list-selection" class="" title="En Lista"></label>
+                                    <input id="list-selection" type="radio" name="multiple-delete-selection" data-deletetype="list" checked>
+                                    <label id="counter-list-selection" for="list-selection" class="" title="Selección En Lista"></label>
                                 </div>
                             </div>
                             <button id='button-multiple-delete' class="boton-eliminacion-multiple boton danger" type="submit" title="Eliminar Tareas | Delete" disabled>
@@ -120,41 +121,32 @@
 
                 <!-- Lista De Tareas -->
                 <section id="list" class="lista">
-                    <!-- Encabezados -->
-                    <div id="headers" class="encabezados">
-                        <div class="encabezado marcar">
-                            <input id="checkbox-master" class="checkbox" type="checkbox">
-                            <label for="checkbox-master" class="custom-checkbox"></label>
-                        </div>
-                        <div class="encabezado id">
-                            <a id="column-id" href="" class="" name="id" title="Ordenar * Clave">
-                                #
-                            </a>
-                        </div>
-                        <div class="encabezado name">
-                            <a id="column-name" href="" class="" name="name" title="Ordenar * Nombre">
-                                Nombre
-                            </a>
-                        </div>
-                        <div class="encabezado description">
-                            <a id="column-description" href="" class="" name="description" title="Ordenar * Descripción">
-                                Descripción
-                            </a>
-                        </div>
-                        <div class="encabezado date descendente">
-                            <a id="column-date" href="" class="active" name="created" title="Ordenar * Fecha">
-                                Fecha
-                            </a>
-                        </div>
-                        <div class="encabezado actions">
-                            <span id="column-actions" class="">
-                                
-                            </span>
-                        </div>
-                    </div>
 
-                    <!-- Tareas -->
-                    <div id="cards-container" class="tareas"></div>
+                    <!-- Headers -->
+                    <nav id="headers" class="headers">
+                        <ul>
+                            <li class="header headers-checkbox perm-header">
+                                <input id="headers-checkbox" class="custom-checkbox" type="checkbox">
+                                <label for="headers-checkbox" class="custom-label"></label>
+                            </li>
+                            <li class="header id-header temp-header">
+                                <a id="id-header" class="header-link" name="id" href="" title="Ordenar × Clave">#</a>
+                            </li>
+                            <li class="header name-header temp-header">
+                                <a id="name-header" class="header-link" name="name" href="" title="Ordenar × Nombre">Nombre</a>
+                            </li>
+                            <li class="header description-header temp-header">
+                                <a id="description-header" class="header-link" name="description" href="" title="Ordenar × Descripción">Descripción</a>
+                            </li>
+                            <li class="header created-header temp-header">
+                                <a id="created-header" class="header-link descendente active" name="created" href="" title="Ordenar × Creado">Creado</a>
+                            </li>
+                            <li id="actions-header" class="header actions-header perm-header"></li>
+                        </ul>
+                    </nav>
+
+                    <!-- Cards -->
+                    <div id="cards" class="cards"></div>
 
                     <!-- Botón Subir -->
                     <a id="button-top-list" href="" class="boton-inicio-lista" title="Al Principio">
@@ -163,11 +155,11 @@
                 </section>
 
                 <!-- Pestañas -->
-                <nav class="table-tabs">
+                <nav id="table-tabs" class="table-tabs">
                     <ul>
-                        <li><a id="tasks-tab" class="table-tab" href="#" title="Tareas"><span class="tab-text">Tareas</span></a></li>
-                        <li><a id="products-tab" class="table-tab" href="#" title="Productos"><span class="tab-text">Productos</span></a></li>
-                        <li><a id="customers-tab" class="table-tab" href="#" title="Clientes"><span class="tab-text">Clientes</span></a></li>
+                        <li><a name="tasks" id="tasks-tab" class="table-tab active" href="" title="Tareas"><span class="tab-text">Tareas</span></a></li>
+                        <li><a name="products" id="products-tab" class="table-tab" href="" title="Productos"><span class="tab-text">Productos</span></a></li>
+                        <li><a name="customers" id="customers-tab" class="table-tab" href="" title="Clientes"><span class="tab-text">Clientes</span></a></li>
                         <li class="complementary-border"></li>
                     </ul>
                 </nav>

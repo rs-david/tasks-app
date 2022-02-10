@@ -33,9 +33,9 @@
                 <form class="formulario-login" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                     <h1 class="titulo-login">Iniciar Sesión</h1>
                     <!-- Campo: Usuario -->
-                    <input class="usuario-login form-field" type="text" placeholder="Usuario:" name="user" title="Ingresa Tu Nombre De Usuario" required autofocus>
+                    <input class="usuario-login form-input" type="text" placeholder="Usuario:" name="user" title="Ingresa Tu Nombre De Usuario" required autofocus>
                     <!-- Campo: Contraseña -->
-                    <input class="contrasena-login form-field" type="password" placeholder="Contraseña:" name="password" title="Ingresa Tu Contraseña" required>
+                    <input class="contrasena-login form-input" type="password" placeholder="Contraseña:" name="password" title="Ingresa Tu Contraseña" required>
                     <!-- Botón: Iniciar Sesión -->
                     <button class="boton-login boton success" type="submit" title="Iniciar Sesión" name="login">
                         <i class="fas fa-user"></i>

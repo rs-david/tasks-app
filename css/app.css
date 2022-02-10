@@ -1,12 +1,11 @@
-/*********** APLICACIÓN ***********/
+/*********** ESTILOS DE APLICACIÓN ***********/
 
 /* -------------------------------------------------- VARIABLES */
 
 :root {
-
     /*----------------------------- Propiedades Para Tabla */
     --table-border-color: rgba(255, 255, 255, 0.75);
-    --table-background-color: rgba(255, 255, 255, 0.15);
+    --table-background-color: rgba(255, 255, 255, 0.1);
     --table-border-radius: 0.25rem;
     
     /*----------------------------- Medidas Para Encabezados */
@@ -18,7 +17,7 @@
     --cards-number: 7;
 }
 
-/* -------------------------------------------------- Body */
+/* -------------------------------------------------- BODY */
 body {
     background-image: url("../img/background.jpg");
     background-repeat: no-repeat;
@@ -26,7 +25,7 @@ body {
     background-size: cover;
 }
 
-/* -------------------------------------------------- Navegación */
+/* -------------------------------------------------- NAV BAR */
 .navegacion {
     width: 100%;
     margin: 25px 0;
@@ -37,10 +36,11 @@ body {
     height: 100%;
     margin: auto;
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-/* -------------------------------------------------- Logo */
+/* -------------------------------------------------- LOGO */
 .logo {
     color: black;
     font-size: 28px;
@@ -60,38 +60,34 @@ body {
     color: var(--primary);
 }
 
-/* -------------------------------------------------- Formulario Buscar */
-.formulario-buscar {
+/* -------------------------------------------------- SEARCH FORM */
+form.search-form {
     height: 40px;
-    margin-left: auto;
-    margin-right: 8px;
+    width: 72.5%;
     display: flex;
+    justify-content: right;
 }
 
-.formulario-buscar input[class^="buscar"] {
+/* ------------------------------ Search Inputs */
+input[class^="search"] {
     height: 100%;
     margin-right: 10px;
     border-color: white;
+    width: 20%;
 }
 
-/* -------------------------------------------------- Campos Búsqueda */
-.buscar-id {
-    width: 165px;
+input[class^="search"]:focus {
+    box-shadow: 0 0 0 0.25rem rgba(179, 179, 179, 0.15);
+    border-color: #bbd6f3;
 }
 
-.buscar-nombre,
-.buscar-descripcion {
-    width: 225px;
-}
-
-
-.buscar-id::-webkit-inner-spin-button,
-.buscar-id::-webkit-outer-spin-button {
+input[class^="search"][type="number"]::-webkit-inner-spin-button,
+input[class^="search"][type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
 
-/* -------------------------------------------------- Botón Limpiar Filtros */
-.boton-limpiar {
+/* ------------------------------ Clean Button */
+button.clean-button {
     width: 40px;
 }
 
@@ -99,6 +95,7 @@ body {
 .boton-logout {
     width: 40px;
     height: 40px;
+    margin-left: 5px;
     color: white;
     border-color: orangered;
     background-color: orangered;
@@ -136,32 +133,28 @@ main {
     justify-content: space-between;
 }
 
-/* -------------------------------------------------- Campos Guardar */
-.formulario-guardar input[class^="guardar"] {
+/* -------------------------------------------------- SAVE FORM */
+form.save-form {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ------------------------------ Save Inputs */
+form.save-form input[class^="save"] {
     margin-bottom: 10px;
 }
 
-.guardar-id {
-    display: none;
-}
-
-.guardar-descripcion {
-    min-height: 220px;
-    max-height: 220px;
-    max-width: 100%;
-    min-width: 100%;
-    margin-bottom: 10px;
-}
-
-/* -------------------------------------------------- Botón Guardar */
-.boton-guardar {
-    height: 50px;
-    font-size: 25px;
+/* ------------------------------ Save Button */
+button.save-button {
+    height: 60px;
+    margin-top: auto;
+    font-size: 30px;
     transition: color 0.4s ease, background-color 0.4s ease,
         border-color 0.4s ease;
 }
 
-.boton-guardar.warning {
+.save-button.warning {
     color: var(--dark-smooth);
 }
 
@@ -310,14 +303,13 @@ main {
     flex-direction: column;
 }
 
-/* -------------------------------------------------- Encabezados (Contenedor) */
-.encabezados {
+/* -------------------------------------------------- HEADERS */
+nav.headers {
     color: var(--primary);
     height: var(--headers-height);
     padding: 0 25px;
     margin-bottom: 10px;
     font-weight: bold;
-    text-align: center;
     background-color: rgba(255, 255, 255, 0.95);
     border: 2px solid rgba(0, 102, 255, 0.85);
     border-radius: 0.25rem;
@@ -325,124 +317,112 @@ main {
     align-items: center;
 }
 
-/* -------------------------------------------------- Encabezados & Contenidos: Tarjeta */
-.encabezado,
-.contenido {
-    height: calc(1rem * 2);
+nav.headers ul {
+    width: 100%;
+    list-style: none;
     display: flex;
-    justify-content: center;
     align-items: center;
 }
-
-.contenido {
-    font-family: 'HK Grotesk', 'Segoe UI';
+/* ------------------------------ Header */
+li.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.encabezado.marcar,
-.contenido.marcar {
+li.header.display-none {
+    display: none;
+}
+
+li.header.headers-checkbox {
     width: 5%;
     justify-content: left;
 }
 
-.encabezado.id,
-.contenido.id {
-    width: 10%;
-}
-
-.encabezado.id {
-    font-size: large;
-    font-weight: 800;
-}
-
-.contenido.id {
-    color: var(--dark);
-    font-weight: 700;
-    font-size: normal;
-}
-
-.contenido.date {
-    color: var(--secondary);
-    font-weight: 400;
-}
-
-.encabezado.name,
-.contenido.name {
-    width: 20%;
-}
-
-.encabezado.description,
-.contenido.description {
-    width: 30%;
-}
-
-.encabezado.date,
-.contenido.date {
-    width: 25%;
-    text-transform: capitalize;
-}
-
-.encabezado.actions,
-.contenido.actions {
-    width: 10%;
-    text-align: center;
-}
-
-.contenido.actions {
-    padding: 0 10px;
-    justify-content: space-between;
-}
-
-/* -------------------------------------------------- Indicador De Orden */
-.encabezado[class~="ascendente"]::before {
-    content: "";
-    display: block;
-    border-right: 5px solid transparent;
-    border-top: 5px solid transparent;
-    border-left: 5px solid transparent;
-    border-bottom: 5px solid var(--success);
-    position: absolute;
-    top: -10px;
-}
-
-.encabezado[class~="descendente"]::after {
-    content: "";
-    display: block;
-    border-right: 5px solid transparent;
-    border-top: 5px solid var(--success);
-    border-left: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    position: absolute;
-    bottom: -10px;
-}
-
-/* -------------------------------------------------- Encabezados: Enlaces */
-.encabezado a {
-    color: var(--primary);
-    text-decoration: none;
-}
-
-.encabezado a.active {
-    color: var(--success);
-}
-
-.encabezado a:hover {
-    color: var(--primary-hover);
-    text-decoration: none;
-}
-
-.encabezado a:focus {
-    outline: none;
-}
-
-/* -------------------------------------------------- Encabezados: Checkbox Master */
-.encabezado.marcar .checkbox.minus:checked + .custom-checkbox:before {
+li.header.headers-checkbox input[type="checkbox"].custom-checkbox.minus:checked + label.custom-label:before {
     content: "\f068"; /* Icon: "minus" */
     color: var(--primary);
     background-color: transparent;
 }
 
-/* -------------------------------------------------- Tareas */
-.tareas {
+li.header.id-header {
+    width: 10%;
+    font-weight: 800;
+}
+
+li.header.name-header {
+    width: 20%;
+}
+
+li.header.description-header {
+    width: 30%;
+}
+
+li.header.price-header {
+    width: 30%;
+}
+
+li.header.created-header {
+    width: 25%;
+}
+
+li.header.actions-header {
+    width: 10%;
+}
+
+/* ------------------------------ Header Links */
+li.header a.header-link {
+    color: var(--primary);
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+}
+
+/* ------------------------------ Header Link Events */
+li.header a.header-link.active {
+    color: var(--success);
+}
+
+li.header a.header-link:hover {
+    color: var(--primary-hover);
+    text-decoration: none;
+}
+
+li.header a.header-link:focus {
+    outline: none;
+}
+
+/* ------------------------------ Sort Indicator */
+a.header-link[class~="ascendente"]::before {
+    content: "";
+    border-right: 5px solid transparent;
+    border-top: 5px solid transparent;
+    border-left: 5px solid transparent;
+    border-bottom: 5px solid var(--success);
+    position: absolute;
+    top: -15px;
+}
+
+a.header-link[class~="descendente"]::after {
+    content: "";
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--success);
+    border-left: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    position: absolute;
+    bottom: -15px;
+}
+
+a.header-link:hover::before {
+    border-bottom: 5px solid var(--primary-hover);
+}
+
+a.header-link:hover::after {
+    border-top: 5px solid var(--primary-hover);
+}
+
+/* -------------------------------------------------- CARDS */
+div.cards {
     min-height: calc((var(--card-height) * var(--cards-number)) + (var(--card-margin-bottom) * (var(--cards-number) - 1)));
     max-height: calc((var(--card-height) * var(--cards-number)) + (var(--card-margin-bottom) * (var(--cards-number) - 1)));
     word-wrap: break-word;
@@ -450,33 +430,32 @@ main {
     scroll-behavior: smooth;
 }
 
-/* -------------------------------------------------- Tareas (Backgrounds)*/
-.tareas.bg-happy-cup {
+/* ------------------------------ Backgrounds */
+div.cards.bg-happy-cup {
     background: url("../img/happy-cup.webp");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 40%;
 }
 
-.tareas.bg-green-tea {
+div.cards.bg-green-tea {
     background: url("../img/green-tea.webp");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 40%;
 }
 
-/* -------------------------------------------------- Tareas: Scrollbar */
-.tareas::-webkit-scrollbar {
+/* ------------------------------ Scrollbar  */
+div.cards::-webkit-scrollbar {
     display: none;
 }
 
-/* -------------------------------------------------- Tarjetas */
-.tarjeta {
+/* ------------------------------ Card  */
+div.card {
     height: var(--card-height);
     padding: 0 25px;
     margin-bottom: var(--card-margin-bottom);
-    text-align: center;
-    border: 1px solid white;
+    border: 2px solid white;
     border-radius: 0.25rem;
     background-color: white;
     display: flex;
@@ -485,23 +464,89 @@ main {
         transform 0.4s ease;
 }
 
-.tarjeta:last-child {
+div.card:last-child {
     margin-bottom: 0;
 }
 
-/* -------------------------------------------------- Tarjeta: Estados */
-.tarjeta.select {
+/* ------------------------------ Card Content */
+div.card-content {
+    font-family: 'HK Grotesk', 'Segoe UI';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.card-content.card-checkbox {
+    width: 5%;
+    justify-content: left;
+}
+
+div.card-content.card-checkbox input[type="checkbox"].custom-checkbox + label.custom-label:before {
+    border-color: var(--light);
+}
+
+div.card-content.card-checkbox input[type="checkbox"].custom-checkbox:checked + label.custom-label:before {
+    background-color: var(--light);
+}
+
+div.card-content.id-content {
+    width: 10%;
+    font-weight: 700;
+}
+
+div.card-content.name-content {
+    width: 20%;
+}
+
+div.card-content.description-content {
+    width: 30%;
+}
+
+div.card-content.price-content {
+    width: 30%;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+div.card-content.created-content {
+    color: var(--secondary);
+    font-weight: 400;
+    width: 25%;
+    text-transform: capitalize;
+}
+
+div.card-content.card-actions {
+    width: 10%;
+    justify-content: space-around;
+}
+
+/* ------------------------------ Card Buttons */
+.card .boton-editar,
+.card .boton-eliminar {
+    color: transparent;
+    text-decoration: none;
+    transform: scale(0.35);
+    transition: all 0.15s ease;
+}
+
+.card .boton-editar:focus,
+.card .boton-eliminar:focus {
+    outline: none;
+}
+
+/* ------------------------------ Card States */
+div.card.select {
     color: white;
     border-color: var(--secondary);
     background-color: var(--secondary);
 }
 
-.tarjeta.select .contenido.id,
-.tarjeta.select .contenido.date {
+div.card.select .card-content.id-content,
+div.card.select .card-content.created-content {
     color: whitesmoke;
 }
 
-.tarjeta.edit {
+div.card.edit {
     color: black;
     border-color: var(--warning);
     background-color: var(--warning);
@@ -509,89 +554,66 @@ main {
         background-color 0.45s ease, transform 0.45s ease;
 }
 
-.tarjeta.edit .contenido.id,
-.tarjeta.edit .contenido.date {
+div.card.edit .card-content.id-content,
+div.card.edit .card-content.created-content {
     color: var(--dark-smooth);
 }
 
-.tarjeta.edit.select {
+div.card.edit.select {
     color: var(--dark);
     background-color: var(--warning);
     border-color: var(--dark);
 }
 
-.tarjeta.edit.select .contenido.id,
-.tarjeta.edit.select .contenido.date {
+div.card.edit.select .card-content.id-content,
+div.card.edit.select .card-content.created-content {
     color: var(--dark-smooth);
 }
 
-/* -------------------------------------------------- Tarjeta: Checkboxes */
-.tarjeta .checkbox + .custom-checkbox:before {
-    border-color: var(--light);
-}
-
-.tarjeta .checkbox:checked + .custom-checkbox:before {
-    background-color: var(--light);
-}
-
-.tarjeta.select .checkbox + .custom-checkbox:before,
-.tarjeta.edit .checkbox + .custom-checkbox:before {
+div.card.select div.card-checkbox input[type="checkbox"].custom-checkbox + label.custom-label:before,
+div.card.edit div.card-checkbox input[type="checkbox"].custom-checkbox + label.custom-label:before {
     content: "\f067"; /* fas fa-plus */
     border-color: transparent;
     background-color: transparent;
     transform: scale(1.5);
 }
 
-.tarjeta.select .checkbox:checked + .custom-checkbox:before,
-.tarjeta.edit .checkbox:checked + .custom-checkbox:before {
+div.card.select div.card-checkbox input[type="checkbox"].custom-checkbox:checked + label.custom-label:before,
+div.card.edit div.card-checkbox input[type="checkbox"].custom-checkbox:checked + label.custom-label:before {
     content: "\f00c"; /* fas fa-check */
 }
 
-.tarjeta.select.edit .checkbox + .custom-checkbox:before {
+div.card.select.edit div.card-checkbox input[type="checkbox"].custom-checkbox + label.custom-label:before {
     color: var(--dark);
 }
 
-/* -------------------------------------------------- Tarjeta: Botones Editar & Eliminar */
-.tarjeta .boton-editar,
-.tarjeta .boton-eliminar {
-    color: transparent;
-    text-decoration: none;
-    transform: scale(0.35);
-    transition: all 0.15s ease;
-}
-
-.tarjeta .boton-editar:focus,
-.tarjeta .boton-eliminar:focus {
-    outline: none;
-}
-
 /* -------------------------------------------------- Tarjeta Hover: Botones Editar & Eliminar */
-.tarjeta:hover {
+.card:hover {
     transform: translateY(-2.5px);
 }
 
-.tarjeta:hover .boton-eliminar {
+.card:hover .boton-eliminar {
     color: var(--danger);
     transform: scale(1.2);
 }
 
-.tarjeta:hover .boton-editar {
+.card:hover .boton-editar {
     color: var(--warning);
     transform: scale(1.2);
 }
 
-.tarjeta.select:hover .boton-eliminar,
-.tarjeta.select:hover .boton-editar {
+.card.select:hover .boton-eliminar,
+.card.select:hover .boton-editar {
     color: white;
 }
 
-.tarjeta.edit:hover .boton-eliminar,
-.tarjeta.edit:hover .boton-editar {
+.card.edit:hover .boton-eliminar,
+.card.edit:hover .boton-editar {
     color: var(--dark-smooth);
 }
 
 /* -------------------------------------------------- Tarjeta Final */
-.tarjeta-final {
+.final-card {
     height: 65px;
     color: white;
     font-size: 15px;
@@ -603,7 +625,7 @@ main {
     align-items: center;
 }
 
-.tarjeta-final .flag-center {
+.final-card .flag-center {
     margin: 0 3px;
 }
 
@@ -676,6 +698,7 @@ a.table-tab span.tab-text {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    pointer-events: none;
 }
 
 /* ------------------------------ Tab Icon */
@@ -720,7 +743,7 @@ a.table-tab:before {
 }
 
 /* ------------------------------ Tab Events */
-a.table-tab:focus {
+a.table-tab.active {
     color: white;
     width: 45px;
     height: 150px;
@@ -729,7 +752,7 @@ a.table-tab:focus {
     transition: all .35s ease-in-out, border .15s ease-in-out;
 }
 
-a.table-tab:focus:after {
+a.table-tab.active:after {
     color: transparent;
     transform: scale(.35);
     transition: all .3s ease;

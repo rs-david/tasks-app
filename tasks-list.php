@@ -8,50 +8,65 @@ $user_id = $_SESSION["user"] ?? 0;
 // Convertir Datos Recibidos en Array.
 $data = json_decode($_POST['data'], true);
 
-// Manejar Datos Recibidos (Array).
-$id = $data['id'] ? "$data[id]%" : '%';
-$name = $data['name'] ? "$data[name]%" : '%';
-$description = $data['description'] ? "$data[description]%" : '%';
-$column = $data['column'] ?? "created";
-$sort = $data['sort'] ?? "DESC";
-$limit = $data['limit'] ?? 50;
+// SEARCH DATA
+// Crear Query AND/LIKE y Datos "execute".
+$execute_data[":user_id"] = $user_id;
+foreach ($data["search"] as $column => $column_value) {
+    $and_like_query .= "AND $column LIKE :$column ";
+    $execute_data[":$column"] = "$column_value%";
+}
+
+// LIST DATA
+// Crear Query de Columnas.
+$columns_array = $data["list"]["columns"] ?? ['id', 'name', 'description', 'created'];
+for ($i = 0; $i < count($columns_array); $i++) {
+    $columns_query .= "$columns_array[$i]";
+    if ($i < count($columns_array) - 1) $columns_query .= ",";
+}
+// Crear Datos de Consulta.
+$table = $data['list']['table'] ?? 'tasks';
+$column = $data['list']['column'] ?? "created";
+$sort = $data['list']['sort'] ?? "DESC";
+$limit = $data['list']['limit'] ?? 50;
+$columns = $columns_query ?? 'id, name, description, created';
 
 try {
     include('connection.php');
-    
-    // Obtener Cantidad Total de Tareas & Cantidad de Tareas Encontradas.
+
+    // Obtener Cantidad Total de Registros & Cantidad de Registros Encontrados en Base a los Datos de Búsqueda.
     $sums = $conn->prepare("SELECT * FROM
-                                (SELECT COUNT(*) AS total FROM tasks WHERE user_id=:user_id) AS total_table,
-                                (SELECT COUNT(*) AS results FROM tasks WHERE user_id=:user_id AND id LIKE :id AND name LIKE :name AND description LIKE :description) AS results_table");
-    $sums->execute([':user_id' => $user_id, ':id' => $id, ':name' => $name, ':description' => $description]);;
+                                (SELECT COUNT(*) AS records FROM $table WHERE user_id=:user_id) AS total_table,
+                                (SELECT COUNT(*) AS results FROM $table WHERE user_id=:user_id $and_like_query) AS results_table");
+    $sums->execute($execute_data);
     $sums = $sums->fetch();
-    $total = $sums["total"];
-    $results = $sums["results"];
+    $total_records = $sums["records"];
+    $total_results = $sums["results"];
 
-    //Crear la Lista de Tareas.
-    $list;
-
-    if ($results > 0) {
+    if ($total_results > 0) {
         // Obtener Tareas.
-        $tasks = $conn->prepare("SELECT * FROM tasks WHERE user_id=:user_id AND id LIKE :id AND name LIKE :name AND description LIKE :description ORDER BY $column $sort LIMIT $limit");
-        $tasks->execute([':user_id' => $user_id, ':id' => $id, ':name' => $name, ':description' => $description]);
+        $rows = $conn->prepare("SELECT $columns FROM $table WHERE user_id=:user_id $and_like_query ORDER BY $column $sort LIMIT $limit");
+        $rows->execute($execute_data);
 
-        // Llenar la Lista De Tareas.
-        while ($row = $tasks->fetch(PDO::FETCH_ASSOC)) {
-            $created = new DateTime($row['created']);
-            $date = strftime('%d/%B/%Y', $created->getTimestamp());
-
-            $list[] = [
-                'id' => $row['id'],
-                'name' => $row['name'],
-                'description' => $row['description'],
-                'date' => $date,
-            ];
+        // Crear Lista De Tareas.
+        while ($row = $rows->fetch(PDO::FETCH_ASSOC)) {
+            $records[] = $row;
         }
+
+        // if ($row['created']) {
+        //     $created = new DateTime($row['created']);
+        //     $date = strftime('%d/%B/%Y', $created->getTimestamp());
+        // }
+        // $records[] = [
+        //     'id' => $row['id'],
+        //     'name' => $row['name'],
+        //     'description' => $row['description'],
+        //     'date' => $date,
+        // ];
+
     }
 
+    $response = ['records' => $records, 'total' => $total_records, 'results' => $total_results, 'table' => $table];
     // Crear Respuesta Con Los Datos Pedidos.
-    $response = ['tasks' => $list, 'total' => $total, 'results' => $results];
 } catch (PDOException $e) {
 
     // Crear Respuesta De Error.

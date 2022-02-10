@@ -2,16 +2,17 @@ import { cards_container } from "./elementos.js";
 import { deseleccionarTarjeta, seleccionarTarjeta } from "./seleccionarTarjetas.js";
 
 export function desplazarseALaTarjetaSiguiente(direction, selectedcard) {
-    const nextcard = direction == 'up' ? selectedcard.previousElementSibling : direction == 'down' ? selectedcard.nextElementSibling : false;
+    const siblingelement = direction == 'up' ? selectedcard.previousElementSibling : direction == 'down' ? selectedcard.nextElementSibling : false;
 
-    if (nextcard && nextcard.classList.contains('tarjeta')) {
+    if (siblingelement && siblingelement.classList.contains('card')) {
+        const siblingcard = siblingelement;
         deseleccionarTarjeta(selectedcard);
-        seleccionarTarjeta(nextcard);
-        desplazarse(nextcard);
+        seleccionarTarjeta(siblingcard);
+        desplazarseA(siblingcard);
     }
 }
 
-function desplazarse(card) {
+function desplazarseA(card) {
     const containercoord = cards_container.getBoundingClientRect();
     const cardcoord = card.getBoundingClientRect();
 

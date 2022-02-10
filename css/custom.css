@@ -49,6 +49,7 @@ li {
 }
 
 header,
+nav,
 main,
 section,
 a,
@@ -78,8 +79,8 @@ a:focus {
 
 /*---------- ELEMENTOS PERSONALIZADOS ----------*/
 
-/* -------------------------------------------------- Campos De Formulario Personalizados */
-.form-field {
+/* -------------------------------------------------- FORM INPUTS */
+input.form-input {
     width: 100%;
     height: 40px;
     padding: 0 15px;
@@ -92,12 +93,7 @@ a:focus {
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-textarea.form-field {
-    height: auto;
-    padding: 13px 15px;
-}
-
-.form-field:focus {
+input.form-input:focus {
     color: #495057;
     background-color: #fff;
     border-color: #80bdff;
@@ -105,12 +101,12 @@ textarea.form-field {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* -------------------------------------------------- Checkbox Personalizados */
-.checkbox {
+/* -------------------------------------------------- CHECKBOXES */
+input[type="checkbox"].custom-checkbox {
     display: none;
 }
 
-.checkbox + .custom-checkbox {
+input[type="checkbox"].custom-checkbox + label.custom-label {
     width: 18px;
     height: 18px;
     position: relative;
@@ -119,7 +115,7 @@ textarea.form-field {
     align-items: center;
 }
 
-.checkbox + .custom-checkbox:before {
+input[type="checkbox"].custom-checkbox + label.custom-label:before {
     font-family: 'Font Awesome 5 Free';
     content: "";
     color: white;
@@ -137,12 +133,12 @@ textarea.form-field {
     align-items: center;
 }
 
-.checkbox:checked + .custom-checkbox:before {
+input[type="checkbox"].custom-checkbox:checked + label.custom-label:before {
     content: "\f00c"; /* Icon: "check" */
     background-color: var(--primary);
 }
 
-/* -------------------------------------------------- Input File Personalizados */
+/* -------------------------------------------------- FILE INPUT */
 input[type="file"].custom-file {
     display: none;
 }

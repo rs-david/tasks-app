@@ -1,82 +1,109 @@
-import { _save } from "./variables.js";
-import { save_id, save_name, save_description, save_form, save_button } from "./elementos.js";
-import { enfocarElemento } from "./funciones.js";
+import { _actualtable, _tables } from "./variables.js";
+import { save_form, save_button } from "./elementos.js";
+import { mostrarNotificacion } from "./notificaciones.js";
 
-/* Estado Editar Tareas */
-export function alternarEstadoEditar(tarjeta) {
-    if (_save.type == 'add') activarEstadoEditar(tarjeta, true);
-    else if (_save.type == 'update') {
-        if (tarjeta.classList.contains('edit')) desactivarEstadoEditar('UI');
+/* Alternar (Activar/Desactivar) Estado Editar */
+export async function alternarEstadoEditar(id) {
+    const table = _actualtable.name;
+
+    /* Obtener Todos Los Datos Pertenecientes Al Registro Que Editaremos */
+
+    if (_tables[table].savedata.type == 'add') {
+        activarEstadoEditar(table, id);
+    }
+    else if (_tables[table].savedata.type == 'update') {
+        const card = document.querySelector(`#cards #card-${id}`);
+        if (!card.classList.contains('edit')) {
+            restablecerTarjetaEnEdicion(table);
+            activarEstadoEditar(table, id);
+        }
         else {
-            desactivarEstadoEditarTarjeta('UI');
-            activarEstadoEditar(tarjeta);
+            desactivarEstadoEditar(table)
         }
     }
 }
 
-export function activarEstadoEditar(tarjeta, boton) {
-    if (boton) activarEstadoEditarBoton();
-    tarjeta.classList.add('edit');
-    llenarFormulario(tarjeta);
-    modificarVariables(tarjeta);
-    enfocarElemento(save_name);
+async function obtenerTodaLaInformacionDelRegistro(table, id) {
+    const data = new FormData();
+    data.append('data', JSON.stringify({ id, table }));
+    const response = await fetch('record-info.php', { method: 'post', body: data });
+    const json = await response.json();
+    return json;
 }
 
-export function desactivarEstadoEditar(origen) {
-    desactivarEstadoEditarTarjeta(origen);
-    desactivarEstadoEditarBoton();
-    restablecerVariablesDeGuardado();
-    save_form.reset();
-}
+/* Estado Editar: Save Button & Card In Yellow, Save Form Full, Save Data Full */
+export async function activarEstadoEditar(table, id) {
+    /* Obtener Todos Los Datos Pertenecientes Al Registro Que Editaremos */
+    const record = await obtenerTodaLaInformacionDelRegistro(table, id);
+    if (!record.error) {
+        /* Cambiar Estado De La Tarjeta */
+        const card = document.querySelector(`#card-${record.id}`);
+        if (card && !card.classList.contains('edit')) card.classList.add('edit');
 
-function modificarVariables(tarjeta) {
-    _save.type = 'update';
-    _save.id = tarjeta.dataset.id;
-    _save.name = tarjeta.children[2].textContent;
-    _save.description = tarjeta.children[3].textContent;
-}
+        /* Cambiar Estado Del Botón */
+        activarEstadoEditarBoton();
 
-function restablecerVariablesDeGuardado() {
-    _save.type = 'add';
-    _save.id = 0;
-    _save.name = '';
-    _save.description = '';
-}
+        /* Llenar Formulario */
+        llenarFormulario(record, table);
 
-function llenarFormulario(tarjeta) {
-    save_id.value = tarjeta.dataset.id;
-    save_name.value = tarjeta.children[2].textContent;
-    save_description.value = tarjeta.children[3].textContent;
+        /* Modificar Save Data */
+        modificarSaveData(table, id);
+    } else mostrarNotificacion(record.message, record.type);
 }
 
 function activarEstadoEditarBoton() {
-    save_button.classList.remove('success');
-    save_button.classList.add('warning');
-    save_button.title = 'Guardar Cambios';
-}
-
-function desactivarEstadoEditarBoton() {
-    save_button.classList.remove('warning');
-    save_button.classList.add('success');
-    save_button.title = 'Guardar';
-}
-
-function desactivarEstadoEditarTarjeta(origen) {
-    const editcard = document.querySelector('.tarjeta.edit');
-    if (editcard) {
-        editcard.classList.remove('edit');
-        if (origen == 'UI') restablecerContenidoTarjeta(editcard);
+    if (!save_button.classList.contains('warning')) {
+        save_button.classList.remove('success');
+        save_button.classList.add('warning');
+        save_button.title = 'Guardar Cambios';
     }
 }
 
-function restablecerContenidoTarjeta(tarjeta) {
-    tarjeta.children[1].textContent = _save.id;
-    tarjeta.children[2].textContent = _save.name;
-    tarjeta.children[3].textContent = _save.description;
+function llenarFormulario(record, table) {
+    const saveinputs = _tables[table].saveinputs;
+
+    /* Llenar Los Save Inputs Con La Información Del Registro (Record Info) */
+    const recordentries = Object.entries(record);
+    for (const [key, value] of recordentries) {
+        if (saveinputs.includes(key)) {
+            const saveinput = document.querySelector(`#save-${key}`);
+            saveinput.value = value;
+        }
+    }
 }
 
-export function modificarSimultaneamenteTarjeta(e) {
-    const cardpart = document.querySelector(`#tarjeta-${_save.id} .contenido.${e.target.name}`);
-    const content = e.target.value;
-    if (cardpart) cardpart.textContent = content;
+function modificarSaveData(table, id) {
+    /* Modificar El Tipo De Save: Update */
+    _tables[table].savedata.type = 'update';
+
+    /* Modificar Card ID */
+    _tables[table].savedata.cardid = id;
+}
+
+export function desactivarEstadoEditar(table, keepmemorydata) {
+    restablecerTarjetaEnEdicion();
+    restablecerSaveButton();
+    save_form.reset();
+    if (!keepmemorydata) restablecerUpdateData(table);
+}
+
+function restablecerTarjetaEnEdicion() {
+    const editcard = document.querySelector('.card.edit');
+    if (editcard) editcard.classList.remove('edit');
+}
+
+function restablecerSaveButton() {
+    if (save_button.classList.contains('warning')) {
+        save_button.classList.remove('warning');
+        save_button.classList.add('success');
+        save_button.title = 'Guardar';
+    }
+}
+
+function restablecerUpdateData(table) {
+    /* Restablecer El Tipo De Save: Add */
+    _tables[table].savedata.type = 'add';
+
+    /* Restablecer Card ID */
+    _tables[table].savedata.cardid = false;
 }
