@@ -1,4 +1,4 @@
-"Tasks App" By David 2020
+"Tasks App" By David 2020-2022
 
 _Funciones:_
 
@@ -12,16 +12,13 @@ _Funciones:_
 
 _Lenguajes & Servidores:_
 
--   HTML, CSS & JS
--   PHP 7.4.5
--   MySQL 5.7.24
--   Apache 2.2.31
+-   HTML
+-   CSS
+-   JS
+-   PHP
+-   MySQL
 
-_Navegadores:_
-
--   Google Chrome 85.0.4183.83
-
-_Frameworks, Iconos & Otros:_
+_Iconos:_
 
 -   Font Awesome 5.14
 
@@ -32,16 +29,7 @@ _Importar Base de Datos:_
 -   Cambiar usuario y contraseña en el archivo "connection.php".
 -   Listo.
 
-_Importar Lista JSON de Prueba:_
-
--   Iniciar Sesión.
--   Hacer click en el campo "Buscar Lista".
--   Ir a la carpeta "files".
--   Seleccionar el archivo "tasks.json".
--   Hacer click en el botón "Subir Lista".
--   Listo.
-
 _Screenshots:_
 
 _Pantalla Principal_
-![Pantalla Principal](previews/principal.png)
+![Pantalla Principal](previews/main.png)
