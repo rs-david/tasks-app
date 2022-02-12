@@ -1,6 +1,5 @@
 /*---------- VARIABLES ----------*/
 :root {
-
     /*----------------------------- Colores */
     --success: rgb(10, 155, 0);
     --success-hover: rgba(10, 155, 0, 0.85);
@@ -22,6 +21,10 @@
 }
 
 /*---------- ELEMENTOS ----------*/
+html {
+    height: 100vh;
+}
+
 a {
     text-decoration: none;
 }
@@ -116,7 +119,7 @@ input[type="checkbox"].custom-checkbox + label.custom-label {
 }
 
 input[type="checkbox"].custom-checkbox + label.custom-label:before {
-    font-family: 'Font Awesome 5 Free';
+    font-family: "Font Awesome 5 Free";
     content: "";
     color: white;
     font-size: 9px;
@@ -157,8 +160,8 @@ input[type="file"].custom-file + label.custom-label {
 
 input[type="file"].custom-file + label.custom-label span.file-name {
     text-align: center;
-    line-height: 1.5;               /* Se Multiplica el valor de "font-size" * valor de "line-height" */
-    max-height: calc(1rem * 1.5);   /* Valor del "line-height" */
+    line-height: 1.5; /* Se Multiplica el valor de "font-size" * valor de "line-height" */
+    max-height: calc(1rem * 1.5); /* Valor del "line-height" */
     overflow: hidden;
 }
 

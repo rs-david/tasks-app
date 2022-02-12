@@ -9,10 +9,9 @@ import { activarEstadoSubir, desactivarEstadoSubir, subirLista } from "./modules
 import { limpiarFiltros } from "./modules/limpiarFiltros.js";
 import { mostrarNotificacion, cerrarNotificacion } from "./modules/notificaciones.js";
 import { actualizarEstadoBotonEliminarVariasTareas, actualizarEstadoEliminarVariasTareas } from "./modules/estadoEliminarVariasTareas.js";
-import { alternarEstadoSeleccionarTarjeta } from "./modules/seleccionarTarjetas.js";
 import { ordenarTareas } from "./modules/ordenarTareas.js";
 import { mostrarMasTareas } from "./modules/mostrarMasTareas.js";
-import { desplazarseAlPrincipioDeLaLista, desplazarseALaTarjetaSiguiente } from "./modules/desplazarseEntreTarjetas.js";
+import { desplazarseALaTarjetaSiguiente } from "./modules/desplazarseEntreTarjetas.js";
 import { changeSearchInputs } from "./modules/cambiarSearchInputs.js";
 import { changeHeaders } from "./modules/cambiarHeaders.js";
 import { crearSearchData } from "./modules/crearSearchData.js";
@@ -287,26 +286,30 @@ upload_form.addEventListener('submit', e => {
 //* -------------------------------------------------------------------------------------------------------------- LIMPIAR FILTROS *//
 clean_button.addEventListener('click', () => limpiarFiltros());
 
-//* -------------------------------------------------------------------------------------------------------------- ***SELECCIONAR TARJETAS *//
+//* -------------------------------------------------------------------------------------------------------------- SELECCIONAR TARJETAS *//
 cards_container.addEventListener('click', e => {
     if (e.target.classList.contains('card') || e.target.classList.contains('card-content')) {
         const id = e.target.dataset.id;
         const card = document.querySelector(`#card-${id}`);
-        alternarEstadoSeleccionarTarjeta(card);
+
+        if (card.classList.contains('select')) card.classList.remove('select');
+        else {
+            const selectedcard = document.querySelector('#cards .card.select');
+            if (selectedcard) selectedcard.classList.remove('select');
+            card.classList.add('select');
+        }
     }
 });
 
 //* -------------------------------------------------------------------------------------------------------------- DESPLAZARSE ENTRE TARJETAS *//
 document.addEventListener('keydown', e => {
     if (e.key == 'ArrowUp' || e.key == 'ArrowDown') {
-        if (!e.repeat) {
-            if (!overlay.classList.contains('active')) {
-                const selectedcard = document.querySelector('.card.select');
-                if (selectedcard) {
-                    e.preventDefault();
-                    const direction = e.key == 'ArrowUp' ? 'up' : e.key == 'ArrowDown' ? 'down' : false;
-                    if (direction) desplazarseALaTarjetaSiguiente(direction, selectedcard);
-                }
+        if (!e.repeat && !overlay.classList.contains('active')) {
+            const selectedcard = document.querySelector('.card.select');
+            if (selectedcard) {
+                e.preventDefault();
+                const direction = e.key == 'ArrowUp' ? 'up' : e.key == 'ArrowDown' ? 'down' : false;
+                if (direction) desplazarseALaTarjetaSiguiente(selectedcard, direction);
             }
         }
     }
@@ -314,7 +317,7 @@ document.addEventListener('keydown', e => {
 
 //* -------------------------------------------------------------------------------------------------------------- SCROLL TOP LIST *//
 top_list_button.addEventListener('click', e => {
-    desplazarseAlPrincipioDeLaLista();
+    cards_container.scrollTop = 0;
     e.preventDefault();
 });
 

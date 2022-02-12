@@ -1,13 +1,12 @@
 import { cards_container } from "./elementos.js";
-import { deseleccionarTarjeta, seleccionarTarjeta } from "./seleccionarTarjetas.js";
 
-export function desplazarseALaTarjetaSiguiente(direction, selectedcard) {
-    const siblingelement = direction == 'up' ? selectedcard.previousElementSibling : direction == 'down' ? selectedcard.nextElementSibling : false;
+export function desplazarseALaTarjetaSiguiente(actualcard, direction) {
+    const siblingelement = direction == 'up' ? actualcard.previousElementSibling : direction == 'down' ? actualcard.nextElementSibling : false;
 
-    if (siblingelement && siblingelement.classList.contains('card')) {
+    if (siblingelement?.classList.contains('card')) {
         const siblingcard = siblingelement;
-        deseleccionarTarjeta(selectedcard);
-        seleccionarTarjeta(siblingcard);
+        actualcard.classList.remove('select');
+        siblingcard.classList.add('select');
         desplazarseA(siblingcard);
     }
 }
@@ -21,8 +20,4 @@ function desplazarseA(card) {
 
     if (bottomdiff > 0) cards_container.scrollTop += bottomdiff;
     else if (topdiff < 0) cards_container.scrollTop += topdiff;
-}
-
-export function desplazarseAlPrincipioDeLaLista() {
-    cards_container.scrollTop = 0;
 }

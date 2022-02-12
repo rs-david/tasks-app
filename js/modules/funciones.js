@@ -27,6 +27,10 @@ export function cambiarContenido(contenedor, contenido) {
     contenedor.innerHTML = contenido;
 }
 
+export function limpiarElemento(element) {
+    element.innerHTML = "";
+}
+
 export function agregarContenido(contenedor, contenido) {
     contenedor.innerHTML += contenido;
 }

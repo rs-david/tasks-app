@@ -8,7 +8,7 @@ export const _tables = {
         searchdata: { id: '', name: '', description: '' },
         saveinputs: ['id', 'name', 'description'],
         headers: ['id', 'name', 'description', 'created'],
-        list: { table: 'tasks', limit: 50, sort: 'DESC', column: 'created', columns: ['id', 'name', 'description', 'created'] },
+        list: { limit: 50, sort: 'DESC', column: 'created', columns: ['id', 'name', 'description', 'created'] },
         deletedata: { type: '', keys: { individual: [], list: [], memory: [] } },
         savedata: { type: 'add', cardid: false }
     },
@@ -18,7 +18,7 @@ export const _tables = {
         searchdata: { id: '', name: '', price: '' },
         saveinputs: ['id', 'name', 'price', 'quantity'],
         headers: ['id', 'name', 'price', 'created'],
-        list: { table: 'products', limit: 50, sort: 'DESC', column: 'created', columns: ['id', 'name', 'price', 'created'] },
+        list: { limit: 50, sort: 'DESC', column: 'created', columns: ['id', 'name', 'price', 'created'] },
         deletedata: { type: '', keys: { individual: [], list: [], memory: [] } },
         savedata: { type: 'add', cardid: false }
     }

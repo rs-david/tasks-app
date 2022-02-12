@@ -5,13 +5,13 @@ import { listarRegistros } from "./listarRegistros.js";
 /* Mostrar Más Tareas */
 export function mostrarMasTareas() {
     const table = _actualtable.name;
-    agregarEstadoMostrando();
+    inhabilitarBotonMostrar();
     const limit = _tables[table].list.limit + 50;
     const listdata = { limit };
     listarRegistros(listdata);
 }
 
-function agregarEstadoMostrando() {
+function inhabilitarBotonMostrar() {
     const show_button = document.querySelector('#button-show');
     const show_icon = document.querySelector('#icon-show');
     show_button.classList.remove('active');
