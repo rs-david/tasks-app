@@ -4,7 +4,7 @@ setlocale(LC_ALL, 'spanish');
 
 $user_id = $_SESSION["user"] ?? 0;
 
-// Convertir Datos Recibidos en Array.
+// Convertir JSON Recibido en Array.
 $data = json_decode($_POST['data'], true);
 
 // SEARCH DATA
@@ -46,20 +46,16 @@ try {
 
         // Crear Lista De Registros.
         while ($row = $rows->fetch(PDO::FETCH_ASSOC)) {
+
+            // Formateamos Datos Time Stamp.
+            // if ($row['created']) {
+            //     $created = new DateTime($row['created']);
+            //     $created = strftime('%d/%B/%Y', $created->getTimestamp());
+            //     $row['created'] = $created;
+            // }
+
             $records[] = $row;
         }
-
-        // if ($row['created']) {
-        //     $created = new DateTime($row['created']);
-        //     $date = strftime('%d/%B/%Y', $created->getTimestamp());
-        // }
-        // $records[] = [
-        //     'id' => $row['id'],
-        //     'name' => $row['name'],
-        //     'description' => $row['description'],
-        //     'date' => $date,
-        // ];
-
     }
 
     // Crear Respuesta Con Los Datos Pedidos.

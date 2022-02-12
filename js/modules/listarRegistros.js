@@ -1,13 +1,10 @@
 import { _actualtable, _tables } from "./variables.js";
-import { cards_container, counter_results, counter_totals } from "./elementos.js";
+import { cards_container, results_counter, totals_counter } from "./elementos.js";
 import { limpiarElemento } from "./funciones.js";
 import { mostrarNotificacion } from "./notificaciones.js";
 import { actualizarEstadoEliminarVariasTareas } from "./estadoEliminarVariasTareas.js";
 
-/* Funciones Para Listar Tareas */
-
-// Datos: listdata = { table, limit, column, sort, columns }
-// Datos: searchdata = { id, name, description, ... }
+/* Funciones Para Listar Regitros */
 export async function listarRegistros(listdata, searchdata) {
     const requestdata = construirDatosDePeticion(listdata, searchdata);
     const response = await obtenerRegistrosDelServidor(requestdata);
@@ -17,8 +14,9 @@ export async function listarRegistros(listdata, searchdata) {
         crearListaDeRegistros(response);
 
         actualizarEstadoEliminarVariasTareas();
-        actualizarContadorRegistrosTotales(response['total-records']);
-        actualizarContadorRegistrosEncontrados(response['total-results']);
+        // Actualizar Datos De Los Contadores.
+        totals_counter.textContent = response['total-records'];
+        results_counter.textContent = response['total-results'];
     }
     else {
         mostrarNotificacion('Error En El Servidor', 'danger', 3000);
@@ -79,14 +77,17 @@ function crearListaDeRegistros(response) {
         // Remover Background.
         cards_container.classList.remove('bg-green-tea', 'bg-happy-cup');
 
+        // Insertar Tarjetas.
         const records = response.records;
-        crearTarjetas(records, table);
+        const cards = crearTarjetas(records, table);
+        if (cards.length > 0) for (const card of cards) cards_container.append(card);
 
         // Insertar Tarjeta/Botón Final.
         const finalelement = totalresults <= _tables[table].list.limit && totalresults > 7 ? crearTarjetaFinal() : _tables[table].list.limit <= totalresults ? crearBotonMostrarMas() : false;
         if (finalelement) cards_container.insertAdjacentHTML('beforeend', finalelement);
     }
     else if (totalresults == 0) {
+        // Agregar Background.
         const totalrecords = response['total-records'];
         const background = totalrecords == 0 ? 'bg-green-tea' : 'bg-happy-cup';
         cards_container.classList.add(background);
@@ -94,6 +95,8 @@ function crearListaDeRegistros(response) {
 }
 
 function crearTarjetas(records, table) {
+
+    const cards = [];
 
     for (const record of records) {
 
@@ -114,7 +117,7 @@ function crearTarjetas(records, table) {
         `;
         card.insertAdjacentHTML('afterbegin', checkbox);
 
-        /* Crear & Insertar Contenidos En La Tarjeta */
+        // Crear & Insertar Contenidos En La Tarjeta
         for (let column in record) {
             const content = document.createElement("div");
             content.className = `card-content ${column}-content`;
@@ -123,7 +126,7 @@ function crearTarjetas(records, table) {
             card.append(content);
         }
 
-        /* Crear & Insertar Botones En La Tarjeta */
+        // Crear & Insertar Botones En La Tarjeta
         const actionbuttons = `
             <div class="card-content card-actions" data-id="${record.id}">
                 <a id="button-edit-${record.id}" href="" class="boton-editar" title="Editar" data-id="${record.id}">
@@ -136,9 +139,11 @@ function crearTarjetas(records, table) {
         `;
         card.insertAdjacentHTML('beforeend', actionbuttons);
 
-        /* Insertar Tarjeta En Cards Container */
-        cards_container.append(card);
+        // Insertar Tarjeta En Arreglo "Cards"
+        cards.push(card);
     }
+
+    return cards;
 
 }
 
@@ -160,12 +165,4 @@ function crearBotonMostrarMas() {
         </button>
     `;
     return showbutton;
-}
-
-function actualizarContadorRegistrosEncontrados(results) {
-    counter_results.textContent = results;
-}
-
-function actualizarContadorRegistrosTotales(total) {
-    counter_totals.textContent = total;
 }

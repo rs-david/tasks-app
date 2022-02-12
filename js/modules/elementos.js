@@ -9,8 +9,8 @@ export const headers_checkbox = $('#headers-checkbox');
 export const cards_container = $('#cards');
 
 /* Listar Tareas */
-export const counter_results = $('#counter-results');
-export const counter_totals = $('#counter-totals');
+export const results_counter = $('#counter-results');
+export const totals_counter = $('#counter-totals');
 
 /* Filtrar/Buscar Tareas */
 export const search_form = $('#search-form');
