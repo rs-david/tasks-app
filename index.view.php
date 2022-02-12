@@ -163,6 +163,9 @@
                         <li class="complementary-border"></li>
                     </ul>
                 </nav>
+
+                <!-- Nombre De Tabla -->
+                <div id="table-name" class="table-name">Tasks</div>
             </main>
 
             <!-- Overlay -->

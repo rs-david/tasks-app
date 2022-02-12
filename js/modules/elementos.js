@@ -7,6 +7,7 @@ export const headers = $('#headers');
 export const headerslist = $('#headers ul');
 export const headers_checkbox = $('#headers-checkbox');
 export const cards_container = $('#cards');
+export const table_name_container = $('#table-name');
 
 /* Listar Tareas */
 export const results_counter = $('#counter-results');

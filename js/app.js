@@ -1,6 +1,6 @@
 import { _tables, _actualtable } from "./modules/variables.js";
 import { deshabilitarElemento, enfocarElemento } from "./modules/funciones.js";
-import { cards_container, headers_checkbox, top_list_button, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_modal, multiple_delete_form, multiple_delete_button, upload_input, upload_form, upload_button, clean_button, save_name, list, search_form, headers, multiple_delete_listselection, multiple_delete_memoryselection, table_tabs } from "./modules/elementos.js";
+import { cards_container, headers_checkbox, top_list_button, save_form, overlay, delete_form, delete_buttonclose, delete_buttoncancel, delete_button, delete_modal, multiple_delete_form, multiple_delete_button, upload_input, upload_form, upload_button, clean_button, save_name, list, search_form, headers, multiple_delete_listselection, multiple_delete_memoryselection, table_tabs, table_name_container } from "./modules/elementos.js";
 import { listarRegistros } from "./modules/listarRegistros.js";
 import { deleteRecords, openDeleteModal, closeDeleteModal } from "./modules/deleteRecords.js";
 import { saveRecords } from "./modules/saveRecords.js";
@@ -43,6 +43,9 @@ table_tabs.addEventListener('click', e => {
 
                 /* CAMBIAR HEADERS */
                 changeHeaders(table)
+
+                /* CAMBIAR NOMBRE DE LA TABLA EN LA INTERFAZ */
+                table_name_container.textContent = table;
 
                 /* CAMBIAR LISTA */
                 const listdata = { table };
