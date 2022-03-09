@@ -1,19 +1,19 @@
-import { _actualtable, _tables } from "./variables.js";
+import { _tables } from "./variables.js";
 import { cards_container, results_counter, totals_counter } from "./elementos.js";
-import { limpiarElemento } from "./funciones.js";
+import { vaciarElemento } from "./funciones.js";
 import { mostrarNotificacion } from "./notificaciones.js";
-import { actualizarEstadoEliminarVariasTareas } from "./estadoEliminarVariasTareas.js";
+import { updateMultipleDeleteStatus } from "./multipleDeleteStatus.js";
 
 /* Funciones Para Listar Regitros */
-export async function listarRegistros(listdata, searchdata) {
+export async function listRecords(listdata, searchdata) {
     const requestdata = construirDatosDePeticion(listdata, searchdata);
     const response = await obtenerRegistrosDelServidor(requestdata);
 
     if (!response.error) {
         updateTableData(requestdata);
-        crearListaDeRegistros(response);
+        createList(response.records, response.table, response['total-records'], response['total-results']);
 
-        actualizarEstadoEliminarVariasTareas();
+        updateMultipleDeleteStatus(response.table);
         // Actualizar Datos De Los Contadores.
         totals_counter.textContent = response['total-records'];
         results_counter.textContent = response['total-results'];
@@ -25,7 +25,7 @@ export async function listarRegistros(listdata, searchdata) {
 }
 
 function construirDatosDePeticion(listdata, searchdata) {
-    const table = listdata?.table ? listdata.table : _actualtable.name;
+    const table = listdata?.table ? listdata.table : _tables.current;
     const limit = listdata?.limit ? listdata.limit : _tables[table].list.limit;
     const column = listdata?.column ? listdata.column : _tables[table].list.column;
     const sort = listdata?.sort ? listdata.sort : _tables[table].list.sort;
@@ -52,8 +52,8 @@ async function obtenerRegistrosDelServidor(requestdata) {
 
 function updateTableData(requestdata) {
     // Table
-    const table = requestdata.listdata.table;
-    _actualtable.name = table;
+    const { table } = requestdata.listdata;
+    _tables.current = table;
 
     // List Data
     _tables[table].list.limit = requestdata.listdata.limit;
@@ -68,33 +68,32 @@ function updateTableData(requestdata) {
     return tabledata
 }
 
-function crearListaDeRegistros(response) {
-    const table = response.table;
-    const totalresults = response['total-results'];
-    limpiarElemento(cards_container);
+// function createList(response) {
+function createList(records, table, sumrecords, sumresults) {
+    // Vaciar Lista
+    vaciarElemento(cards_container);
 
-    if (totalresults > 0) {
-        // Remover Background.
+    // Llenar Lista
+    if (sumresults > 0) {
+        // Remover Imagen Background.
         cards_container.classList.remove('bg-green-tea', 'bg-happy-cup');
 
         // Insertar Tarjetas.
-        const records = response.records;
-        const cards = crearTarjetas(records, table);
+        const cards = createCards(records, table);
         if (cards.length > 0) for (const card of cards) cards_container.append(card);
 
-        // Insertar Tarjeta/Botón Final.
-        const finalelement = totalresults <= _tables[table].list.limit && totalresults > 7 ? crearTarjetaFinal() : _tables[table].list.limit <= totalresults ? crearBotonMostrarMas() : false;
+        // Insertar Elemento Final.
+        const finalelement = sumresults <= _tables[table].list.limit && sumresults > 7 ? crearTarjetaFinal() : _tables[table].list.limit <= sumresults ? crearBotonMostrarMas() : false;
         if (finalelement) cards_container.insertAdjacentHTML('beforeend', finalelement);
     }
-    else if (totalresults == 0) {
-        // Agregar Background.
-        const totalrecords = response['total-records'];
-        const background = totalrecords == 0 ? 'bg-green-tea' : 'bg-happy-cup';
+    else if (sumresults == 0) {
+        // Agregar Imagen Background.
+        const background = sumrecords == 0 ? 'bg-green-tea' : 'bg-happy-cup';
         cards_container.classList.add(background);
     }
 }
 
-function crearTarjetas(records, table) {
+function createCards(records, table) {
 
     const cards = [];
 
@@ -103,12 +102,12 @@ function crearTarjetas(records, table) {
         // Crear Tarjeta.
         const card = document.createElement("div");
         card.id = `card-${record.id}`;
-        const editclass = _tables[table].savedata.type == 'update' && _tables[table].savedata.cardid == record.id ? 'edit' : '';
+        const editclass = _tables[table].savedata.savemode == 'update' && _tables[table].savedata.cardid == record.id ? 'edit' : '';
         card.className = `card ${editclass}`;
         card.setAttribute('data-id', `${record.id}`);
 
         // Crear & Insertar Checkbox En La Tarjeta.
-        const checkedattribute = _tables[table].deletedata.keys.memory.length > 0 && _tables[table].deletedata.keys.memory.includes(String(record.id)) ? 'checked' : '';
+        const checkedattribute = _tables[table].delete.keys.memory.length > 0 && _tables[table].delete.keys.memory.includes(String(record.id)) ? 'checked' : '';
         const checkbox = `
             <div class="card-content card-checkbox" data-id="${record.id}">
                 <input id="checkbox-${record.id}" type="checkbox" class="custom-checkbox" data-id="${record.id}" ${checkedattribute}>
@@ -139,7 +138,7 @@ function crearTarjetas(records, table) {
         `;
         card.insertAdjacentHTML('beforeend', actionbuttons);
 
-        // Insertar Tarjeta En Arreglo "Cards"
+        // Agregar Tarjeta A "Cards"
         cards.push(card);
     }
 

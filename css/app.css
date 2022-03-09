@@ -18,7 +18,7 @@
 }
 
 /* -------------------------------------------------- BODY */
-body {
+body {    
     background-image: url("../img/background.jpg");
     background-repeat: no-repeat;
     background-position: fixed;
@@ -86,8 +86,8 @@ input[class^="search"][type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
 
-/* ------------------------------ Clean Button */
-button.clean-button {
+/* ------------------------------ Clean Filters Button */
+button.clean-filters-button {
     width: 40px;
 }
 
@@ -140,9 +140,15 @@ form.save-form {
     flex-direction: column;
 }
 
-/* ------------------------------ Save Inputs */
-form.save-form input[class^="save"] {
-    margin-bottom: 10px;
+/* ------------------------------ Form Groups */
+form.save-form .form-group {
+    margin-bottom: 8px;
+}
+
+/* ------------------------------ Input Labels */
+form.save-form label {
+    color: var(--secondary);
+    font-weight: 500;
 }
 
 /* ------------------------------ Save Button */
@@ -154,56 +160,81 @@ button.save-button {
         border-color 0.4s ease;
 }
 
-.save-button.warning {
+button.save-button.warning {
     color: var(--dark-smooth);
 }
 
-/* -------------------------------------------------- Formulario Eliminación Múltiple */
-.formulario-eliminacion-multiple {
+/* -------------------------------------------------- MULTIPLE DELETE FORM */
+form.multiple-delete-form {
+    height: 40px;
     margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
 }
 
-/* -------------------------------------------------- Contador Eliminación Múltiple */
-.contadores-seleccion {
+/* ------------------------------ Selection Radios Container */
+div.selection-radios {
     width: 80%;
-    height: 40px;
-    padding: 0 20px;
     color: var(--danger);
     border: 1px solid var(--danger);
     border-radius: 0.25em;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
-/* -------------------------------------------------- Radios Selección */
-.radios-seleccion input[type="radio"] {
+/* ------------------------------ Radio Groups */
+.selection-radios .radio-group {
+    height: 100%;
+    width: 50%;
+}
+
+/* ------------------------------ Middle Line */
+.selection-radios .middle-line {
+    font-size: 20px;
+    height: fit-content;
+    width: fit-content;
+}
+
+/* ------------------------------ Radios */
+.selection-radios .radio-group input[type="radio"] {
     display: none;
 }
 
-.radios-seleccion input[type="radio"] + label {
+/* ------------------------------ Labels */
+.selection-radios .radio-group input[type="radio"] + label {
+    height: 100%;
+    width: 100%;
+    padding: 0 20px;
+    font-style: oblique;
     color: var(--light);
-    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     cursor: pointer;
 }
 
-.radios-seleccion input[type="radio"]:checked + label {
+.selection-radios .radio-group input[type="radio"]:checked + label {
+    font-style: normal;
     color: var(--danger);
 }
-/* -------------------------------------------------- Botón Eliminación Múltiple */
-.boton-eliminacion-multiple {
+
+/* ------------------------------ Counters */
+.selection-radios .radio-group input[type="radio"]:checked + label span.selection-counter {
+    font-weight: bold;
+}
+
+/* ------------------------------ Multiple Delete Button */
+.multiple-delete-button {
     width: 40px;
 }
 
-.boton-eliminacion-multiple:disabled {
+.multiple-delete-button:disabled {
     color: var(--danger);
     background-color: white;
     opacity: 1;
 }
 
-.boton-eliminacion-multiple:disabled:hover {
+.multiple-delete-button:disabled:hover {
     color: var(--danger);
     background-color: white;
     border-color: var(--danger);
@@ -521,17 +552,22 @@ div.card-content.card-actions {
 }
 
 /* ------------------------------ Card Buttons */
-.card .boton-editar,
-.card .boton-eliminar {
+.card a.boton-editar,
+.card a.boton-eliminar {
     color: transparent;
     text-decoration: none;
     transform: scale(0.35);
-    transition: all 0.15s ease;
+    transition: color 0.15s ease, transform 0.15s ease;
 }
 
-.card .boton-editar:focus,
-.card .boton-eliminar:focus {
+.card a.boton-editar:focus,
+.card a.boton-eliminar:focus {
     outline: none;
+}
+
+.card a.boton-editar i.fas,
+.card a.boton-eliminar i.fas {
+    pointer-events: none;
 }
 
 /* ------------------------------ Card States */
@@ -675,8 +711,8 @@ nav.table-tabs li {
 
 /* ------------------------------ Tab */
 a.table-tab {
-    font-family: 'Molly Lips', 'Freestyle Script';
-    font-size: 18px;
+    font-family: 'Molly Lips';
+    font-size: 20px;
     width: 40px;
     height: 40px;
     margin-bottom: 10px;
@@ -772,7 +808,7 @@ nav.table-tabs li.complementary-border {
 }
 
 /* -------------------------------------------------- TABLE NAME */
-div.table-name {
+div.table-title {
     color: white;
     position: absolute;
     text-transform: capitalize;

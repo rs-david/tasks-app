@@ -1,35 +1,43 @@
-import { delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, overlay, delete_modal, delete_quantity, delete_modaltitle } from "./elementos.js";
-import { _tables, _actualtable } from "./variables.js";
-import { cambiarIcono, habilitarElemento, deshabilitarElemento } from "./funciones.js";
+import { delete_buttonclose, delete_button, delete_buttoncancel, delete_icon, delete_modal, delete_form } from "./elementos.js";
+import { _tables } from "./variables.js";
+import { cambiarIcono, enableElement, disableElement } from "./funciones.js";
 import { mostrarNotificacion } from "./notificaciones.js";
-import { desactivarEstadoEditar } from "./estadoEditarTareas.js";
-import { listarRegistros } from "./listarRegistros.js";
+import { cancelUpdate } from "./prepareUpdate.js";
+import { listRecords } from "./listRecords.js";
+import { closeDeleteModal } from "./prepareDelete.js";
+
+
+delete_form.addEventListener('submit', e => {
+    deleteRecords(_tables.current);
+    e.preventDefault();
+});
+document.addEventListener('keydown', e => {
+    if (e.key == 'Enter' && !e.repeat && delete_modal.classList.contains('active') && !delete_button.hasAttribute('disabled')) {
+        e.preventDefault();
+        deleteRecords(_tables.current);
+    }
+});
 
 /* Eliminar Tareas */
-export async function deleteRecords() {
-    iniciarEstadoEliminando();
+async function deleteRecords(table) {
+    startDeletingMode();
 
-    const table = _actualtable.name;
-    const deletetype = _tables[table].deletedata.type;
-    /* Obtener Claves De La Memoria */
-    const keys = _tables[table].deletedata.keys[deletetype];
+    const deletetype = _tables[table].delete.type;
+    /* Obtener Claves De Delete Data */
+    const keys = _tables[table].delete.keys[deletetype];
     /* Eliminar Registros En La Base De Datos */
     const message = await deleteRecordsOnDB(keys, table);
     if (!message.error) {
-        /* Desactivar Estado Editar En Caso Que La Tarea En Edición Haya Sido Eliminada */
-        if (_tables[table].savedata.type == 'update' && keys.includes(_tables[table].savedata.cardid)) desactivarEstadoEditar(table);
-        /* Restablecer Memoria */
-        restablecerMemoria(keys, table, deletetype);
-        /* Listar Registros */
-        await listarRegistros();
-
+        /* Cancel Record Updating If Record Was Deleted */
+        if (_tables[table].savedata.savemode == 'update' && keys.includes(_tables[table].savedata.cardid)) cancelUpdate(table);
+        updateDeleteData(table, deletetype, keys);
+        await listRecords();
         mostrarNotificacion(message.content, message.type);
     } else {
-        mostrarNotificacion('Ocurrio Un Error Al Intentar Eliminar El Registro', 'danger');
-        console.log(message.error);
+        mostrarNotificacion('Error En El Servidor: Delete Records', 'danger');
     }
 
-    terminarEstadoEliminando();
+    finishDeletingMode();
     closeDeleteModal();
 }
 
@@ -41,43 +49,32 @@ async function deleteRecordsOnDB(keys, table) {
     return message;
 }
 
-function restablecerMemoria(keys, table, deletetype) {
-    /* Eliminar De Memory Las Claves List O Individual Que Estén Ahí */
-    if (deletetype == 'individual' || deletetype == 'list') {
-        for (const key of keys) {
-            _tables[table].deletedata.keys.memory = _tables[table].deletedata.keys.memory.filter(memorykey => memorykey != key);
+function updateDeleteData(table, deletetype, deletedkeys) {
+    /* Update Memory Keys */
+    if (deletetype === 'individual' || deletetype === 'list') {
+        /* Remove Deleted Keys Inside Memory Keys */
+        for (const deletedkey of deletedkeys) {
+            // filtered memory keys
+            const fmk = _tables[table].delete.keys.memory.filter((memorykey) => memorykey != deletedkey);
+            _tables[table].delete.keys.memory = fmk;
         }
     }
-    /* Restablecer Keys Correpondientes */
-    _tables[table].deletedata.keys[deletetype] = [];
+    /* Remove Corresponding Keys  */
+    _tables[table].delete.keys[deletetype] = [];
+    /* Reset Delete Type */
+    _tables[table].delete.type = '';
 }
 
-function iniciarEstadoEliminando() {
-    deshabilitarElemento(delete_buttonclose);
-    deshabilitarElemento(delete_button);
-    deshabilitarElemento(delete_buttoncancel);
+function startDeletingMode() {
+    disableElement(delete_buttonclose);
+    disableElement(delete_button);
+    disableElement(delete_buttoncancel);
     cambiarIcono(delete_icon, 'fa-trash', ['fa-cog', 'fa-spin']);
 }
 
-function terminarEstadoEliminando() {
-    habilitarElemento(delete_buttonclose);
-    habilitarElemento(delete_button);
-    habilitarElemento(delete_buttoncancel);
+function finishDeletingMode() {
+    enableElement(delete_buttonclose);
+    enableElement(delete_button);
+    enableElement(delete_buttoncancel);
     cambiarIcono(delete_icon, ['fa-cog', 'fa-spin'], 'fa-trash');
-}
-
-export function openDeleteModal(deletetype, totalkeys) {
-    cambiarContenidoDelModal(deletetype, totalkeys);
-    overlay.classList.add('active');
-    delete_modal.classList.add('active');
-}
-
-export function closeDeleteModal() {
-    overlay.classList.remove('active');
-    delete_modal.classList.remove('active');
-}
-
-function cambiarContenidoDelModal(deletetype, totalkeys) {
-    delete_quantity.textContent = totalkeys;
-    delete_modaltitle.textContent = deletetype == 'list' ? 'Lista' : deletetype == 'memory' ? 'Memoria' : deletetype == 'individual' ? 'Individual' : false;
 }

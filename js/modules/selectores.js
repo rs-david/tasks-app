@@ -1,5 +1,8 @@
 /* Selectores */
-export function $(selector) {
-    const element = document.querySelector(`${selector}`);
-    return element;
+export function $(cssSelector) {
+    return document.querySelector(`${cssSelector}`);
+}
+
+export function $$(cssSelector) {
+    return document.querySelectorAll(`${cssSelector}`);
 }

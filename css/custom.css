@@ -1,39 +1,39 @@
 /*---------- VARIABLES ----------*/
 :root {
-    /*----------------------------- Colores */
-    --success: rgb(10, 155, 0);
-    --success-hover: rgba(10, 155, 0, 0.85);
-    --warning: rgb(250, 212, 0);
-    --warning-hover: rgb(250, 179, 0);
-    --danger: rgb(250, 0, 0);
-    --danger-hover: rgb(230, 0, 0);
-    --primary: rgb(0, 100, 255);
-    --primary-hover: rgba(0, 102, 255, 0.85);
-    --secondary: rgb(125, 125, 125);
-    --secondary-hover: rgb(100, 100, 100);
-    --info: rgb(0, 145, 230);
-    --info-hover: rgb(0, 108, 170);
-    --light: rgb(175, 175, 175);
-    --light-smooth: rgb(220, 220, 220);
-    --light-extra-smooth: rgb(250, 250, 250);
-    --dark: rgb(0, 0, 0);
-    --dark-smooth: rgb(50, 50, 50);
+  /*----------------------------- Colores */
+  --success: rgb(10, 155, 0);
+  --success-hover: rgba(10, 155, 0, 0.85);
+  --warning: rgb(250, 212, 0);
+  --warning-hover: rgb(250, 179, 0);
+  --danger: rgb(250, 0, 0);
+  --danger-hover: rgb(230, 0, 0);
+  --primary: rgb(0, 100, 255);
+  --primary-hover: rgba(0, 102, 255, 0.85);
+  --secondary: rgb(125, 125, 125);
+  --secondary-hover: rgb(100, 100, 100);
+  --info: rgb(0, 145, 230);
+  --info-hover: rgb(0, 108, 170);
+  --light: rgb(175, 175, 175);
+  --light-smooth: rgb(220, 220, 220);
+  --light-extra-smooth: rgb(250, 250, 250);
+  --dark: rgb(0, 0, 0);
+  --dark-smooth: rgb(50, 50, 50);
 }
 
 /*---------- ELEMENTOS ----------*/
 html {
-    height: 100vh;
+  height: 100vh;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 body,
 input,
 button,
 textarea {
-    font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
 }
 
 body,
@@ -42,13 +42,13 @@ h1,
 figure,
 ul,
 li {
-    margin: 0;
+  margin: 0;
 }
 
 button,
 ul,
 li {
-    padding: 0;
+  padding: 0;
 }
 
 header,
@@ -67,286 +67,287 @@ label:before,
 span,
 ul,
 li {
-    position: relative;
-    box-sizing: border-box;
+  position: relative;
+  box-sizing: border-box;
 }
 
 a:hover,
 button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 a:focus {
-    outline: 1px dotted rgb(25, 25, 25);
+  outline: 1px dotted rgb(25, 25, 25);
 }
 
 /*---------- ELEMENTOS PERSONALIZADOS ----------*/
 
 /* -------------------------------------------------- FORM INPUTS */
 input.form-input {
-    width: 100%;
-    height: 40px;
-    padding: 0 15px;
-    font-size: 1rem;
-    line-height: 1;
-    color: rgb(100, 100, 100);
-    background-color: white;
-    border: 1px solid var(--light-smooth);
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+  height: 40px;
+  padding: 0 15px;
+  font-size: 1rem;
+  line-height: 1;
+  color: rgb(100, 100, 100);
+  background-color: white;
+  border: 1px solid var(--light-smooth);
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 input.form-input:focus {
-    color: #495057;
-    background-color: #fff;
-    border-color: #80bdff;
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 /* -------------------------------------------------- CHECKBOXES */
 input[type="checkbox"].custom-checkbox {
-    display: none;
+  display: none;
 }
 
 input[type="checkbox"].custom-checkbox + label.custom-label {
-    width: 18px;
-    height: 18px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 18px;
+  height: 18px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 input[type="checkbox"].custom-checkbox + label.custom-label:before {
-    font-family: "Font Awesome 5 Free";
-    content: "";
-    color: white;
-    font-size: 9px;
-    font-weight: bold;
-    line-height: 1;
-    height: 18px;
-    width: 18px;
-    background-color: transparent;
-    border: 1px solid var(--primary);
-    border-radius: 0.25rem;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  font-family: "Font Awesome 5 Free";
+  content: "";
+  color: white;
+  font-size: 9px;
+  font-weight: bold;
+  line-height: 1;
+  height: 18px;
+  width: 18px;
+  background-color: transparent;
+  border: 1px solid var(--primary);
+  border-radius: 0.25rem;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 input[type="checkbox"].custom-checkbox:checked + label.custom-label:before {
-    content: "\f00c"; /* Icon: "check" */
-    background-color: var(--primary);
+  content: "\f00c"; /* Icon: "check" */
+  background-color: var(--primary);
 }
 
 /* -------------------------------------------------- FILE INPUT */
 input[type="file"].custom-file {
-    display: none;
+  display: none;
 }
 
 input[type="file"].custom-file + label.custom-label {
-    height: 40px;
-    padding: 0 20px;
-    color: var(--warning);
-    border: 1px solid var(--warning);
-    border-radius: 0.25em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+  height: 40px;
+  padding: 0 20px;
+  color: var(--warning);
+  border: 1px solid var(--warning);
+  border-radius: 0.25em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 input[type="file"].custom-file + label.custom-label span.file-name {
-    text-align: center;
-    line-height: 1.5; /* Se Multiplica el valor de "font-size" * valor de "line-height" */
-    max-height: calc(1rem * 1.5); /* Valor del "line-height" */
-    overflow: hidden;
+  text-align: center;
+  line-height: 1.5; /* Se Multiplica el valor de "font-size" * valor de "line-height" */
+  max-height: calc(1rem * 1.5); /* Valor del "line-height" */
+  overflow: hidden;
 }
 
 /* Botones Personalizados */
 .boton {
-    height: 40px;
-    width: 100%;
-    color: white;
-    font-size: 18px;
-    background-color: var(--secondary);
-    border: 1px solid var(--secondary);
-    border-radius: 0.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: color 0.35s ease, background-color 0.35s ease,
-        border-color 0.35s ease;
+  height: 40px;
+  width: 100%;
+  color: white;
+  font-size: 18px;
+  background-color: var(--secondary);
+  border: 1px solid var(--secondary);
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.35s ease, background-color 0.35s ease,
+    border-color 0.35s ease;
 }
 
 .boton:hover {
-    border-color: var(--secondary-hover);
-    background-color: var(--secondary-hover);
+  border-color: var(--secondary-hover);
+  background-color: var(--secondary-hover);
 }
 
 .boton:focus {
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(129, 129, 129, 0.5);
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(129, 129, 129, 0.5);
 }
 
 .boton:disabled {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 /* Botón Success */
 .boton.success {
-    background-color: var(--success);
-    border-color: var(--success);
+  background-color: var(--success);
+  border-color: var(--success);
 }
 
 .boton.success:hover {
-    background-color: var(--success-hover);
-    border-color: var(--success-hover);
+  background-color: var(--success-hover);
+  border-color: var(--success-hover);
 }
 
 .boton.success:focus {
-    box-shadow: 0 0 0 0.2rem rgba(52, 141, 64, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(52, 141, 64, 0.5);
 }
 
 /* Botón Warning */
 .boton.warning {
-    color: var(--dark);
-    background-color: var(--warning);
-    border-color: var(--warning);
+  color: var(--dark);
+  background-color: var(--warning);
+  border-color: var(--warning);
 }
 
 .boton.warning:hover {
-    background-color: var(--warning-hover);
-    border-color: var(--warning-hover);
+  background-color: var(--warning-hover);
+  border-color: var(--warning-hover);
 }
 
 .boton.warning:focus {
-    box-shadow: 0 0 0 0.2rem rgba(255, 196, 0, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(255, 196, 0, 0.5);
 }
 
 /* Botón Primary */
 .boton.primary {
-    background-color: var(--primary);
-    border-color: var(--primary);
+  background-color: var(--primary);
+  border-color: var(--primary);
 }
 
 .boton.primary:hover {
-    background-color: var(--primary-hover);
-    border-color: var(--primary-hover);
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
 .boton.primary:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 132, 255, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(0, 132, 255, 0.5);
 }
 
 /* Botón Danger */
 .boton.danger {
-    background-color: var(--danger);
-    border-color: var(--danger);
+  background-color: var(--danger);
+  border-color: var(--danger);
 }
 
 .boton.danger:hover {
-    background-color: var(--danger-hover);
-    border-color: var(--danger-hover);
+  background-color: var(--danger-hover);
+  border-color: var(--danger-hover);
 }
 
 .boton.danger:focus {
-    box-shadow: 0 0 0 0.2rem rgba(233, 42, 9, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(233, 42, 9, 0.5);
 }
 
 /* Overlay */
-.overlay {
-    background-color: rgba(15, 15, 15, 0.15);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    visibility: hidden;
-    transition: visibility 0.5s ease, background-color 0.5s ease,
-        opacity 0.5s ease;
+div.overlay {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(200, 200, 200, 0.15);
+  backdrop-filter: blur(15px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: background-color 0.65s ease-in-out, visibility 0.65s ease-in-out,
+    backdrop-filter 0.65s ease-in-out, opacity 0.65s ease-in-out;
 }
 
-.overlay.active {
-    opacity: 1;
-    visibility: visible;
+div.overlay.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Modals Personalizados */
-.modal {
-    width: 380px;
-    height: 195px;
-    padding: 1rem;
-    background-color: white;
-    border: 1px solid var(--light-smooth);
-    border-radius: 0.25rem;
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(0.5);
-    transition: all 0.5s ease;
+div.modal {
+  width: 380px;
+  height: 195px;
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid var(--light-smooth);
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.5);
+  transition: all 0.5s ease;
 }
 
-.modal.active {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
+div.modal.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
 }
 
 .cabecera-modal {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .cabecera-modal .titulo-modal {
-    color: var(--light);
-    font-size: 12px;
-    text-transform: uppercase;
-    line-height: 1;
+  color: var(--light);
+  font-size: 12px;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .cabecera-modal .boton-cerrar-modal {
-    color: var(--light-smooth);
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 1;
-    background-color: transparent;
-    border: hidden;
-    transition: all 0.25s ease;
+  color: var(--light-smooth);
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+  background-color: transparent;
+  border: hidden;
+  transition: all 0.25s ease;
 }
 
 .cabecera-modal .boton-cerrar-modal:disabled {
-    pointer-events: none;
-    opacity: 0.5;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .cabecera-modal .boton-cerrar-modal:focus {
-    outline: none;
+  outline: none;
 }
 
 .cabecera-modal .boton-cerrar-modal:hover {
-    color: var(--light);
+  color: var(--light);
 }
 
 .cuerpo-modal {
-    height: 100%;
-    color: var(--secondary);
-    font-size: 20px;
-    font-weight: 700;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100%;
+  color: var(--secondary);
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pie-modal {
-    height: fit-content;
-    text-align: right;
+  height: fit-content;
+  text-align: right;
 }

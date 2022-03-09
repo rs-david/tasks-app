@@ -5,11 +5,11 @@ include('functions/files.php');
 $file = $_FILES['file'];
 
 if ($_SESSION["user"] && $file['type'] == 'application/json') {
-    // Se Almacena El Archivo (JSON) Para Su Posterior Uso.
+    // Almacenar El Archivo JSON.
     $file_location = almacenarArchivo($file);
-    // Obtenemos El Archivo Ya Almacenado.
+    // Obtener El Archivo JSON.
     $data = file_get_contents($file_location);
-    // Convertimos El Archivo En Array Asociativo.
+    // Convertir JSON En Array.
     $records = json_decode($data, true);
     // Obtenemos La Cantidad De Registros & Creamos Un Límite.
     $total_records = count($records);

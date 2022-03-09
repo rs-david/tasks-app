@@ -14,7 +14,7 @@
             <title>Iniciar Sesión</title>
 
             <!-- Fontawesome -->
-            <link rel="stylesheet" href="lib/css/all.css">
+            <link rel="stylesheet" href="./assets/fontawesome/css/all.css">
 
             <!-- CSS -->
             <link rel="stylesheet" href="css/custom.css">
